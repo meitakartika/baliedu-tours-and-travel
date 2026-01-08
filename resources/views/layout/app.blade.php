@@ -5,7 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'Baliedu Tours and Travel')</title>
+    <title>
+        @hasSection('title')
+            @yield('title') | Baliedu Tours and Travel
+        @else
+            Baliedu Tours and Travel
+        @endif
+    </title>
 
     <!-- Google Font: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,9 +55,7 @@
     @include('layout.navbar')
 
     <!-- ===== PAGE CONTENT ===== -->
-    <main class="max-w-7xl mx-auto px-6 py-10">
-        @yield('content')
-    </main>
+    @yield('content')
 
     <!-- ===== FOOTER ===== -->
     @include('layout.footer')

@@ -59,7 +59,10 @@
 
         <!-- Desktop Menu -->
         <ul class="hidden lg:flex items-center gap-8 text-sm font-medium text-darkGreen">
-            <li><a href="#" class="text-darkGreen border-b-2 border-darkGreen pb-1">Home</a></li>
+            <li><a href="{{ route('home') }}" class="pb-1 transition-all
+            {{ request()->routeIs('home') 
+                ? 'text-darkGreen border-b-2 border-darkGreen' 
+                : 'text-darkGreen hover:text-paleGreen' }}">Home</a></li>
 
             <li class="relative group">
                 <a href="#" class="flex items-center gap-2 hover:text-darkGreen">Tour Packages
