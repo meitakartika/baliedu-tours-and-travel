@@ -25,3 +25,11 @@ Route::get('/set-password', function () {
 Route::get('/home', function () {
     return view('home.index');
 })->name('home');
+
+Route::get('/about', function () {
+    return view('about.index');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('contact.index');
+})->name('contact');

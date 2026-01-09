@@ -69,17 +69,23 @@
                     <i class="fa-solid fa-caret-down"></i>
                 </a>
                 <ul
-                    class="absolute left-0 mt-3 w-48 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <li><a href="#" class="block px-4 py-2 hover:bg-lightGreen/20">Special Packages</a></li>
-                    <li><a href="#" class="block px-4 py-2 hover:bg-lightGreen/20">Bali Trips</a></li>
-                    <li><a href="#" class="block px-4 py-2 hover:bg-lightGreen/20">Homestay</a></li>
-                    <li><a href="#" class="block px-4 py-2 hover:bg-lightGreen/20">Volunteer</a></li>
+                    class="absolute left-0 mt-3 w-48 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Special Packages</a></li>
+                    <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Bali Trips</a></li>
+                    <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Homestay</a></li>
+                    <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Volunteer</a></li>
                 </ul>
             </li>
 
-            <li><a href="#" class="hover:text-paleGreen">About Us</a></li>
+            <li><a href="{{ route('about') }}" class="pb-1 transition-all
+            {{ request()->routeIs('about') 
+                ? 'text-darkGreen border-b-2 border-darkGreen' 
+                : 'text-darkGreen hover:text-paleGreen' }}">About Us</a></li>
             <li><a href="#" class="hover:text-paleGreen">Testimonials</a></li>
-            <li><a href="#" class="hover:text-paleGreen">Contact</a></li>
+            <li><a href="{{ route('contact') }}" class="pb-1 transition-all
+            {{ request()->routeIs('contact') 
+                ? 'text-darkGreen border-b-2 border-darkGreen' 
+                : 'text-darkGreen hover:text-paleGreen' }}">Contact</a></li>
         </ul>
 
         <!-- Right -->
@@ -114,7 +120,7 @@
 <!-- ================= MOBILE MENU ================= -->
 <div id="mobileMenu" class="lg:hidden hidden bg-white shadow-md">
     <ul class="flex flex-col text-sm font-medium text-darkGreen divide-y">
-        <li><a href="#" class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Home</a>
+        <li><a href="{{ route('home') }}" class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Home</a>
         </li>
 
         <li>
@@ -124,22 +130,22 @@
                 </summary>
                 <ul class="bg-softGrey">
                     <li><a href="#"
-                            class="block px-8 py-2 transition hover:bg-lightGreen/20 hover:text-darkGreen">Special
+                            class="block px-8 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Special
                             Packages</a></li>
                     <li><a href="#"
-                            class="block px-8 py-2 transition hover:bg-lightGreen/20 hover:text-darkGreen">Bali
+                            class="block px-8 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Bali
                             Trips</a></li>
                     <li><a href="#"
-                            class="block px-8 py-2 transition hover:bg-lightGreen/20 hover:text-darkGreen">Homestay</a>
+                            class="block px-8 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Homestay</a>
                     </li>
                     <li><a href="#"
-                            class="block px-8 py-2 transition hover:bg-lightGreen/20 hover:text-darkGreen">Volunteer</a>
+                            class="block px-8 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Volunteer</a>
                     </li>
                 </ul>
             </details>
         </li>
 
-        <li><a href="#" class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">About
+        <li><a href="{{ route('about') }}" class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">About
                 Us</a></li>
         <li><a href="#"
                 class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Testimonials</a>
