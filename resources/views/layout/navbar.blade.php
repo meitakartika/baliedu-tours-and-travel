@@ -52,13 +52,14 @@
 
 <!-- ================= NAVBAR ================= -->
 <nav class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="relative max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <!-- Logo -->
         <img src="/images/logo.png" class="h-10" alt="Baliedu">
 
         <!-- Desktop Menu -->
-        <ul class="hidden lg:flex items-center gap-8 text-sm font-medium text-darkGreen">
+        <ul class="hidden lg:flex items-center gap-8 text-sm font-medium text-darkGreen
+        absolute left-1/2 -translate-x-1/2">
             <li><a href="{{ route('home') }}" class="pb-1 transition-all
             {{ request()->routeIs('home') 
                 ? 'text-darkGreen border-b-2 border-darkGreen' 
