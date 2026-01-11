@@ -497,7 +497,7 @@
                 </div>
 
                 <div class="flex lg:items-end">
-                    <a href="#"
+                    <a href="{{ route('gallery') }}" type="button"
                         class="inline-flex items-center justify-center
                    bg-darkGreen text-white
                    px-8 py-4 rounded-lg font-medium

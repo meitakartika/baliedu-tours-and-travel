@@ -38,7 +38,10 @@ Route::get('/add-testimonial', function () {
     return view('testimonials.create');
 })->name('testimonials.create');
 
-
 Route::get('/contact', function () {
     return view('contact.index');
 })->name('contact');
+
+Route::get('/gallery', function () {
+    return view('gallery.index');
+})->name('gallery');
