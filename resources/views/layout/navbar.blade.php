@@ -82,7 +82,10 @@
             {{ request()->routeIs('about') 
                 ? 'text-darkGreen border-b-2 border-darkGreen' 
                 : 'text-darkGreen hover:text-paleGreen' }}">About Us</a></li>
-            <li><a href="#" class="hover:text-paleGreen">Testimonials</a></li>
+            <li><a href="{{ route('testimonials') }}" class="pb-1 transition-all
+            {{ request()->routeIs('testimonials') 
+                ? 'text-darkGreen border-b-2 border-darkGreen' 
+                : 'text-darkGreen hover:text-paleGreen' }}">Testimonials</a></li>
             <li><a href="{{ route('contact') }}" class="pb-1 transition-all
             {{ request()->routeIs('contact') 
                 ? 'text-darkGreen border-b-2 border-darkGreen' 
@@ -148,10 +151,10 @@
 
         <li><a href="{{ route('about') }}" class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">About
                 Us</a></li>
-        <li><a href="#"
+        <li><a href="{{ route('testimonials') }}"
                 class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Testimonials</a>
         </li>
-        <li><a href="#"
+        <li><a href="{{ route('contact') }}"
                 class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Contact</a>
         </li>
 

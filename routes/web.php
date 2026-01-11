@@ -30,6 +30,15 @@ Route::get('/about', function () {
     return view('about.index');
 })->name('about');
 
+Route::get('/testimonials', function () {
+    return view('testimonials.index');
+})->name('testimonials');
+
+Route::get('/add-testimonial', function () {
+    return view('testimonials.create');
+})->name('testimonials.create');
+
+
 Route::get('/contact', function () {
     return view('contact.index');
 })->name('contact');
