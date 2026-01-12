@@ -42,6 +42,10 @@ Route::get('/contact', function () {
     return view('contact.index');
 })->name('contact');
 
+Route::get('/my-account', function () {
+    return view('account.index');
+})->name('account');
+
 Route::get('/gallery', function () {
     return view('gallery.index');
 })->name('gallery');

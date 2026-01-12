@@ -51,7 +51,7 @@
 </div>
 
 <!-- ================= NAVBAR ================= -->
-<nav class="bg-white shadow-sm">
+<nav class="relative z-50 bg-white shadow-sm">
     <div class="relative max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <!-- Logo -->
@@ -66,11 +66,15 @@
                 : 'text-darkGreen hover:text-paleGreen' }}">Home</a></li>
 
             <li class="relative group">
-                <a href="#" class="flex items-center gap-2 hover:text-darkGreen">Tour Packages
-                    <i class="fa-solid fa-caret-down"></i>
-                </a>
-                <ul
-                    class="absolute left-0 mt-3 w-48 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+    <a href="#" class="flex items-center gap-2 hover:text-darkGreen py-2">
+        Tour Packages
+        <i class="fa-solid fa-caret-down"></i>
+    </a>
+
+    <ul
+        class="absolute left-0 top-full w-48 bg-white shadow-lg rounded-lg
+               opacity-0 invisible group-hover:opacity-100 group-hover:visible
+               transition-all duration-200 z-50">
                     <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Special Packages</a></li>
                     <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Bali Trips</a></li>
                     <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Homestay</a></li>
