@@ -19,11 +19,12 @@
         <!-- Right -->
         <div class="flex items-center gap-3 md:gap-4">
             <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-facebook-f"></i> </a>
-            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-instagram"></i> </a> 
-            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-twitter"></i> </a> 
-            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-youtube"></i> </a> 
-            <a href="#"class="hover:opacity-80 flex items-center"> <img src="{{ asset('images/icons/tripadvisor.svg') }}"
-                alt="TripAdvisor" class="w-4 h-4 object-contain"> </a>
+            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-instagram"></i> </a>
+            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-twitter"></i> </a>
+            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-youtube"></i> </a>
+            <a href="#"class="hover:opacity-80 flex items-center"> <img
+                    src="{{ asset('images/icons/tripadvisor.svg') }}" alt="TripAdvisor" class="w-4 h-4 object-contain">
+            </a>
             <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-flickr"></i> </a>
 
             <div class="h-5 border-l border-white/50"></div>
@@ -58,42 +59,59 @@
         <img src="/images/logo.png" class="h-10" alt="Baliedu">
 
         <!-- Desktop Menu -->
-        <ul class="hidden lg:flex items-center gap-8 text-sm font-medium text-darkGreen
+        <ul
+            class="hidden lg:flex items-center gap-8 text-sm font-medium text-darkGreen
         absolute left-1/2 -translate-x-1/2">
-            <li><a href="{{ route('home') }}" class="pb-1 transition-all
-            {{ request()->routeIs('home') 
-                ? 'text-darkGreen border-b-2 border-darkGreen' 
-                : 'text-darkGreen hover:text-paleGreen' }}">Home</a></li>
+            <li><a href="{{ route('home') }}"
+                    class="pb-1 transition-all
+            {{ request()->routeIs('home')
+                ? 'text-darkGreen border-b-2 border-darkGreen'
+                : 'text-darkGreen hover:text-paleGreen' }}">Home</a>
+            </li>
+
+            @php
+                $isTourActive = request()->routeIs('tours');
+            @endphp
 
             <li class="relative group">
-    <a href="#" class="flex items-center gap-2 hover:text-darkGreen py-2">
-        Tour Packages
-        <i class="fa-solid fa-caret-down"></i>
-    </a>
+                <a href="#"
+                    class="flex items-center gap-2 py-2 pb-1 transition-all
+       {{ $isTourActive ? 'text-darkGreen border-b-2 border-darkGreen' : 'hover:text-darkGreen' }}">
+                    Tour Packages
+                    <i class="fa-solid fa-caret-down"></i>
+                </a>
 
-    <ul
-        class="absolute left-0 top-full w-48 bg-white shadow-lg rounded-lg
+                <ul
+                    class="absolute left-0 top-full w-48 bg-white shadow-lg rounded-lg
                opacity-0 invisible group-hover:opacity-100 group-hover:visible
                transition-all duration-200 z-50">
-                    <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Special Packages</a></li>
-                    <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Bali Trips</a></li>
-                    <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Homestay</a></li>
-                    <li><a href="#" class="block px-4 py-3 hover:bg-lightGreen/20">Volunteer</a></li>
+                    <li><a href="{{ route('tours') }}" class="block px-4 py-3 hover:bg-lightGreen/20">Special
+                            Packages</a></li>
+                    <li><a href="{{ route('tours') }}" class="block px-4 py-3 hover:bg-lightGreen/20">Bali Trips</a>
+                    </li>
+                    <li><a href="{{ route('tours') }}" class="block px-4 py-3 hover:bg-lightGreen/20">Homestay</a></li>
+                    <li><a href="{{ route('tours') }}" class="block px-4 py-3 hover:bg-lightGreen/20">Volunteer</a></li>
                 </ul>
             </li>
 
-            <li><a href="{{ route('about') }}" class="pb-1 transition-all
-            {{ request()->routeIs('about') 
-                ? 'text-darkGreen border-b-2 border-darkGreen' 
-                : 'text-darkGreen hover:text-paleGreen' }}">About Us</a></li>
-            <li><a href="{{ route('testimonials') }}" class="pb-1 transition-all
-            {{ request()->routeIs('testimonials') 
-                ? 'text-darkGreen border-b-2 border-darkGreen' 
-                : 'text-darkGreen hover:text-paleGreen' }}">Testimonials</a></li>
-            <li><a href="{{ route('contact') }}" class="pb-1 transition-all
-            {{ request()->routeIs('contact') 
-                ? 'text-darkGreen border-b-2 border-darkGreen' 
-                : 'text-darkGreen hover:text-paleGreen' }}">Contact</a></li>
+            <li><a href="{{ route('about') }}"
+                    class="pb-1 transition-all
+            {{ request()->routeIs('about')
+                ? 'text-darkGreen border-b-2 border-darkGreen'
+                : 'text-darkGreen hover:text-paleGreen' }}">About
+                    Us</a></li>
+            <li><a href="{{ route('testimonials') }}"
+                    class="pb-1 transition-all
+            {{ request()->routeIs('testimonials')
+                ? 'text-darkGreen border-b-2 border-darkGreen'
+                : 'text-darkGreen hover:text-paleGreen' }}">Testimonials</a>
+            </li>
+            <li><a href="{{ route('contact') }}"
+                    class="pb-1 transition-all
+            {{ request()->routeIs('contact')
+                ? 'text-darkGreen border-b-2 border-darkGreen'
+                : 'text-darkGreen hover:text-paleGreen' }}">Contact</a>
+            </li>
         </ul>
 
         <!-- Right -->
@@ -128,7 +146,8 @@
 <!-- ================= MOBILE MENU ================= -->
 <div id="mobileMenu" class="lg:hidden hidden bg-white shadow-md">
     <ul class="flex flex-col text-sm font-medium text-darkGreen divide-y">
-        <li><a href="{{ route('home') }}" class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Home</a>
+        <li><a href="{{ route('home') }}"
+                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Home</a>
         </li>
 
         <li>
@@ -153,7 +172,8 @@
             </details>
         </li>
 
-        <li><a href="{{ route('about') }}" class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">About
+        <li><a href="{{ route('about') }}"
+                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">About
                 Us</a></li>
         <li><a href="{{ route('testimonials') }}"
                 class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Testimonials</a>
@@ -163,8 +183,7 @@
         </li>
 
         <li class="px-6 py-6 flex flex-col gap-3">
-            <a href="#"
-                class="py-2 text-center hover:text-paleGreen">Login</a>
+            <a href="#" class="py-2 text-center hover:text-paleGreen">Login</a>
             <a href="#" class="bg-darkGreen text-white rounded-md py-2 text-center hover:opacity-90">Sign Up</a>
         </li>
     </ul>

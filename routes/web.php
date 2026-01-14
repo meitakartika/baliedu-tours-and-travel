@@ -26,6 +26,14 @@ Route::get('/home', function () {
     return view('home.index');
 })->name('home');
 
+Route::get('/tour-packages', function () {
+    return view('tours.index');
+})->name('tours');
+
+Route::get('/tour-details', function () {
+    return view('tours.show');
+})->name('tours.show');
+
 Route::get('/about', function () {
     return view('about.index');
 })->name('about');
@@ -46,6 +54,26 @@ Route::get('/my-account', function () {
     return view('account.index');
 })->name('account');
 
+Route::get('/booking-step1', function () {
+    return view('booking.step1-detail');
+})->name('booking.step1');
+
+Route::get('/booking-step2', function () {
+    return view('booking.step2-user');
+})->name('booking.step2');
+
+Route::get('/booking-step3', function () {
+    return view('booking.step3-payment');
+})->name('booking.step3');
+
+Route::get('/booking-success', function () {
+    return view('booking.success');
+})->name('booking.success');
+
 Route::get('/gallery', function () {
     return view('gallery.index');
 })->name('gallery');
+
+Route::get('/search-tours', function () {
+    return view('search.index');
+})->name('search');

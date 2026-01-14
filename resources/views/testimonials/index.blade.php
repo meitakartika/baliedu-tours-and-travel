@@ -202,7 +202,7 @@
 
             <!-- ===== Pagination ===== -->
             <div class="flex justify-center mt-20">
-                <nav class="flex items-center gap-3">
+                <nav class="flex items-center gap-2">
                     <button class="hidden md:inline w-11 h-11 rounded-full border text-darkGrey/80">
                         «
                     </button>
