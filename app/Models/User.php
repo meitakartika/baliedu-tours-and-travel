@@ -26,6 +26,7 @@ class User extends Authenticatable
         'phone',
         'date_of_birth',
         'country',
+        'profile_image',
     ];
 
     /**
@@ -49,5 +50,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function scopeCustomer($query)
+    {
+        return $query->where('role', 'user');
     }
 }

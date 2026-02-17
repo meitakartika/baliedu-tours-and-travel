@@ -50,7 +50,7 @@
             </div>
 
             <!-- Search Box -->
-            <div
+            <form action="{{ route('search') }}" method="GET"
                 class="mt-10 bg-lightGrey/60 backdrop-blur-md rounded-l p-4 md:p-6 
                         flex flex-col md:flex-row items-stretch md:items-center
                         gap-4 md:gap-0 max-w-4xl mx-auto">
@@ -60,7 +60,7 @@
                     <i class="fa-solid fa-location-dot text-white text-2xl"></i>
                     <div>
                         <p class="text-white text-sm font-medium">Location</p>
-                        <input type="text" placeholder="Search location"
+                        <input type="text" name="location" placeholder="Search location"
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                         class="fa-solid fa-clock text-white text-2xl"></i>
                     <div>
                         <p class="text-white text-sm font-medium">Duration</p> <input type="number"
-                            placeholder="Pick a duration"
+                            name="duration" placeholder="Pick a duration"
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -80,19 +80,19 @@
                     <i class="fa-solid fa-user-group text-white text-xl"></i>
                     <div>
                         <p class="text-white text-sm font-medium">Guests</p>
-                        <input type="number" placeholder="How many guests?"
+                        <input type="number" name="guests" placeholder="How many guests?"
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
 
                 <!-- Button -->
-                <button
+                <button type="submit"
                     class="bg-darkGreen hover:bg-darkGreen/90 transition
                        text-white rounded-lg
                        w-full md:w-14 h-12 flex items-center justify-center">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-            </div>
+            </form>
 
         </div>
     </section>
@@ -118,91 +118,32 @@
             </div>
 
             <!-- Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div
+                class="grid grid-flow-col auto-cols-[280px] gap-8 overflow-x-auto pb-4
+            [scrollbar-width:none] [-ms-overflow-style:none]
+            [&::-webkit-scrollbar]:hidden">
 
-                <!-- Card 1 -->
-                <div class="relative h-[380px] rounded-2xl overflow-hidden group">
-                    <img src="/images/category-1.png" alt="Special Package"
-                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                @foreach ($categories as $index => $category)
+                    <div class="relative h-[380px] rounded-2xl overflow-hidden group">
+                        <img src="/images/category-{{ $index + 1 }}.png" alt="{{ $category->name_en }}"
+                            class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500">
 
-                    <div class="relative z-10 p-6 pb-8 h-full flex flex-col justify-end text-white">
-                        <h3 class="text-xl font-semibold mb-2">
-                            Special Package
-                        </h3>
-                        <p class="text-sm text-white/90 mb-4">
-                            Tour packages with more exclusive activities.
-                        </p>
+                        <div class="relative z-10 p-6 pb-8 h-full flex flex-col justify-end text-white">
+                            <h3 class="text-xl font-semibold mb-2">
+                                {{ $category->name_en }}
+                            </h3>
+                            <p class="text-sm text-white/90 mb-4">
+                                {{ $category->description_en }}
+                            </p>
 
-                        <a href="#"
-                            class="flex items-center gap-2 text-lightGreen font-medium hover:text-lightGreen/80 transition">
-                            See Activities
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
+                            <a href="{{ route('tours.category', $category->id) }}"
+                                class="flex items-center gap-2 text-lightGreen font-medium hover:text-lightGreen/80 transition">
+                                See Activities
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="relative h-[380px] rounded-2xl overflow-hidden group">
-                    <img src="/images/category-2.png" alt="Bali Trips"
-                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500">
-
-                    <div class="relative z-10 p-6 pb-8 h-full flex flex-col justify-end text-white">
-                        <h3 class="text-xl font-semibold mb-2">
-                            Bali Trips
-                        </h3>
-                        <p class="text-sm text-white/90 mb-4">
-                            Showcasing the beauty, culture, and unique activities of Bali.
-                        </p>
-
-                        <a href="#"
-                            class="flex items-center gap-2 text-lightGreen font-medium hover:text-lightGreen/80 transition">
-                            See Activities
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="relative h-[380px] rounded-2xl overflow-hidden group">
-                    <img src="/images/category-3.png" alt="Homestay"
-                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500">
-
-                    <div class="relative z-10 p-6 pb-8 h-full flex flex-col justify-end text-white">
-                        <h3 class="text-xl font-semibold mb-2">
-                            Homestay
-                        </h3>
-                        <p class="text-sm text-white/90 mb-4">
-                            A comfortable and homey stay experience.
-                        </p>
-
-                        <a href="#"
-                            class="flex items-center gap-2 text-lightGreen font-medium hover:text-lightGreen/80 transition">
-                            See Activities
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="relative h-[380px] rounded-2xl overflow-hidden group">
-                    <img src="/images/category-4.png" alt="Volunteer"
-                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500">
-
-                    <div class="relative z-10 p-6 pb-8 h-full flex flex-col justify-end text-white">
-                        <h3 class="text-xl font-semibold mb-2">
-                            Volunteer
-                        </h3>
-                        <p class="text-sm text-white/90 mb-4">
-                            Support local communities and create meaningful experiences.
-                        </p>
-
-                        <a href="#"
-                            class="flex items-center gap-2 text-lightGreen font-medium hover:text-lightGreen/80 transition">
-                            See Activities
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
+                @endforeach
 
             </div>
         </div>
@@ -416,62 +357,61 @@
             </div>
 
             <!-- RIGHT CONTENT -->
-<div class="relative w-full max-w-xl h-[360px]" id="testimonial-stack">
+            <div class="relative w-full max-w-xl h-[360px]" id="testimonial-stack">
 
-    <!-- CARD 3 (BELAKANG) -->
-    <div class="testimonial-card absolute inset-0 bg-white rounded-[40px]
+                <!-- CARD 3 (BELAKANG) -->
+                <div class="testimonial-card absolute inset-0 bg-white rounded-[40px]
         shadow-sm translate-x-8 translate-y-8 scale-95 opacity-60 z-0"
-        data-index="2">
-    </div>
+                    data-index="2">
+                </div>
 
-    <!-- CARD 2 (TENGAH) -->
-    <div class="testimonial-card absolute inset-0 bg-white rounded-[40px]
+                <!-- CARD 2 (TENGAH) -->
+                <div class="testimonial-card absolute inset-0 bg-white rounded-[40px]
         shadow-md translate-x-4 translate-y-4 scale-[0.97] opacity-80 z-10"
-        data-index="1">
-    </div>
+                    data-index="1">
+                </div>
 
-    <!-- CARD 1 (DEPAN / AKTIF) -->
-    <div class="testimonial-card relative bg-white rounded-[40px] shadow-2xl
+                <!-- CARD 1 (DEPAN / AKTIF) -->
+                <div class="testimonial-card relative bg-white rounded-[40px] shadow-2xl
         p-10 z-20 h-full flex flex-col justify-between cursor-pointer"
-        data-index="0">
+                    data-index="0">
 
-        <!-- Quote Icon -->
-        <span
-            class="absolute top-10 right-12 text-[80px] font-serif font-bold
+                    <!-- Quote Icon -->
+                    <span
+                        class="absolute top-10 right-12 text-[80px] font-serif font-bold
             text-lightGrey leading-none select-none pointer-events-none">
-            “
-        </span>
+                        “
+                    </span>
 
-        <!-- Content -->
-        <div>
-            <p class="text-darkGreen text-xl font-medium mb-6 opacity-80">
-                Cultural Education Tours
-            </p>
+                    <!-- Content -->
+                    <div>
+                        <p class="text-darkGreen text-xl font-medium mb-6 opacity-80">
+                            Cultural Education Tours
+                        </p>
 
-            <p class="text-darkGrey font-medium leading-relaxed max-w-[90%]">
-                “Cultural education activities with the local community
-                made me feel truly connected to Bali. Learning directly
-                from local artists and residents gave me an experience
-                I couldn’t find on ordinary tours.”
-            </p>
-        </div>
+                        <p class="text-darkGrey font-medium leading-relaxed max-w-[90%]">
+                            “Cultural education activities with the local community
+                            made me feel truly connected to Bali. Learning directly
+                            from local artists and residents gave me an experience
+                            I couldn’t find on ordinary tours.”
+                        </p>
+                    </div>
 
-        <!-- Author -->
-        <div class="flex items-center gap-4 pt-8 border-t border-gray-100">
-            <img src="/images/avatar.png"
-                class="w-14 h-14 rounded-full object-cover" />
+                    <!-- Author -->
+                    <div class="flex items-center gap-4 pt-8 border-t border-gray-100">
+                        <img src="/images/avatar.png" class="w-14 h-14 rounded-full object-cover" />
 
-            <div>
-                <p class="font-medium text-lg text-darkGrey mb-1">
-                    Courtney Henry
-                </p>
-                <p class="text-sm text-darkGrey">
-                    Jakarta, Indonesia
-                </p>
+                        <div>
+                            <p class="font-medium text-lg text-darkGrey mb-1">
+                                Courtney Henry
+                            </p>
+                            <p class="text-sm text-darkGrey">
+                                Jakarta, Indonesia
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
         </div>
     </section>
 
@@ -509,55 +449,12 @@
 
             <!-- GALLERY GRID -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-
-                <!-- Image 1 -->
-                <div class="rounded-lg overflow-hidden">
-                    <img src="/images/bali1.png"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="">
-                </div>
-
-                <!-- Image 2 -->
-                <div class="rounded-lg overflow-hidden">
-                    <img src="/images/bali1.png"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="">
-                </div>
-
-                <!-- Image 3 -->
-                <div class="rounded-lg overflow-hidden">
-                    <img src="/images/bali1.png"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="">
-                </div>
-
-                <!-- Image 4 -->
-                <div class="rounded-lg overflow-hidden">
-                    <img src="/images/bali1.png"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="">
-                </div>
-
-                <!-- Image 5 -->
-                <div class="rounded-lg overflow-hidden">
-                    <img src="/images/bali1.png"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="">
-                </div>
-
-                <!-- Image 6 -->
-                <div class="rounded-lg overflow-hidden">
-                    <img src="/images/bali1.png"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="">
-                </div>
-
-                <!-- Image 7 -->
-                <div class="rounded-lg overflow-hidden">
-                    <img src="/images/bali1.png"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="">
-                </div>
-
-                <!-- Image 8 -->
-                <div class="rounded-lg overflow-hidden">
-                    <img src="/images/bali1.png"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="">
-                </div>
-
+                @foreach ($galleries as $gallery)
+                    <div class="rounded-lg overflow-hidden">
+                        <img src="{{ asset('storage/' . $gallery->image_url) }}"
+                            class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="Tour Gallery">
+                    </div>
+                @endforeach
             </div>
 
         </div>
@@ -679,49 +576,49 @@
     <script>
         //TESTIMONI
         document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.testimonial-card');
+            const cards = document.querySelectorAll('.testimonial-card');
 
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            rotateCards();
-        });
-    });
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    rotateCards();
+                });
+            });
 
-    function rotateCards() {
-        const order = [
-            {
-                classes: [
-                    'relative','z-20','opacity-100',
-                    'translate-x-0','translate-y-0','scale-100'
-                ]
-            },
-            {
-                classes: [
-                    'absolute','z-10','opacity-80',
-                    'translate-x-4','translate-y-4','scale-[0.97]'
-                ]
-            },
-            {
-                classes: [
-                    'absolute','z-0','opacity-60',
-                    'translate-x-8','translate-y-8','scale-95'
-                ]
+            function rotateCards() {
+                const order = [{
+                        classes: [
+                            'relative', 'z-20', 'opacity-100',
+                            'translate-x-0', 'translate-y-0', 'scale-100'
+                        ]
+                    },
+                    {
+                        classes: [
+                            'absolute', 'z-10', 'opacity-80',
+                            'translate-x-4', 'translate-y-4', 'scale-[0.97]'
+                        ]
+                    },
+                    {
+                        classes: [
+                            'absolute', 'z-0', 'opacity-60',
+                            'translate-x-8', 'translate-y-8', 'scale-95'
+                        ]
+                    }
+                ];
+
+                cards.forEach(card => {
+                    let index = parseInt(card.dataset.index);
+                    let nextIndex = (index + 1) % cards.length;
+                    card.dataset.index = nextIndex;
+
+                    // reset semua transform
+                    card.className =
+                        'testimonial-card bg-white rounded-[40px] transition-all duration-500 ease-in-out';
+
+                    // apply posisi baru
+                    order[nextIndex].classes.forEach(c => card.classList.add(c));
+                });
             }
-        ];
-
-        cards.forEach(card => {
-            let index = parseInt(card.dataset.index);
-            let nextIndex = (index + 1) % cards.length;
-            card.dataset.index = nextIndex;
-
-            // reset semua transform
-            card.className = 'testimonial-card bg-white rounded-[40px] transition-all duration-500 ease-in-out';
-
-            // apply posisi baru
-            order[nextIndex].classes.forEach(c => card.classList.add(c));
         });
-    }
-});
         //FAQ
         document.addEventListener('DOMContentLoaded', () => {
 

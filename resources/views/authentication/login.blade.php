@@ -50,9 +50,13 @@
                 </p>
 
                 {{-- Form --}}
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('login') }}">
                     @csrf
 
+                    {{-- Error umum --}}
+                    @if ($errors->any())
+                        <p class="text-red text-sm mb-4">{{ $errors->first() }}</p>
+                    @endif
                     <div class="mb-7 relative">
                         <input type="email" name="email" placeholder="Enter your email"
                             class="w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
@@ -74,7 +78,7 @@
                     </div>
 
                     <div class="text-right -mt-3 mb-8">
-                        <a href="{{ route('forgot-password') }}"
+                        <a href="{{ route('password.request') }}"
                             class="text-sm text-darkGreen font-medium hover:text-darkGreen/80 transition">
                             Forgot Password
                         </a>

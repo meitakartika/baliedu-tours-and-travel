@@ -17,17 +17,35 @@
             Edit Package
         </h1>
 
+        @if ($errors->any())
+            <div class="rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- FORM -->
-        <form class="space-y-10">
+        <form id="updateForm" action="{{ route('package.tour.update', $package) }}" method="POST"
+            enctype="multipart/form-data" class="space-y-10">
+            @csrf
+            @method('PUT')
 
             <!-- IMAGE -->
             <div class="flex justify-center">
                 <label class="relative cursor-pointer">
-                    <input type="file" class="hidden">
-                    <div
+                    <input type="file" name="image_url" id="mainImage" class="hidden">
+                    <div id="mainPreview"
                         class="w-36 h-32 rounded-xl bg-mediumGrey/10
-                           flex items-center justify-center">
-                        <i class="fa-regular fa-image text-3xl text-darkGrey"></i>
+                           flex items-center justify-center overflow-hidden">
+                        <img src="{{ $package->image_url ? asset('storage/' . $package->image_url) : '' }}"
+                            class="w-full h-full object-cover {{ $package->image_url ? '' : 'hidden' }}"
+                            id="mainPreviewImg">
+
+                        <i id="mainIcon"
+                            class="fa-regular fa-image text-3xl text-darkGrey {{ $package->image_url ? 'hidden' : '' }}"></i>
                     </div>
                 </label>
             </div>
@@ -37,66 +55,111 @@
 
                 <!-- Category -->
                 <div class="relative mt-4">
-                    <input type="text" name="category" placeholder="Select the category"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                    <select name="category_id" id="category"
+                        class="peer appearance-none bg-softGrey w-full border border-mediumGrey rounded-md
+           px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
+           text-darkGrey"
+                        required>
+
+                        <option value="" disabled selected hidden>
+                            Select the category
+                        </option>
+
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id', $package->category_id) == $category->id ? 'selected' : '' }}>
+                                {{ app()->getLocale() == 'id' ? $category->name_id : $category->name_en }}
+                            </option>
+                        @endforeach
+
+                    </select>
+
+                    <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </span>
+
+                    <label
+                        class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
+               peer-focus:text-darkGreen">
                         Category
                     </label>
                 </div>
 
                 <!-- Type -->
                 <div class="relative mt-4">
-                    <input type="text" name="type" placeholder="Select the type"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                    <select name="type_id" id="type" disabled
+                        class="peer appearance-none bg-softGrey w-full border border-mediumGrey rounded-md
+           px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
+           text-darkGrey">
+
+                        <option>Select category first</option>
+
+                    </select>
+
+                    <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </span>
+
+                    <label
+                        class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
+               peer-focus:text-darkGreen">
                         Type
                     </label>
                 </div>
 
                 <!-- Name ID -->
                 <div class="relative mt-2">
-                    <input type="text" name="name-id" placeholder="Enter the indonesian name"
+                    <input type="text" name="name_id" placeholder="Enter the indonesian name"
+                        value="{{ old('name_id', $package->name_id) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Name ID
+                        Name (ID)
                     </label>
                 </div>
 
                 <!-- Name EN -->
                 <div class="relative mt-2">
-                    <input type="text" name="name-en" placeholder="Enter the english name"
+                    <input type="text" name="name_en" placeholder="Enter the english name"
+                        value="{{ old('name_en', $package->name_en) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Name EN
+                        Name (EN)
                     </label>
                 </div>
 
                 <!-- Overview ID -->
                 <div class="relative mt-2">
-                    <textarea name="overview-id" rows="4" placeholder="Enter the indonesian overview"
+                    <textarea name="overview_id" rows="4" placeholder="Enter the indonesian overview"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md
                px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
+               focus:outline-none focus:border-darkGreen">{{ old('overview_id', $package->overview_id) }}</textarea>
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Overview ID
+                        Overview (ID)
                     </label>
                 </div>
 
                 <!-- Overview EN -->
                 <div class="relative mt-2">
-                    <textarea name="overview-en" rows="4" placeholder="Enter the english overview"
+                    <textarea name="overview_en" rows="4" placeholder="Enter the english overview"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md
                px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
+               focus:outline-none focus:border-darkGreen">{{ old('overview_en', $package->overview_en) }}</textarea>
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Overview EN
+                        Overview (EN)
                     </label>
                 </div>
 
                 <!-- Price -->
                 <div class="relative mt-2">
-                    <input type="text" name="price" placeholder="Enter the price"
+
+                    <!-- INPUT TAMPILAN -->
+                    <input type="text" id="price_display" placeholder="Enter the price"
+                        value="{{ old('price', isset($package) ? number_format($package->price, 0, ',', '.') : '') }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
+
+                    <!-- INPUT ASLI -->
+                    <input type="hidden" name="price" id="price" value="{{ old('price', $package->price) }}">
+
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Price
                     </label>
@@ -104,7 +167,8 @@
 
                 <!-- Duration -->
                 <div class="relative mt-2">
-                    <input type="text" name="duration" placeholder="Enter the duration"
+                    <input type="number" name="duration" placeholder="Enter the duration"
+                        value="{{ old('duration', $package->duration) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Duration (Days)
@@ -113,7 +177,8 @@
 
                 <!-- Guest Minimal -->
                 <div class="relative mt-2">
-                    <input type="text" name="guest-min" placeholder="Enter the guest minimal"
+                    <input type="number" name="guest_min" placeholder="Enter the guest minimal"
+                        value="{{ old('guest_min', $package->guest_min) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Guest Minimal
@@ -122,7 +187,8 @@
 
                 <!-- Guest Maximal -->
                 <div class="relative mt-2">
-                    <input type="text" name="guest-max" placeholder="Enter the guest maximal"
+                    <input type="number" name="guest_max" placeholder="Enter the guest maximal"
+                        value="{{ old('guest_max', $package->guest_max) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Guest Maximal
@@ -139,15 +205,32 @@
                    border border-dashed border-mediumGrey
                    rounded-xl h-40 cursor-pointer
                    text-sm text-mediumGrey hover:border-darkGreen hover:text-darkGreen gap-2">
+                        <input type="file" name="galleries[]" id="galleryInput" multiple class="hidden">
                         <i class="fa-solid fa-image text-xl"></i>
                         Drop image here or click to upload
                     </label>
+
+                    <div id="galleryPreview" class="grid grid-cols-3 md:grid-cols-5 gap-4 mt-4">
+                        @foreach ($package->galleries as $gallery)
+                            <div class="relative existing-gallery">
+
+                                <img src="{{ asset('storage/' . $gallery->image_url) }}"
+                                    class="w-full h-24 object-cover rounded-lg shadow">
+
+                                <button type="button" onclick="removeOldGallery({{ $gallery->id }}, this)"
+                                    class="absolute -top-2 -right-2 bg-red text-white w-6 h-6 rounded-full text-xs">
+                                    ✕
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
             <!-- SUBMIT -->
             <div class="flex gap-4">
-                <!-- SAVE BUTTON -->
+
+                <!-- SAVE -->
                 <button type="submit"
                     class="bg-darkGreen text-white text-sm font-medium
                px-12 md:px-16 py-3 rounded-lg
@@ -155,18 +238,272 @@
                     Save
                 </button>
 
-                <!-- DELETE BUTTON -->
-                <button type="button"
-                    class="flex items-center gap-3
-               bg-red text-white text-sm font-medium
-               px-8 py-3 rounded-lg
-               hover:bg-red/90 transition">
-                    <i class="fa-solid fa-trash-alt"></i>
-                    Delete Package
-                </button>
-            </div>
-
         </form>
+
+        <!-- DELETE -->
+        <form id="deletePackage" action="{{ route('package.tour.destroy', $package) }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <button type="button" onclick="confirmDelete('deletePackage', 'Delete Package Tour?')"
+                class="bg-red text-white text-sm font-medium
+                    px-8 py-3 rounded-lg hover:bg-red/90 transition">
+                Delete Package
+            </button>
+        </form>
+
+        </div>
 
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        // Main Image
+const mainInput = document.getElementById('mainImage');
+const mainPreview = document.getElementById('mainPreviewImg');
+const mainIcon = document.getElementById('mainIcon');
+
+// simpan URL lama (dari blade)
+const oldImageUrl = mainPreview.src;
+
+mainInput.addEventListener('change', function() {
+    const file = this.files[0];
+
+    if (file) {
+        mainPreview.src = URL.createObjectURL(file);
+        mainPreview.classList.remove('hidden');
+        mainIcon.classList.add('hidden');
+    }
+});
+
+// saat reload, kembalikan ke image lama
+window.addEventListener('DOMContentLoaded', function() {
+    if (!mainInput.files.length) {
+        // jika tidak ada file baru yang dipilih, kembalikan ke image lama
+        mainPreview.src = oldImageUrl;
+        mainPreview.classList.remove('hidden');
+        mainIcon.classList.toggle('hidden', oldImageUrl ? true : false);
+    }
+});
+
+        // Type
+        const locale = "{{ app()->getLocale() }}";
+        const typeByCategoryUrl = "{{ route('types.by.category', ['category' => '__id__']) }}";
+
+        function loadTypes(categoryId, oldType = null) {
+
+            let typeDropdown = document.getElementById('type');
+
+            typeDropdown.disabled = true;
+            typeDropdown.innerHTML = '<option>Loading...</option>';
+
+            fetch(typeByCategoryUrl.replace('__id__', categoryId))
+                .then(res => res.json())
+                .then(types => {
+
+                    typeDropdown.innerHTML = '<option disabled hidden>Select type</option>';
+
+                    types.forEach(type => {
+
+                        let typeName = locale === 'id' ?
+                            type.name_id :
+                            type.name_en;
+
+                        let selected = oldType && type.id == oldType ?
+                            'selected' :
+                            '';
+
+                        typeDropdown.innerHTML += `
+                    <option value="${type.id}" ${selected}>
+                        ${typeName}
+                    </option>
+                `;
+                    });
+
+                    typeDropdown.disabled = false;
+                });
+        }
+        document.getElementById('category')
+            .addEventListener('change', function() {
+                loadTypes(this.value);
+            });
+
+
+        // restore setelah validation error
+        window.addEventListener('DOMContentLoaded', function() {
+
+            let oldCategory = "{{ old('category_id', $package->category_id) }}";
+            let oldType = "{{ old('type_id', $package->type_id) }}";
+
+            if (oldCategory) {
+                loadTypes(oldCategory, oldType);
+            }
+
+        });
+
+        // Price
+        const display = document.getElementById('price_display');
+        const hidden = document.getElementById('price');
+
+        display.addEventListener('input', function(e) {
+
+            // ambil angka saja
+            let number = this.value.replace(/\D/g, '');
+
+            // set ke hidden input (untuk DB)
+            hidden.value = number;
+
+            // format rupiah
+            if (number) {
+                this.value = 'Rp ' + new Intl.NumberFormat('id-ID').format(number);
+            } else {
+                this.value = '';
+            }
+        });
+        // format saat reload (validation error)
+        window.addEventListener('DOMContentLoaded', function() {
+
+            if (hidden.value) {
+                display.value = 'Rp ' + new Intl.NumberFormat('id-ID').format(hidden.value);
+            }
+
+        });
+
+        // gallery
+const galleryInput = document.getElementById('galleryInput');
+const galleryPreview = document.getElementById('galleryPreview');
+
+const maxTotal = 10;
+let allFiles = [];
+
+function getExistingCount() {
+    return document.querySelectorAll('.existing-gallery').length;
+}
+
+galleryInput.addEventListener('change', function () {
+
+    const newFiles = Array.from(this.files);
+
+    newFiles.forEach(file => {
+
+        const total = getExistingCount() + allFiles.length;
+
+        // 🔥 kalau sudah limit → replace LAST image
+        if (total >= maxTotal) {
+
+            alert(`Maximum ${maxTotal} images. Last image replaced.`);
+
+            if (allFiles.length > 0) {
+
+                // hapus new terakhir
+                allFiles.pop();
+
+                // hapus preview terakhir
+                const lastNew =
+                    document.querySelector('.new-gallery:last-child');
+
+                if (lastNew) lastNew.remove();
+
+            } else {
+
+                // kalau belum ada new file,
+                // replace existing terakhir
+                const lastExisting =
+                    document.querySelector('.existing-gallery:last-child');
+
+                if (lastExisting) {
+
+                    const id = lastExisting
+                        .querySelector('button')
+                        ?.getAttribute('onclick')
+                        ?.match(/\d+/)[0];
+
+                    if (id) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'removed_galleries[]';
+                        input.value = id;
+
+                        document
+                            .getElementById('updateForm')
+                            .appendChild(input);
+                    }
+
+                    lastExisting.remove();
+                }
+            }
+        }
+
+        allFiles.push(file);
+    });
+
+    updateInputFiles();
+    renderPreview();
+});
+
+
+// sync ke input file
+function updateInputFiles() {
+
+    const dt = new DataTransfer();
+
+    allFiles.forEach(file => dt.items.add(file));
+
+    galleryInput.files = dt.files;
+}
+
+
+// render preview
+function renderPreview() {
+
+    document
+        .querySelectorAll('.new-gallery')
+        .forEach(el => el.remove());
+
+    allFiles.forEach((file, index) => {
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'relative new-gallery';
+
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.className = 'w-full h-24 object-cover rounded-lg shadow';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.innerHTML = '✕';
+        removeBtn.className =
+            'absolute -top-2 -right-2 bg-mediumGrey text-white w-6 h-6 rounded-full text-xs';
+
+        removeBtn.onclick = () => {
+
+            allFiles.splice(index, 1);
+
+            updateInputFiles();
+            renderPreview();
+        };
+
+        wrapper.appendChild(img);
+        wrapper.appendChild(removeBtn);
+
+        galleryPreview.appendChild(wrapper);
+    });
+}
+
+
+// remove existing manual
+function removeOldGallery(id, btn) {
+
+    btn.parentElement.remove();
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'removed_galleries[]';
+    input.value = id;
+
+    document.getElementById('updateForm').appendChild(input);
+}
+
+    </script>
+@endpush

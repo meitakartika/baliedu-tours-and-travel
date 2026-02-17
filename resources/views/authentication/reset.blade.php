@@ -49,9 +49,22 @@
                     Your password has been reset. Create a new password to continue.
                 </p>
 
+                {{-- Error --}}
+                @php
+                    $passwordError = $errors->first('password') ?: $errors->first('password_confirmation');
+                @endphp
+                @if ($passwordError)
+                    <div class="text-sm text-red py-2 mb-4 rounded">
+                        {{ $passwordError }}
+                    </div>
+                @endif
+
                 {{-- Form --}}
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('password.update') }}">
                     @csrf
+
+                    <input type="hidden" name="token" value="{{ $token }}">
+                    <input type="hidden" name="email" value="{{ request()->email }}">
 
                     {{-- Password --}}
                     <div class="relative mb-6">

@@ -50,87 +50,152 @@
                 </p>
 
                 {{-- Form --}}
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('register') }}">
                     @csrf
 
                     {{-- First & Last Name --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div class="relative">
-                            <input type="text" name="first_name" placeholder="Enter your first name"
-                                class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
-                            <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                First Name
-                            </label>
+
+                        {{-- First Name --}}
+                        <div>
+                            <div class="relative">
+                                <input type="text" name="first_name" value="{{ old('first_name') }}"
+                                    placeholder="Enter your first name" required
+                                    class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm
+                       focus:outline-none focus:border-darkGreen" />
+
+                                <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
+                                    First Name
+                                </label>
+                            </div>
+
+                            @error('first_name')
+                                <p class="text-red text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <div class="relative">
-                            <input type="text" name="last_name" placeholder="Enter your last name"
-                                class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
-                            <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                Last Name
-                            </label>
+                        {{-- Last Name --}}
+                        <div>
+                            <div class="relative">
+                                <input type="text" name="last_name" value="{{ old('last_name') }}"
+                                    placeholder="Enter your last name" required
+                                    class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm
+                       focus:outline-none focus:border-darkGreen" />
+
+                                <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
+                                    Last Name
+                                </label>
+                            </div>
+
+                            @error('last_name')
+                                <p class="text-red text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
+
                     </div>
 
                     {{-- Email & Phone --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div class="relative">
-                            <input type="email" name="email" placeholder="Enter your email"
-                                class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
-                            <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                Email
-                            </label>
+
+                        {{-- Email --}}
+                        <div>
+                            <div class="relative">
+                                <input type="email" name="email" placeholder="Enter your email"
+                                    value="{{ old('email') }}" required
+                                    class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
+                                <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
+                                    Email
+                                </label>
+                            </div>
+                            @error('email')
+                                <p class="text-red text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <div class="relative">
-                            <input type="text" name="phone" placeholder="Enter your phone number"
-                                class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
-                            <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                Phone Number
-                            </label>
+                        {{-- Phone --}}
+                        <div>
+                            <div class="relative">
+                                <input type="text" name="phone" id="phone" placeholder="Enter your phone number"
+                                    value="{{ old('phone') }}" required
+                                    class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
+                                <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
+                                    Phone Number
+                                </label>
+                            </div>
+                            {{-- BACKEND ERROR --}}
+                            @error('phone')
+                                <p class="text-red text-sm mt-1">{{ $message }}</p>
+                            @else
+                                {{-- FRONTEND ERROR --}}
+                                <p id="phoneError" class="text-red text-sm mt-1 hidden">
+                                    Invalid phone number format
+                                </p>
+                            @enderror
                         </div>
                     </div>
 
                     {{-- Password --}}
-                    <div class="relative mb-6">
-                        <input type="password" name="password" id="password" placeholder="Enter your password"
-                            class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            Password
-                        </label>
-                        <button type="button" onclick="togglePassword()"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
-                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
-                        </button>
+                    <div class="mb-6">
+                        <div class="relative">
+                            <input type="password" name="password" id="password" placeholder="Enter your password" required
+                                class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
+                            <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
+                                Password
+                            </label>
+                            <button type="button" onclick="togglePassword()"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
+                                <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                        @error('password')
+                            <p class="text-red text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Confirm Password --}}
-                    <div class="relative mb-5">
-                        <input type="password" name="password_confirmation" id="confirmPassword"
-                            placeholder="Confirm your password"
-                            class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
+                    <div class="mb-5">
+                        <div class="relative">
+                            <input type="password" name="password_confirmation" id="confirmPassword" required
+                                placeholder="Confirm your password"
+                                class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
 
-                        <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            Confirm Password
-                        </label>
+                            <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
+                                Confirm Password
+                            </label>
 
-                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
-                            onclick="toggleConfirmPassword()">
-                            <i class="fa-solid fa-eye" id="eyeIconConfirm"></i>
-                        </button>
+                            <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
+                                onclick="toggleConfirmPassword()">
+                                <i class="fa-solid fa-eye" id="eyeIconConfirm"></i>
+                            </button>
+                        </div>
+                        {{-- BACKEND ERROR --}}
+                        @error('password')
+                            <p class="text-red text-sm mt-1">{{ $message }}</p>
+                        @else
+                            {{-- FRONTEND ERROR --}}
+                            <p id="passwordMatchError" class="text-red text-sm mt-1 hidden">
+                                Passwords do not match
+                            </p>
+                        @enderror
                     </div>
 
                     {{-- Terms --}}
-                    <div class="flex items-start gap-2 mb-8">
-                        <input type="checkbox" class="mt-1">
-                        <p class="text-sm">
-                            I agree to all the
-                            <a href="#"
-                                class="text-darkGreen font-medium hover:text-darkGreen/80 transition">Terms</a>
-                            and
-                            <a href="#" class="text-darkGreen font-medium hover:text-darkGreen/80 transition">Privacy
-                                Policies</a>
-                        </p>
+                    <div class="mb-8">
+                        <div class="flex items-start gap-2">
+                            <input type="checkbox" name="terms" class="mt-1" required>
+                            <p class="text-sm">
+                                I agree to all the
+                                <a href="#" class="text-darkGreen font-medium">Terms</a>
+                                and
+                                <a href="#" class="text-darkGreen font-medium">Privacy Policies</a>
+                            </p>
+                        </div>
+
+                        @error('terms')
+                            <p class="text-red text-sm mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
 
                     {{-- Button --}}
@@ -180,6 +245,58 @@
                 icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         }
+
+        //Phone Number
+        const phoneInput = document.getElementById('phone');
+        const phoneError = document.getElementById('phoneError');
+
+        const phoneRegex = /^\+?[0-9]{8,15}$/;
+
+        // cek saat selesai ngetik / pindah field
+        phoneInput.addEventListener('blur', () => {
+            if (!phoneInput.value) {
+                phoneError.classList.add('hidden');
+                return;
+            }
+
+            if (!phoneRegex.test(phoneInput.value)) {
+                phoneError.classList.remove('hidden');
+            } else {
+                phoneError.classList.add('hidden');
+            }
+        });
+
+        // hilangkan error saat user fokus lagi
+        phoneInput.addEventListener('focus', () => {
+            phoneError.classList.add('hidden');
+        });
+
+        // Password Confirmation
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const error = document.getElementById('passwordMatchError');
+
+        function checkPasswordMatch() {
+            if (!password.value || !confirmPassword.value) {
+                error.classList.add('hidden');
+                return;
+            }
+
+            if (password.value !== confirmPassword.value) {
+                error.classList.remove('hidden');
+            } else {
+                error.classList.add('hidden');
+            }
+        }
+
+        // cek saat kursor KELUAR dari field
+        password.addEventListener('blur', checkPasswordMatch);
+        confirmPassword.addEventListener('blur', checkPasswordMatch);
+
+        // hilangkan error saat user fokus lagi
+        confirmPassword.addEventListener('focus', () => {
+            error.classList.add('hidden');
+        });
 
         // Slider Image
         const indicators = document.querySelectorAll('[data-img]');

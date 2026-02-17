@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class ContactInfo extends Model
 {
     use HasFactory;
 
     protected $table = 'contacts_info';
-    
+
     // Kolom yang boleh diisi mass assignment
     protected $fillable = [
         'type',   // phone, email, address, map_embed, office_name
@@ -50,19 +50,15 @@ class ContactInfo extends Model
         return self::where('type', 'map_embed')->get();
     }
 
-    /**
-     * Ambil value sesuai locale
-     */
-    public function getValue($locale = null)
+    public static function types()
     {
-        $locale = $locale ?? app()->getLocale();
-
-        // Kalau type address atau office_name, pakai multi-bahasa
-        if (in_array($this->type, ['address', 'office_name'])) {
-            return $this->{'value_' . $locale} ?? $this->value_id;
-        }
-
-        // Untuk type lain, fallback ke value_id
-        return $this->value_id;
+        return [
+            'phone' => 'Phone',
+            'email' => 'Email',
+            'address' => 'Address',
+            'office_name' => 'Office Name',
+            'map_embed' => 'Map',
+            'social_media' => 'Social Media',
+        ];
     }
 }

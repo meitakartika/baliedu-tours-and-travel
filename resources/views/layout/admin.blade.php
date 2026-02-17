@@ -40,6 +40,15 @@
             }
         }
     </script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Alpine -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- ApexChart -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body class="font-poppins">
@@ -67,12 +76,12 @@
                         <div class="relative">
                             <span
                                 class="absolute -left-6 top-0 h-full w-2 rounded-r-full
-        {{ request()->routeIs('dashboard') ? 'bg-darkGreen' : 'bg-transparent' }}">
+        {{ request()->routeIs('admin.dashboard') ? 'bg-darkGreen' : 'bg-transparent' }}">
                             </span>
 
-                            <a href="{{ route('dashboard') }}"
+                            <a href="{{ route('admin.dashboard') }}"
                                 class="flex items-center gap-4 px-4 py-3 rounded-lg
-       {{ request()->routeIs('dashboard') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
+       {{ request()->routeIs('admin.dashboard') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <i class="fa-solid fa-home"></i>
                                 Dashboard
                             </a>
@@ -118,7 +127,8 @@
                             </div>
 
                             <!-- SUB MENU -->
-                            <div class="ml-8 mt-2 space-y-1 {{ $packageActive ? 'block' : 'hidden' }}">
+                            <div
+                                class="ml-8 mt-2 space-y-1 {{ $packageActive ? 'block' : 'hidden' }} group-hover:block">
 
                                 <!-- Category -->
                                 <a href="{{ route('package.category.index') }}"
@@ -188,7 +198,7 @@
         {{ request()->routeIs('admin.testimonials.*') ? 'bg-darkGreen' : 'bg-transparent' }}">
                             </span>
 
-                            <a href="{{ route('admin.testimonials.index') }}"
+                            <a href="{{ route('testimonials.admin.index') }}"
                                 class="flex items-center gap-4 px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.testimonials.*') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <i class="fa-solid fa-user-friends"></i>
@@ -240,7 +250,7 @@
                                 <!-- Contact Message -->
                                 <a href="{{ route('contact.messages.index') }}"
                                     class="block px-4 py-2 rounded-md text-sm
-           {{ request()->routeIs('contact.message.*')
+           {{ request()->routeIs('contact.messages.*')
                ? 'text-darkGreen font-semibold'
                : 'text-mediumGrey hover:text-darkGreen' }}">
                                     Contact Message
@@ -254,13 +264,13 @@
                     <div class="-mx-6 my-5 border-t border-lightGrey"></div>
 
                     <!-- Logout -->
-                    <a href="#"
-                        class="flex items-center gap-4 px-4 py-3 rounded-lg
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="flex items-center gap-4 px-4 py-3 rounded-lg
           text-darkGrey hover:text-red">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        Logout
-                    </a>
-
+                            <i class="fa-solid fa-right-from-bracket"></i>Logout</button>
+                    </form>
                 </nav>
 
             </div>
@@ -288,7 +298,7 @@
                     <div class="w-full max-w-md relative hidden sm:block">
                         <i
                             class="fa-solid fa-magnifying-glass
-               absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+               absolute left-4 top-1/2 -translate-y-1/2 text-mediumGrey"></i>
                         <input type="text" placeholder="Search"
                             class="w-full pl-12 pr-4 py-2 rounded-full
                        bg-lightGrey focus:outline-none">
@@ -325,11 +335,19 @@
 
                     <!-- User -->
                     <div class="flex items-center gap-3 shrink-0">
-                        <i class="fa-solid fa-circle-user text-2xl text-darkGreen"></i>
-                        <div class="text-sm hidden md:block">
-                            <p class="font-semibold text-darkGrey">John Doe</p>
-                            <p class="text-xs text-darkGrey">Admin</p>
-                        </div>
+                        <a href="{{ route('admin.account.index') }}" class="flex items-center gap-3">
+                            @if (Auth::user()->profile_image)
+                                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}"
+                                    class="w-6 h-6 rounded-full object-cover">
+                            @else
+                                <i class="fa-solid fa-circle-user text-2xl text-darkGreen"></i>
+                            @endif
+                            <div class="text-sm hidden md:block">
+                                <p class="font-semibold text-darkGrey">{{ Auth::user()->first_name }}
+                                    {{ Auth::user()->last_name }}</p>
+                                <p class="text-xs text-darkGrey">Admin</p>
+                            </div>
+                        </a>
                     </div>
 
                 </div>
@@ -352,6 +370,24 @@
         function toggleSidebar() {
             document.getElementById('sidebar')
                 .classList.toggle('-translate-x-full');
+        }
+
+        function confirmDelete(formId, title = 'Delete Data?', text = 'This action cannot be undone!') {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#E21B2C',
+                cancelButtonColor: '#828282',
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
         }
     </script>
 </body>

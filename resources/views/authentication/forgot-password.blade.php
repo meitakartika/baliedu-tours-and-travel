@@ -50,12 +50,16 @@
                 </p>
 
                 {{-- Form --}}
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('password.email') }}">
                     @csrf
+
+                    @error('email')
+                        <p class="text-sm text-red mb-2">{{ $message }}</p>
+                    @enderror
 
                     <div class="mb-8 relative">
                         <input type="email" name="email" placeholder="Enter your email"
-                            class="w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
+                            class="w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" value="{{ old('email') }}" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
                             Email
                         </label>
@@ -63,7 +67,7 @@
 
                     <button type="submit"
                         class="w-full bg-darkGreen text-white py-3 mt-4 mb-6 md:mb-0 rounded-md font-semibold hover:bg-darkGreen/95 transition">
-                        Submit
+                        Send Reset Link
                     </button>
                 </form>
 
@@ -74,7 +78,6 @@
 
 @push('scripts')
     <script>
-
         // Slider Image
         const indicators = document.querySelectorAll('[data-img]');
         const sliderImage = document.getElementById('sliderImage');

@@ -17,19 +17,54 @@
             Add New Itinerary
         </h1>
 
+        <!-- ERROR VALIDATION -->
+        @if ($errors->any())
+            <div class="rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- FORM -->
-        <form class="space-y-10">
+        <form action="{{ route('package.itinerary.store') }}" method="POST" class="space-y-4">
+            @csrf
 
             <!-- INPUTS -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <!-- Category -->
                 <h2 class="font-semibold text-base text-darkGrey mt-4">Tour Package</h2>
-                <div class="md:col-span-2">
+                <div class="col-span-2">
                     <div class="relative mt-1">
-                        <input type="text" name="tour" placeholder="Select the tour package"
-                            class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
+                        <select name="package_id"
+                            class="peer appearance-none bg-white w-full border border-mediumGrey rounded-md
+           px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
+           text-darkGrey"
+                            required>
+
+                            <option value="" disabled selected hidden>
+                                Select the tour package
+                            </option>
+
+                            @foreach ($packages as $package)
+                                <option value="{{ $package->id }}"
+                                    {{ old('package_id') == $package->id ? 'selected' : '' }}>
+                                    {{ app()->getLocale() == 'id' ? $package->name_id : $package->name_en }}
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                        <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+
+                        <label
+                            class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white
+               peer-focus:text-darkGreen">
                             Tour Package
                         </label>
                     </div>
@@ -37,71 +72,90 @@
 
                 <hr class="border-2 border-darkGreen mt-4 col-span-2">
 
-                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Itinerary Details</h2>
-                <!-- Name ID -->
-                <div class="relative mt-1">
-                    <input type="text" name="name-id" placeholder="Enter the indonesian name"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Name ID
-                    </label>
-                </div>
+                <!-- TEMPLATE ITINERARY -->
+                <template id="itinerary-template">
+                    <div class="itinerary-item grid grid-cols-1 md:grid-cols-2 gap-6 col-span-2">
+                        <h2 class="itinerary-title font-semibold text-base text-darkGrey mt-4 col-span-2">
+                            Itinerary Details __INDEX_DISPLAY__
+                        </h2>
 
-                <!-- Name EN -->
-                <div class="relative mt-1">
-                    <input type="text" name="name-en" placeholder="Enter the english name"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Name EN
-                    </label>
-                </div>
+                        <!-- Name ID -->
+                        <div class="relative mt-1">
+                            <input type="text" name="itineraries[__INDEX__][title_id]"
+                                placeholder="Enter the indonesian name"
+                                class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
+                            <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                Name (ID)
+                            </label>
+                        </div>
 
-                <!-- Time -->
-                <div class="md:col-span-2">
-                    <div class="relative mt-2">
-                        <input type="text" name="time" placeholder="Select the time"
-                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Time
-                        </label>
+                        <!-- Name EN -->
+                        <div class="relative mt-1">
+                            <input type="text" name="itineraries[__INDEX__][title_en]"
+                                placeholder="Enter the english name"
+                                class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
+                            <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                Name (EN)
+                            </label>
+                        </div>
+
+                        <!-- Time -->
+                        <div class="col-span-2">
+                            <div class="relative mt-2">
+                                <input type="time" name="itineraries[__INDEX__][time]" placeholder="Select the time"
+                                    class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Time
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="detail-wrapper col-span-2">
+                            <div class="detail-item grid grid-cols-2 gap-4">
+                                <!-- Description ID -->
+                                <div class="relative mt-2">
+                                    <textarea name="itineraries[__INDEX__][details][0][description_id]" rows="4"
+                                        placeholder="Enter the indonesian description"
+                                        class="bg-softGrey w-full border border-mediumGrey rounded-md
+               px-3 py-3 text-sm resize-none
+               focus:outline-none focus:border-darkGreen"></textarea>
+                                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                        Description (ID)
+                                    </label>
+                                </div>
+
+                                <!-- Description EN -->
+                                <div class="relative mt-2">
+                                    <textarea name="itineraries[__INDEX__][details][0][description_en]" rows="4"
+                                        placeholder="Enter the english description"
+                                        class="bg-softGrey w-full border border-mediumGrey rounded-md
+               px-3 py-3 text-sm resize-none
+               focus:outline-none focus:border-darkGreen"></textarea>
+                                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                        Description (EN)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ADD MORE DESCRIPTION -->
+                        <button type="button"
+                            class="add-description flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
+                            <i class="fa-solid fa-plus"></i>
+                            Add More Description
+                        </button>
+
+                        <hr class="border-darkGreen mt-4 col-span-2">
+
                     </div>
-                </div>
+                </template>
 
-                <!-- Description ID -->
-                <div class="relative mt-2">
-                    <textarea name="description-id" rows="4" placeholder="Enter the indonesian description"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Description ID
-                    </label>
-                </div>
-
-                <!-- Description EN -->
-                <div class="relative mt-2">
-                    <textarea name="description-en" rows="4" placeholder="Enter the english description"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Description EN
-                    </label>
-                </div>
-
-                <!-- ADD MORE DESCRIPTION -->
-                <button type="button"
-                    class="flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
-                    <i class="fa-solid fa-plus"></i>
-                    Add More Description
-                </button>
-
-                <hr class="border-darkGreen mt-4 col-span-2">
+                <div id="itinerary-wrapper" class="space-y-2 col-span-2"></div>
 
                 <!-- ADD MORE DETAILS -->
-                <div class="mt-4 md:col-span-2">
+                <div class="mt-4 col-span-2">
                     <label
-                        class="flex items-center justify-center w-full
+                        class="add-itinerary flex items-center justify-center w-full
                    border border-dashed border-mediumGrey
                    rounded-xl h-40 cursor-pointer
                    text-sm text-mediumGrey hover:border-darkGreen hover:text-darkGreen gap-2">
@@ -109,17 +163,181 @@
                         Add More Itinerary Details
                     </label>
                 </div>
-            </div>
 
-            <!-- SUBMIT -->
-            <button
-                class="bg-darkGreen text-white text-sm font-medium
-                   px-12 py-3 rounded-lg w-1/2 lg:w-1/3
+                <!-- SUBMIT -->
+                <button
+                    class="bg-darkGreen text-white text-sm font-medium
+                   px-12 py-3 rounded-lg w-1/2 lg:w-1/3 col-span-2
                    hover:bg-darkGreen/90 transition">
-                Add New
-            </button>
-
+                    Add New
+                </button>
+            </div>
         </form>
 
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        let itineraryIndex = 0;
+
+        // AUTO LOAD FIRST ITINERARY
+        document.addEventListener("DOMContentLoaded", () => {
+
+    const oldItineraries = @json(old('itineraries'));
+
+    if (oldItineraries && oldItineraries.length > 0) {
+
+        oldItineraries.forEach((itinerary, i) => {
+            addItinerary(itinerary);
+        });
+
+    } else {
+        addItinerary();
+    }
+});
+
+        // ================= ADD ITINERARY =================
+        function addItinerary(oldData = null) {
+
+    const template = document
+        .getElementById("itinerary-template")
+        .innerHTML;
+
+    const html = template
+        .replaceAll('__INDEX__', itineraryIndex)
+        .replaceAll('__INDEX_DISPLAY__', itineraryIndex + 1);
+
+    document
+        .getElementById('itinerary-wrapper')
+        .insertAdjacentHTML('beforeend', html);
+
+    // ================= FILL OLD =================
+    if (oldData) {
+
+        const currentItem = document
+            .querySelectorAll('.itinerary-item')[itineraryIndex];
+
+        currentItem.querySelector(`[name="itineraries[${itineraryIndex}][title_id]"]`).value =
+            oldData.title_id ?? '';
+
+        currentItem.querySelector(`[name="itineraries[${itineraryIndex}][title_en]"]`).value =
+            oldData.title_en ?? '';
+
+        currentItem.querySelector(`[name="itineraries[${itineraryIndex}][time]"]`).value =
+            oldData.time ?? '';
+
+        // DETAILS
+        const detailWrapper = currentItem.querySelector('.detail-wrapper');
+
+        detailWrapper.innerHTML = '';
+
+        if (oldData.details) {
+
+            oldData.details.forEach((detail, dIndex) => {
+
+                const detailHTML = `
+                <div class="detail-item grid grid-cols-2 gap-4">
+
+                    <div class="relative mt-4">
+                        <textarea
+                        name="itineraries[${itineraryIndex}][details][${dIndex}][description_id]"
+                        placeholder="Enter the indonesian description" rows="4"
+                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 py-3 text-sm resize-none focus:outline-none focus:border-darkGreen">${detail.description_id ?? ''}</textarea>
+
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                            Description (ID)
+                        </label>
+                    </div>
+
+                    <div class="relative mt-4">
+                        <textarea
+                        name="itineraries[${itineraryIndex}][details][${dIndex}][description_en]"
+                        placeholder="Enter the english description" rows="4"
+                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 py-3 text-sm resize-none focus:outline-none focus:border-darkGreen">${detail.description_en ?? ''}</textarea>
+
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                            Description (EN)
+                        </label>
+                    </div>
+
+                </div>
+                `;
+
+                detailWrapper.insertAdjacentHTML('beforeend', detailHTML);
+            });
+        }
+    }
+
+    itineraryIndex++;
+}
+
+        // CLICK ADD ITINERARY
+        document.addEventListener('click', function(e) {
+
+            if (e.target.closest('.add-itinerary')) {
+                addItinerary();
+            }
+
+        });
+
+
+        // ================= ADD DESCRIPTION =================
+        document.addEventListener('click', function(e) {
+
+            if (!e.target.closest('.add-description')) return;
+
+            const itineraryItem = e.target.closest('.itinerary-item');
+
+            const detailWrapper = itineraryItem.querySelector('.detail-wrapper');
+
+            const itineraryInputs =
+                itineraryItem.querySelectorAll("textarea");
+
+            // hitung detail index
+            const detailIndex =
+                detailWrapper.querySelectorAll('.detail-item').length;
+
+            // ambil itinerary index dari name
+            const firstTextarea = itineraryItem.querySelector('textarea');
+
+            const match = firstTextarea.name.match(/itineraries\[(\d+)\]/);
+
+            const itineraryIdx = match[1];
+
+            // bikin detail baru
+            const detailHTML = `
+        <div class="detail-item grid grid-cols-2 gap-4">
+
+            <div class="relative mt-4">
+            <textarea
+                name="itineraries[${itineraryIdx}][details][${detailIndex}][description_id]"
+                placeholder="Enter the indonesian description" rows="4"
+                class="bg-softGrey w-full border border-mediumGrey rounded-md
+               px-3 py-3 text-sm resize-none
+               focus:outline-none focus:border-darkGreen"></textarea>
+                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                Description (ID)
+                </label>
+                </div>
+
+            <div class="relative mt-4">
+            <textarea
+                name="itineraries[${itineraryIdx}][details][${detailIndex}][description_en]"
+                placeholder="Enter the english description" rows="4"
+                class="bg-softGrey w-full border border-mediumGrey rounded-md
+               px-3 py-3 text-sm resize-none
+               focus:outline-none focus:border-darkGreen"></textarea>
+               <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                Description (EN)
+                </label>
+                </div>
+
+        </div>
+    `;
+
+            detailWrapper.insertAdjacentHTML('beforeend', detailHTML);
+
+        });
+    </script>
+@endpush

@@ -17,37 +17,52 @@
         Add New Category
     </h1>
 
+    <!-- ERROR VALIDATION -->
+        @if ($errors->any())
+            <div class="rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
     <!-- FORM -->
-    <form class="space-y-10">
+    <form action="{{ route('package.category.store') }}" method="POST" class="space-y-10">
+            @csrf
 
         <!-- INPUTS -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <!-- Name ID -->
             <div class="relative mt-4">
-                    <input type="text" name="name-id" placeholder="Enter the indonesian name"
+                    <input type="text" name="name_id" placeholder="Enter the indonesian name"
+                    value="{{ old('name_id', $category->name_id) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Name ID
+                        Name (ID)
                     </label>
                 </div>
 
             <!-- Name EN -->
             <div class="relative mt-4">
-                    <input type="text" name="name-en" placeholder="Enter the english name"
+                    <input type="text" name="name_en" placeholder="Enter the english name"
+                    value="{{ old('name_en', $category->name_en) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Name EN
+                        Name (EN)
                     </label>
                 </div>
 
             <!-- Description ID -->
             <div class="md:col-span-2">
                 <div class="relative mt-2">
-                    <input type="text" name="description-id" placeholder="Enter the indonesian description"
+                    <input type="text" name="description_id" placeholder="Enter the indonesian description"
+                    value="{{ old('description_id', $category->description_id) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Description ID
+                        Description (ID)
                     </label>
                 </div>
             </div>
@@ -55,10 +70,11 @@
             <!-- Description EN -->
             <div class="md:col-span-2">
                 <div class="relative mt-2">
-                    <input type="text" name="description-en" placeholder="Enter the english description"
+                    <input type="text" name="description_en" placeholder="Enter the english description"
+                    value="{{ old('description_en', $category->description_en) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Description EN
+                        Description (EN)
                     </label>
                 </div>
             </div>

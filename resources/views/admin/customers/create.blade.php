@@ -5,160 +5,200 @@
 @section('content')
     <section class="w-full">
 
-    <!-- BACK -->
-    <a href="{{ route('customers.index') }}"
-       class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
-        <i class="fa-solid fa-arrow-left"></i>
-        Back
-    </a>
+        <!-- BACK -->
+        <a href="{{ route('customers.index') }}"
+            class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+        </a>
 
-    <!-- TITLE -->
-    <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-        Add New User
-    </h1>
+        <!-- TITLE -->
+        <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
+            Add New User
+        </h1>
 
-    <!-- FORM -->
-    <form class="space-y-10">
+        <!-- ERROR VALIDATION -->
+        @if ($errors->any())
+            <div class="rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <!-- AVATAR -->
-        <div class="flex justify-center">
-            <label class="relative cursor-pointer">
-                <input type="file" class="hidden">
-                <div
-                    class="w-36 h-36 rounded-full bg-mediumGrey/10
-                           flex items-center justify-center">
-                    <i class="fa-regular fa-image text-3xl text-darkGrey"></i>
-                </div>
-            </label>
-        </div>
+        <!-- FORM -->
+        <form action="{{ route('customers.store') }}" method="POST" enctype="multipart/form-data" class="space-y-10">
+            @csrf
 
-        <!-- INPUTS -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- AVATAR -->
+            <div class="flex justify-center">
+                <label class="relative cursor-pointer">
+                    <input type="file" id="avatar" name="profile_image" class="hidden">
+                    <div
+                        class="w-36 h-36 rounded-full bg-mediumGrey/10
+                           flex items-center justify-center overflow-hidden">
+                        <img id="preview" class="hidden w-full h-full object-cover">
+                        <i id="icon" class="fa-regular fa-image text-3xl text-darkGrey"></i>
+                    </div>
+                </label>
+            </div>
 
-            <!-- First Name -->
-            <div class="relative mt-4">
-                    <input type="text" name="name" placeholder="Enter your first name"
+            <!-- INPUTS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- First Name -->
+                <div class="relative mt-4">
+                    <input type="text" name="first_name" placeholder="Enter your first name"
+                        value="{{ old('first_name', $customer->first_name) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         First Name
                     </label>
                 </div>
 
-            <!-- Last Name -->
-            <div class="relative mt-4">
-                    <input type="text" name="name" placeholder="Enter your last name"
+                <!-- Last Name -->
+                <div class="relative mt-4">
+                    <input type="text" name="last_name" placeholder="Enter your last name"
+                        value="{{ old('last_name', $customer->last_name) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Last Name
                     </label>
                 </div>
 
-            <!-- Email -->
-            <div class="relative mt-2">
+                <!-- Email -->
+                <div class="relative mt-2">
                     <input type="email" name="email" placeholder="Enter your email"
+                        value="{{ old('email', $customer->email) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Email
                     </label>
                 </div>
 
-            <!-- Phone -->
-            <div class="relative mt-2">
+                <!-- Phone -->
+                <div class="relative mt-2">
                     <input type="text" name="phone" placeholder="Enter your phone number"
+                        value="{{ old('phone', $customer->phone) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Phone Number
                     </label>
                 </div>
 
-            <!-- Date -->
-            <div class="relative mt-2">
-        <input type="date" name="birth"
-            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center
+                <!-- Date -->
+                <div class="relative mt-2">
+                    <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $customer->date_of_birth) }}"
+                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center
                    focus:outline-none focus:border-darkGreen" />
-        <label
-            class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-            Date of Birth (Optional)
-        </label>
-    </div>
-
-            <!-- Country -->
-            <div class="relative mt-2">
-                    <select name="country"
-                        class="peer bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
-               text-darkGrey"
-                        required>
-                        <option value="" disabled selected hidden></option>
-                        <option value="id">Indonesia</option>
-                        <option value="au">Australia</option>
-                        <option value="us">United States</option>
-                    </select>
-
-                    <label
-                        class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
-               peer-focus:text-darkGreen">
-                        Country (Optional)
+                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                        Date of Birth (Optional)
                     </label>
                 </div>
 
-            <!-- Password -->
-            <div class="relative mt-2">
+                <!-- Country -->
+                <div class="relative mt-2">
+
+                    <select name="country"
+                        class="peer appearance-none bg-softGrey w-full border border-mediumGrey 
+               rounded-md px-3 pr-10 text-sm h-12
+               focus:outline-none focus:border-darkGreen text-darkGrey">
+
+                        <option value="" disabled selected hidden>Select country</option>
+
+                        @foreach ($countries as $code => $name)
+                            <option value="{{ $code }}"
+                                {{ old('country', $customer->country ?? '') == $code ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+
+                    </select>
+
+                    <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </span>
+
+                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                        Country (Optional)
+                    </label>
+
+                </div>
+
+                <!-- Password -->
+                <div class="relative mt-2">
                     <input type="password" name="password" placeholder="Enter your password" id="password"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Password
                     </label>
                     <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
-                            onclick="togglePassword()">
-                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
-                        </button>
+                        onclick="togglePassword()">
+                        <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                    </button>
                 </div>
 
-            <!-- Confirm -->
-            <div class="relative mt-2">
-                    <input type="password" name="password_confirmation" placeholder="Confirm your password" id="confirmPassword"
+                <!-- Confirm -->
+                <div class="relative mt-2">
+                    <input type="password" name="password_confirmation" placeholder="Confirm your password"
+                        id="confirmPassword"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Confirm Password
                     </label>
                     <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
-                            onclick="toggleConfirmPassword()">
-                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
-                        </button>
+                        onclick="toggleConfirmPassword()">
+                        <i class="fa-solid fa-eye" id="eyeIconConfirm"></i>
+                    </button>
                 </div>
 
-            <!-- Role -->
-            <div class="md:col-span-2">
-                <div class="relative mt-2">
-                    <select name="role"
-                        class="peer bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
-               text-darkGrey"
-                        required>
-                        <option value="" disabled selected hidden></option>
-                        <option value="adm">Admin</option>
-                        <option value="cus">Customer</option>
-                    </select>
+                <!-- Role -->
+                <div class="md:col-span-2">
+                    <div class="relative mt-2">
+                        <select name="role"
+                            class="peer appearance-none bg-softGrey w-full border border-mediumGrey rounded-md
+           px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
+           text-darkGrey"
+                            required>
 
-                    <label
-                        class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
+                            <option value="" disabled selected hidden>
+                                Select role
+                            </option>
+
+                            <option value="admin" {{ old('role', $customer->role) == 'admin' ? 'selected' : '' }}>
+                                Admin
+                            </option>
+
+                            <option value="customer" {{ old('role', $customer->role) == 'customer' ? 'selected' : '' }}>
+                                Customer
+                            </option>
+
+                        </select>
+
+                        <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+
+                        <label
+                            class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
                peer-focus:text-darkGreen">
-                        Role
-                    </label>
+                            Role
+                        </label>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- SUBMIT -->
-        <button
-            class="bg-darkGreen text-white text-sm font-medium
+            <!-- SUBMIT -->
+            <button
+                class="bg-darkGreen text-white text-sm font-medium
                    px-12 py-3 rounded-lg w-1/2 lg:w-1/3
                    hover:bg-darkGreen/90 transition">
-            Add New
-        </button>
+                Add New
+            </button>
 
-    </form>
+        </form>
 
     </section>
 @endsection
@@ -190,5 +230,21 @@
                 icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         }
+
+        //Preview image
+        document.getElementById('avatar').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+                document.getElementById('preview').classList.remove('hidden');
+                document.getElementById('icon').classList.add('hidden');
+            }
+
+            reader.readAsDataURL(file);
+        });
     </script>
 @endpush

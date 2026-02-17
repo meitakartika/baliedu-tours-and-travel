@@ -8,11 +8,10 @@
         <!-- TOP ACTION -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
-            <div class="w-full md:max-w-md">
-                <input type="text" placeholder="Search for categories"
-                    class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm
-                       focus:outline-none">
-            </div>
+            <form method="GET" action="{{ route('package.category.index') }}" class="w-full md:max-w-md">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for categories" onchange="this.form.submit()"
+                    class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
+            </form>
 
             <div class="flex items-center gap-3">
                 <!-- Add Button -->
@@ -31,7 +30,7 @@
             <table class="w-full min-w-[720px]">
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
-                        <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
+                        <th class="w-72 text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
                             Name
                             <i class="fa-solid fa-sort ml-2 text-xs"></i>
                         </th>
@@ -44,39 +43,21 @@
                 </thead>
 
                 <tbody class="divide-y border-b border-mediumGrey/20">
-                    @php
-                        $categories = [
-                            [
-                                'name'        => 'Special Package',
-                                'description' => 'Tour package with more...',
-                            ],
-                            [
-                                'name'        => 'Bali Trips',
-                                'description' => 'Showcasing the beauty...',
-                            ],
-                            [
-                                'name'        => 'Homestay',
-                                'description' => 'A comfortable and hom...',
-                            ],
-                            [
-                                'name'        => 'Volunteer',
-                                'description' => 'Support local communi...',
-                            ],
-                        ];
-                    @endphp
 
                     @foreach ($categories as $category)
                         <tr class="hover:bg-mediumGrey/5">
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $category['name'] }}
+                                {{ app()->getLocale() == 'id' ? $category->name_id : $category->name_en }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $category['description'] }}
+                                <div class="max-w-[300px] truncate">
+                                {{ app()->getLocale() == 'id' ? $category->description_id : $category->description_en }}
+                                </div>
                             </td>
 
                             <td class="px-6 py-4 text-right">
-                                <a href="{{ route('package.category.edit') }}"
+                                <a href="{{ route('package.category.edit', $category) }}"
                                     class="inline-flex items-center gap-2
           bg-lightGreen/50 text-darkGreen font-medium
           px-4 py-2 rounded-lg
@@ -93,23 +74,66 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing 1–4 of 4 entries</span>
+            <span>Showing {{ $categories->firstItem() }}–{{ $categories->lastItem() }}
+                of {{ $categories->total() }} entries</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">
-                <button class="w-9 h-9 border rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
 
-                <button class="w-9 h-9 bg-darkGreen text-white rounded-lg">1</button>
-                <button class="w-9 h-9 border rounded-lg">2</button>
-                <span class="px-2">...</span>
-                <button class="w-9 h-9 border rounded-lg">9</button>
-                <button class="w-9 h-9 border rounded-lg">10</button>
+                {{-- Previous --}}
+                @if ($categories->onFirstPage())
+                    <span
+                        class="w-9 h-9 flex items-center justify-center 
+                     border rounded-lg text-mediumGrey cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </span>
+                @else
+                    <a href="{{ $categories->previousPageUrl() }}"
+                        class="w-9 h-9 flex items-center justify-center 
+                  border rounded-lg hover:bg-mediumGrey/10">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                @endif
 
-                <button class="w-9 h-9 border rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
+
+                {{-- Page Numbers --}}
+                @php
+                    $start = max($categories->currentPage() - 2, 1);
+                    $end = min($categories->currentPage() + 2, $categories->lastPage());
+                @endphp
+
+                @foreach ($categories->getUrlRange($start, $end) as $page => $url)
+                    @if ($page == $categories->currentPage())
+                        <span
+                            class="w-9 h-9 flex items-center justify-center 
+                         bg-darkGreen text-white rounded-lg">
+                            {{ $page }}
+                        </span>
+                    @else
+                        <a href="{{ $url }}"
+                            class="w-9 h-9 flex items-center justify-center 
+                      border rounded-lg hover:bg-mediumGrey/10">
+                            {{ $page }}
+                        </a>
+                    @endif
+                @endforeach
+
+
+                {{-- Next --}}
+                @if ($categories->hasMorePages())
+                    <a href="{{ $categories->nextPageUrl() }}"
+                        class="w-9 h-9 flex items-center justify-center 
+                  border rounded-lg hover:bg-mediumGrey/10">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                @else
+                    <span
+                        class="w-9 h-9 flex items-center justify-center 
+                     border rounded-lg text-mediumGrey cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                @endif
+
             </div>
         </div>
     </section>

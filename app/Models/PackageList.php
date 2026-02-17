@@ -26,27 +26,4 @@ class PackageList extends Model
         return $this->belongsTo(Package::class);
     }
 
-    /**
-     * Helper biar rapi dipanggil
-     */
-    public function getMustBring($query)
-    {
-        return $query->where('type', 'must_bring');
     }
-
-    public function getIncludes($query)
-    {
-        return $query->where('type', 'includes');
-    }
-
-    public function getNotIncludes($query)
-    {
-        return $query->where('type', 'not_includes');
-    }
-    public function getContentAttribute()
-    {
-        return app()->getLocale() === 'en'
-            ? $this->content_en
-            : $this->content_id;
-    }
-}

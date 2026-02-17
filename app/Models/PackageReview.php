@@ -12,11 +12,16 @@ class PackageReview extends Model
     protected $fillable = [
         'package_id',
         'user_id',
+        'booking_id',
         'rating',
         'comment',
-        'image_url',
+        'images',
         'agreement',
     ];
+
+    protected $casts = [
+    'images' => 'array',
+];
 
     /**
      * Relasi ke paket
@@ -33,4 +38,10 @@ class PackageReview extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function booking()
+{
+    return $this->belongsTo(Booking::class);
+}
+
 }

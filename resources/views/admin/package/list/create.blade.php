@@ -17,19 +17,54 @@
             Add New List
         </h1>
 
+        <!-- ERROR VALIDATION -->
+        @if ($errors->any())
+            <div class="rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- FORM -->
-        <form class="space-y-10">
+        <form action="{{ route('package.list.store') }}" method="POST" class="space-y-10">
+            @csrf
 
             <!-- INPUTS -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <!-- Category -->
                 <h2 class="font-semibold text-base text-darkGrey mt-4">Tour Package</h2>
-                <div class="md:col-span-2">
+                <div class="col-span-2">
                     <div class="relative mt-1">
-                        <input type="text" name="tour" placeholder="Select the tour package"
-                            class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
+                        <select name="package_id"
+                            class="peer appearance-none bg-white w-full border border-mediumGrey rounded-md
+           px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
+           text-darkGrey"
+                            required>
+
+                            <option value="" disabled selected hidden>
+                                Select the tour package
+                            </option>
+
+                            @foreach ($packages as $package)
+                                <option value="{{ $package->id }}"
+                                    {{ old('package_id') == $package->id ? 'selected' : '' }}>
+                                    {{ app()->getLocale() == 'id' ? $package->name_id : $package->name_en }}
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                        <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+
+                        <label
+                            class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white
+               peer-focus:text-darkGreen">
                             Tour Package
                         </label>
                     </div>
@@ -39,99 +74,131 @@
 
                 <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Includes List</h2>
 
-                <!-- Content ID -->
-                <div class="relative mt-2">
-                    <textarea name="content-id" rows="4" placeholder="Enter the indonesian content"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Content ID
-                    </label>
+                @php
+                    $includes = old('list.includes', [[]]);
+                @endphp
+
+                <div id="includes-wrapper" class="col-span-2 space-y-4">
+
+                    @foreach ($includes as $i => $include)
+                        <div class="grid grid-cols-2 gap-4 includes-item">
+
+                            <div class="relative mt-2">
+                                <textarea name="list[includes][{{ $i }}][content_id]" rows="4"
+                                    placeholder="Enter the indonesian content"
+                                    class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
+        focus:outline-none focus:border-darkGreen">{{ $include['content_id'] ?? '' }}</textarea>
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Content (ID)
+                                </label>
+                            </div>
+
+                            <div class="relative mt-2">
+                                <textarea name="list[includes][{{ $i }}][content_en]" rows="4" placeholder="Enter the english content"
+                                    class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
+        focus:outline-none focus:border-darkGreen">{{ $include['content_en'] ?? '' }}</textarea>
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Content (EN)
+                                </label>
+                            </div>
+
+                        </div>
+                    @endforeach
                 </div>
 
-                <!-- Content EN -->
-                <div class="relative mt-2">
-                    <textarea name="content-en" rows="4" placeholder="Enter the english content"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Content EN
-                    </label>
-                </div>
-
-                <!-- ADD MORE DESCRIPTION -->
-                <button type="button"
+                <!-- ADD MORE CONTENT -->
+                <button type="button" onclick="addItem('includes-wrapper','includes')"
                     class="flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
                     <i class="fa-solid fa-plus"></i>
-                    Add More Description
+                    Add More Content
                 </button>
 
                 <hr class="border-darkGreen mt-4 col-span-2">
 
                 <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Not Includes List</h2>
 
-                <!-- Content ID -->
-                <div class="relative mt-2">
-                    <textarea name="content-id" rows="4" placeholder="Enter the indonesian content"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Content ID
-                    </label>
+                @php
+                    $notIncludes = old('list.not_includes', [[]]);
+                @endphp
+
+                <div id="notIncludes-wrapper" class="col-span-2 space-y-4">
+
+                    @foreach ($notIncludes as $i => $notInclude)
+                        <div class="grid grid-cols-2 gap-4 notIncludes-item">
+
+                            <div class="relative mt-2">
+                                <textarea name="list[not_includes][{{ $i }}][content_id]" rows="4"
+                                    placeholder="Enter the indonesian content"
+                                    class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
+        focus:outline-none focus:border-darkGreen">{{ $notInclude['content_id'] ?? '' }}</textarea>
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Content (ID)
+                                </label>
+                            </div>
+
+                            <div class="relative mt-2">
+                                <textarea name="list[not_includes][{{ $i }}][content_en]" rows="4"
+                                    placeholder="Enter the english content"
+                                    class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
+        focus:outline-none focus:border-darkGreen">{{ $notInclude['content_en'] ?? '' }}</textarea>
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Content (EN)
+                                </label>
+                            </div>
+
+                        </div>
+                    @endforeach
                 </div>
 
-                <!-- Content EN -->
-                <div class="relative mt-2">
-                    <textarea name="content-en" rows="4" placeholder="Enter the english content"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Content EN
-                    </label>
-                </div>
-
-                <!-- ADD MORE DESCRIPTION -->
-                <button type="button"
+                <!-- ADD MORE CONTENT -->
+                <button type="button" onclick="addItem('notIncludes-wrapper','not_includes')"
                     class="flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
                     <i class="fa-solid fa-plus"></i>
-                    Add More Description
+                    Add More Content
                 </button>
 
                 <hr class="border-darkGreen mt-4 col-span-2">
 
                 <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Must Bring List</h2>
 
-                <!-- Content ID -->
-                <div class="relative mt-2">
-                    <textarea name="content-id" rows="4" placeholder="Enter the indonesian content"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Content ID
-                    </label>
+                @php
+                    $mustBring = old('list.must_bring', [[]]);
+                @endphp
+
+                <div id="mustBring-wrapper" class="col-span-2 space-y-4">
+
+                    @foreach ($mustBring as $i => $bring)
+                        <div class="grid grid-cols-2 gap-4 mustBring-item">
+
+                            <div class="relative mt-2">
+                                <textarea name="list[must_bring][{{ $i }}][content_id]" rows="4"
+                                    placeholder="Enter the indonesian content"
+                                    class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
+        focus:outline-none focus:border-darkGreen">{{ $bring['content_id'] ?? '' }}</textarea>
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Content (ID)
+                                </label>
+                            </div>
+
+                            <div class="relative mt-2">
+                                <textarea name="list[must_bring][{{ $i }}][content_en]" rows="4"
+                                    placeholder="Enter the english content"
+                                    class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
+        focus:outline-none focus:border-darkGreen">{{ $bring['content_en'] ?? '' }}</textarea>
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Content (EN)
+                                </label>
+                            </div>
+
+                        </div>
+                    @endforeach
                 </div>
 
-                <!-- Content EN -->
-                <div class="relative mt-2">
-                    <textarea name="content-en" rows="4" placeholder="Enter the english content"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md
-               px-3 py-3 text-sm resize-none
-               focus:outline-none focus:border-darkGreen"></textarea>
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Content EN
-                    </label>
-                </div>
-
-                <!-- ADD MORE DESCRIPTION -->
-                <button type="button"
+                <!-- ADD MORE CONTENT -->
+                <button type="button" onclick="addItem('mustBring-wrapper','must_bring')"
                     class="flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
                     <i class="fa-solid fa-plus"></i>
-                    Add More Description
+                    Add More Content
                 </button>
 
                 <hr class="border-darkGreen mt-4 col-span-2">
@@ -149,3 +216,41 @@
 
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        function addItem(wrapperId, type) {
+
+    const wrapper = document.getElementById(wrapperId);
+
+            const index = wrapper.children.length;
+
+            const html = `
+        <div class="grid grid-cols-2 gap-4 includes-item">
+
+                            <div class="relative mt-2">
+                                <textarea name="list[${type}][${index}][content_id]" rows="4"
+                                    placeholder="Enter the indonesian content"
+                                    class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
+        focus:outline-none focus:border-darkGreen"></textarea>
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Content (ID)
+                                </label>
+                            </div>
+
+                            <div class="relative mt-2">
+                                <textarea name="list[${type}][${index}][content_en]" rows="4" placeholder="Enter the english content"
+                                    class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
+        focus:outline-none focus:border-darkGreen"></textarea>
+                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                    Content (EN)
+                                </label>
+                            </div>
+
+                        </div>
+    `;
+
+            wrapper.insertAdjacentHTML('beforeend', html);
+        }
+    </script>
+@endpush

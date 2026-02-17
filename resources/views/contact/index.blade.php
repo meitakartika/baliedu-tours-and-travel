@@ -2,6 +2,13 @@
 
 @section('title', 'Contact Us')
 
+<style>
+    input::placeholder,
+    textarea::placeholder {
+        font-size: 0.75rem;
+    }
+</style>
+
 @section('content')
 
     <!-- ================= HERO ABOUT ================= -->
@@ -36,98 +43,52 @@
                 <!-- PHONE -->
                 <div class="mb-8">
                     <p class="font-medium text-darkGrey mb-3">Phone:</p>
+
                     <div class="flex flex-wrap gap-8">
+                        @foreach ($phones as $phone)
+                            <div class="flex flex-col gap-2">
+                                @if ($phone->label)
+                                    <span class="text-sm font-semibold">
+                                        {{ $phone->label }}
+                                    </span>
+                                @endif
 
-                        <div class="flex flex-col gap-2">
-                            <span class="text-sm font-semibold">
-                                Admin 1
-                            </span>
-
-                            <a href="tel:+6281353187669"
-                                class="border border-darkGreen rounded-lg px-6 py-3
-               flex items-center gap-3
-               hover:bg-darkGreen/10 transition">
-                                <i class="fa-solid fa-phone text-darkGreen text-sm"></i>
-                                <span class="text-sm font-medium text-darkGrey">
-                                    +62 813 5318 7669
-                                </span>
-                            </a>
-                        </div>
-
-                        <div class="flex flex-col gap-2">
-                            <span class="text-sm font-semibold">
-                                Admin 2
-                            </span>
-
-                            <a href="tel:+6287828383205"
-                                class="border border-darkGreen rounded-lg px-6 py-3
-               flex items-center gap-3
-               hover:bg-darkGreen/10 transition">
-                                <i class="fa-solid fa-phone text-darkGreen text-sm"></i>
-                                <span class="text-sm font-medium text-darkGrey">
-                                    +62 8782 8383 205
-                                </span>
-                            </a>
-                        </div>
-
+                                <a href="tel:{{ $phone->value_id }}"
+                                    class="border border-darkGreen rounded-lg px-6 py-3
+                          flex items-center gap-3
+                          hover:bg-darkGreen/10 transition">
+                                    <i class="fa-solid fa-phone text-darkGreen text-sm"></i>
+                                    <span class="text-sm font-medium text-darkGrey">
+                                        {{ $phone->value_id }}
+                                    </span>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
                 <!-- EMAIL -->
                 <div>
                     <p class="font-medium text-darkGrey mb-3">Email:</p>
+
                     <ul class="space-y-4">
-                        <!-- EMAIL 1 -->
-                        <li class="flex flex-col gap-1">
-                            <span class="text-sm font-semibold">
-                                Email 1
-                            </span>
+                        @foreach ($emails as $email)
+                            <li class="flex flex-col gap-1">
+                                @if ($email->label)
+                                    <span class="text-sm font-semibold">
+                                        {{ $email->label }}
+                                    </span>
+                                @endif
 
-                            <a href="mailto:baliedutours@gmail.com"
-                                class="flex items-center gap-3 text-sm text-darkGrey font-medium hover:text-darkGreen transition">
-                                <i class="fa-solid fa-envelope text-darkGreen text-sm"></i>
-                                baliedutours@gmail.com
-                            </a>
-                        </li>
-
-                        <!-- EMAIL 2 -->
-                        <li class="flex flex-col gap-1">
-                            <span class="text-sm font-semibold">
-                                Email 2
-                            </span>
-
-                            <a href="mailto:info@baliedutours.com"
-                                class="flex items-center gap-3 text-sm text-darkGrey font-medium hover:text-darkGreen transition">
-                                <i class="fa-solid fa-envelope text-darkGreen text-sm"></i>
-                                info@baliedutours.com
-                            </a>
-                        </li>
-
-                        <!-- EMAIL 3 -->
-                        <li class="flex flex-col gap-1">
-                            <span class="text-sm font-semibold">
-                                Email 3
-                            </span>
-
-                            <a href="mailto:hellobaliedu@gmail.com"
-                                class="flex items-center gap-3 text-sm text-darkGrey font-medium hover:text-darkGreen transition">
-                                <i class="fa-solid fa-envelope text-darkGreen text-sm"></i>
-                                hellobaliedu@gmail.com
-                            </a>
-                        </li>
-
-                        <!-- EMAIL 4 -->
-                        <li class="flex flex-col gap-1">
-                            <span class="text-sm font-semibold">
-                                Email 4
-                            </span>
-
-                            <a href="mailto:marketing@baliedutours.com"
-                                class="flex items-center gap-3 text-sm text-darkGrey font-medium hover:text-darkGreen transition">
-                                <i class="fa-solid fa-envelope text-darkGreen text-sm"></i>
-                                marketing@baliedutours.com
-                            </a>
-                        </li>
+                                <a href="mailto:{{ $email->value_id }}"
+                                    class="flex items-center gap-3
+                          text-sm text-darkGrey font-medium
+                          hover:text-darkGreen transition">
+                                    <i class="fa-solid fa-envelope text-darkGreen text-sm"></i>
+                                    {{ $email->value_id }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -136,49 +97,80 @@
             <!-- RIGHT : CONTACT FORM -->
             <div class="bg-softGrey rounded-3xl shadow-xl p-8 border-r-4 border-b-4 border-lightGreen">
 
+                {{-- ================= ALERT ================= --}}
+                @if (session('success'))
+                    <div class="mb-6 rounded-lg bg-lightGreen/20 border border-darkGreen/80 p-4 text-darkGreen text-sm">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                    </div>
+                @endif
+                @if ($errors->has('message'))
+                    <p class="mb-6 rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                        {{ $errors->first('message') }}
+                    </p>
+                @endif
+
                 <h3 class="text-xl font-semibold mb-8">Send Us a Message</h3>
 
-                <form>
+                <form action="{{ route('contact.messages.store') }}" method="POST">
+                    @csrf
 
+                    <!-- NAME -->
                     <div class="relative mb-7">
-                        <input type="text" name="name" placeholder="Enter your name"
-                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Name
-                        </label>
+                        <input type="text" name="name"
+                            @auth
+value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
+        readonly @endauth
+                            placeholder="Enter your name"
+                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">Name</label>
                     </div>
 
+                    <!-- EMAIL -->
                     <div class="relative mb-7">
-                        <input type="email" name="email" placeholder="Enter your email"
-                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Email
-                        </label>
+                        <input type="email" name="email" value="{{ auth()->user()->email ?? '' }}"
+                            @auth readonly @endauth placeholder="Enter your email"
+                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">Email</label>
                     </div>
 
+                    <!-- PHONE -->
                     <div class="relative mb-7">
-                        <input type="text" name="phone" placeholder="Enter your phone number"
-                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Phone Number
-                        </label>
+                        <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}"
+                            @auth readonly @endauth placeholder="Enter your phone number"
+                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">Phone Number</label>
                     </div>
 
+                    <!-- MESSAGE -->
                     <div class="relative mb-6">
                         <textarea name="message" rows="7" placeholder="Tell us about your inquiry..."
-                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 pt-4 text-sm focus:outline-none focus:border-darkGreen"></textarea>
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Message
-                        </label>
+                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 pt-4 text-sm focus:outline-none focus:border-darkGreen"
+                            required></textarea>
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">Message</label>
                     </div>
 
-                    <button type="submit"
-                        class="w-full bg-darkGreen text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2 hover:bg-darkGreen/90 transition">
-                        Send Message
-                        <i class="fa-solid fa-paper-plane text-sm"></i>
-                    </button>
+                    <!-- BUTTON -->
+                    @guest
+                        <a href="{{ route('login') }}"
+                            class="w-full bg-darkGreen text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2 hover:bg-darkGreen/90 transition">
+                            Send Message
+                            <i class="fa-solid fa-paper-plane text-sm"></i>
+                        </a>
+                    @endguest
+
+                    @auth
+                        <button type="submit"
+                            class="w-full bg-darkGreen text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2 hover:bg-darkGreen/90 transition">
+                            Send Message
+                            <i class="fa-solid fa-paper-plane text-sm"></i>
+                        </button>
+                    @endauth
 
                 </form>
+
             </div>
         </div>
 
@@ -187,38 +179,32 @@
             <p class="font-medium text-darkGrey mb-3">Address:</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                @foreach ($offices as $office)
+                    @php
+                        $officeName = $office->firstWhere('type', 'office_name');
+                        $address = $office->firstWhere('type', 'address');
+                        $map = $office->firstWhere('type', 'map_embed');
+                    @endphp
 
-                <!-- HEAD OFFICE -->
-                <div>
-                    <p class="text-sm font-semibold mb-3">Head Office</p>
-                    <div class="flex items-center gap-3 mb-6">
-    <i class="fa-solid fa-location-dot text-darkGreen text-base"></i>
-    <p class="text-sm text-darkGrey font-medium leading-relaxed">
-        Dukuh Krajan Kulon RT003 / RW001, Desa Karangnongko,
-        Kecamatan Nalumsari, Kabupaten Jepara – Jawa Tengah
-    </p>
-</div>
+                    <div>
+                        <p class="text-sm font-semibold mb-3">
+                            {{ $officeName?->value_id }}
+                        </p>
 
-                    <iframe class="w-full h-[260px] rounded-sm" src="https://www.google.com/maps?q=Jepara&output=embed">
-                    </iframe>
-                </div>
+                        <div class="flex items-start gap-3 mb-6">
+                            <i class="fa-solid fa-location-dot text-darkGreen text-base mt-1"></i>
+                            <p class="text-sm text-darkGrey font-medium leading-relaxed">
+                                {{ $address?->value_id }}
+                            </p>
+                        </div>
 
-                <!-- BALI OFFICE -->
-                <div>
-                    <p class="text-sm font-semibold mb-3">Bali Office</p>
-                    <div class="flex items-center gap-3 mb-6">
-    <i class="fa-solid fa-location-dot text-darkGreen text-base"></i>
-    <p class="text-sm text-darkGrey font-medium leading-relaxed">
-        Jl. Pasekan Gg. Batubara 26, Desa Batubulan,
-        Kecamatan Sukawati, Kabupaten Gianyar – Bali
-    </p>
-</div>
-
-                    <iframe class="w-full h-[260px] rounded-sm"
-                        src="https://www.google.com/maps?q=Gianyar+Bali&output=embed">
-                    </iframe>
-                </div>
-
+                        @if ($map)
+                            <iframe class="w-full h-[260px] rounded-sm" src="{{ $map->value_id }}" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>

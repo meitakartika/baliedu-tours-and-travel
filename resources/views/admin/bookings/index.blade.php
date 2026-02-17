@@ -8,19 +8,85 @@
         <!-- TOP ACTION -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
-            <div class="w-full md:max-w-md">
-                <input type="text" placeholder="Search for bookings"
-                    class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm
-                       focus:outline-none">
-            </div>
+            <form method="GET" action="{{ route('bookings.index') }}" class="w-full md:max-w-md">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for user/package"
+                    onchange="this.form.submit()"
+                    class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
+            </form>
 
             <!-- Filters Button -->
-            <a href="#"
-                class="flex items-center gap-2 border border-darkGreen text-darkGreen text-sm
-                   px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
-                <i class="fa-solid fa-filter"></i>
-                Filters
-            </a>
+            <div x-data="{ open: false }" class="relative">
+
+                @php
+                    $activeFilters = collect(request()->only(['status']))
+                        ->flatten()
+                        ->filter()
+                        ->count();
+                @endphp
+
+                <!-- BUTTON -->
+                <button @click="open = !open"
+                    class="relative flex items-center gap-2 border border-darkGreen text-darkGreen text-sm
+           px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
+
+                    <i class="fa-solid fa-filter"></i>
+                    Filter
+
+                    @if ($activeFilters > 0)
+                        <span
+                            class="absolute -top-2 -right-2 
+                     bg-darkGreen text-white text-xs 
+                     w-5 h-5 flex items-center justify-center 
+                     rounded-full">
+                            {{ $activeFilters }}
+                        </span>
+                    @endif
+
+                </button>
+
+                <!-- PANEL -->
+                <div x-show="open" @click.outside="open=false"
+                    class="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-lg p-5 z-50 max-h-96 overflow-y-auto">
+
+                    <form method="GET" action="{{ route('bookings.index') }}">
+
+                        <!-- keep search value -->
+                        <input type="hidden" name="search" value="{{ request('search') }}">
+
+                        <label class="text-sm font-semibold">Status</label>
+
+                        <div class="mt-2 space-y-2">
+
+                            @foreach ($status as $item)
+                                <label class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" name="status[]" value="{{ $item }}"
+                                        {{ in_array($item, request('status', [])) ? 'checked' : '' }}>
+                                    {{ $item }}
+                                </label>
+                            @endforeach
+
+                        </div>
+
+                        <div class="mt-4 flex gap-2">
+
+                            <a href="{{ route('bookings.index') }}"
+                                class="flex-1 text-center border border-mediumGrey text-darkGrey 
+               py-2 rounded-md text-sm hover:bg-mediumGrey/10 transition">
+                                Reset
+                            </a>
+
+                            <button type="submit"
+                                class="flex-1 bg-darkGreen text-white 
+               py-2 rounded-md text-sm hover:bg-darkGreen/90 transition">
+                                Apply
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
         </div>
 
         <!-- TABLE -->
@@ -61,20 +127,6 @@
                 </thead>
 
                 <tbody class="divide-y border-b border-mediumGrey/20">
-                    @php
-                        $bookings = [
-                            [
-                                'id' => '1',
-                                'name' => 'Esthera Jackson',
-                                'img' => 'https://i.pravatar.cc/100?img=1',
-                                'tour' => 'Fireflies Tour',
-                                'date' => '12/12/2025',
-                                'guests' => '2',
-                                'total' => 'Rp 1.000.000',
-                                'status' => 'Pending',
-                            ],
-                        ];
-                    @endphp
 
                     @foreach ($bookings as $booking)
                         <tr class="hover:bg-mediumGrey/5">
@@ -84,45 +136,58 @@
 
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-4">
-                                    <img src="{{ $booking['img'] }}" class="w-10 h-10 rounded-full object-cover"
-                                        alt="{{ $booking['name'] }}">
+                                    @if ($booking->user->profile_image)
+                                        <img src="{{ asset('storage/' . $booking->user->profile_image) }}"
+                                            class="w-10 h-10 rounded-full object-cover">
+                                    @else
+                                        <div class="w-10 h-10 rounded-full flex items-center justify-center">
+                                            <i class="fa-solid fa-circle-user text-4xl text-darkGreen"></i>
+                                        </div>
+                                    @endif
                                     <span class="font-semibold text-darkGrey text-sm">
-                                        {{ $booking['name'] }}
+                                        {{ $booking->user->first_name }} {{ $booking->user->last_name }}
                                     </span>
                                 </div>
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $booking['tour'] }}
+                                {{ app()->getLocale() == 'id' ? $booking->package->name_id : $booking->package->name_en }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $booking['date'] }}
+                                {{ app()->getLocale() === 'id'
+                                    ? \Carbon\Carbon::parse($booking->tour_date)->format('d/m/Y')
+                                    : \Carbon\Carbon::parse($booking->tour_date)->format('m/d/Y') }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $booking['guests'] }}
+                                {{ $booking->guest_count }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $booking['total'] }}
+                                Rp {{ number_format($booking->total_price, 0, ',', '.') }}
                             </td>
+
+                            @php
+                                $statusColor = match ($booking->status) {
+                                    'pending' => 'bg-red/10 text-red',
+                                    'confirmed' => 'bg-paleGreen/20 text-darkGreen',
+                                    'completed' => 'bg-darkGreen/10 text-darkGreen',
+                                    'cancelled' => 'bg-red/20 text-red',
+                                };
+                            @endphp
 
                             <td class="px-6 py-4">
                                 <span
                                     class="inline-flex items-center justify-center
                px-4 py-1 rounded-md text-xs font-medium
-               {{ $booking['status'] === 'Pending'
-                   ? 'bg-red/10 text-red'
-                   : ($booking['status'] === 'Confirmed'
-                       ? 'bg-paleGreen/20 text-darkGreen'
-                       : 'bg-darkGreen/10 text-darkGreen') }}">
-                                    {{ $booking['status'] }}
+               {{ $statusColor }}">
+                                    {{ $booking->status }}
                                 </span>
                             </td>
 
                             <td class="px-6 py-4 text-right">
-                                <a href="{{ route('bookings.edit') }}"
+                                <a href="{{ route('bookings.edit', $booking->id) }}"
                                     class="inline-flex items-center gap-2
           bg-lightGreen/50 text-darkGreen font-medium
           px-4 py-2 rounded-lg
@@ -139,23 +204,65 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing 1–1 of 1 entry</span>
+            <span>Showing {{ $bookings->firstItem() }}–{{ $bookings->lastItem() }}
+                of {{ $bookings->total() }} entries</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">
-                <button class="w-9 h-9 border rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
 
-                <button class="w-9 h-9 bg-darkGreen text-white rounded-lg">1</button>
-                <button class="w-9 h-9 border rounded-lg">2</button>
-                <span class="px-2">...</span>
-                <button class="w-9 h-9 border rounded-lg">9</button>
-                <button class="w-9 h-9 border rounded-lg">10</button>
+                {{-- Previous --}}
+                @if ($bookings->onFirstPage())
+                    <span
+                        class="w-9 h-9 flex items-center justify-center 
+                     border rounded-lg text-mediumGrey cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </span>
+                @else
+                    <a href="{{ $bookings->previousPageUrl() }}"
+                        class="w-9 h-9 flex items-center justify-center 
+                  border rounded-lg hover:bg-mediumGrey/10">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                @endif
 
-                <button class="w-9 h-9 border rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
+                {{-- Page Numbers --}}
+                @php
+                    $start = max($bookings->currentPage() - 2, 1);
+                    $end = min($bookings->currentPage() + 2, $bookings->lastPage());
+                @endphp
+
+                @foreach ($bookings->getUrlRange($start, $end) as $page => $url)
+                    @if ($page == $bookings->currentPage())
+                        <span
+                            class="w-9 h-9 flex items-center justify-center 
+                         bg-darkGreen text-white rounded-lg">
+                            {{ $page }}
+                        </span>
+                    @else
+                        <a href="{{ $url }}"
+                            class="w-9 h-9 flex items-center justify-center 
+                      border rounded-lg hover:bg-mediumGrey/10">
+                            {{ $page }}
+                        </a>
+                    @endif
+                @endforeach
+
+
+                {{-- Next --}}
+                @if ($bookings->hasMorePages())
+                    <a href="{{ $bookings->nextPageUrl() }}"
+                        class="w-9 h-9 flex items-center justify-center 
+                  border rounded-lg hover:bg-mediumGrey/10">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                @else
+                    <span
+                        class="w-9 h-9 flex items-center justify-center 
+                     border rounded-lg text-mediumGrey cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                @endif
+
             </div>
         </div>
     </section>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 class Booking extends Model
 {
     use HasFactory;
@@ -14,8 +15,13 @@ class Booking extends Model
         'user_id',
         'tour_date',
         'guest_count',
+        'total_price',
         'payment_proof',
         'status',
+    ];
+
+    protected $casts = [
+        'tour_date' => 'date',
     ];
 
     public function user() {
@@ -25,4 +31,38 @@ class Booking extends Model
     public function package() {
         return $this->belongsTo(Package::class);
     }
+
+    public function review()
+{
+    return $this->hasOne(PackageReview::class);
+}
+
+    // auto status completed
+   protected static function booted()
+{
+    static::retrieved(function ($booking) {
+
+        // skip kalau bukan confirmed
+        if ($booking->status !== 'confirmed') {
+            return;
+        }
+
+        // skip kalau tour_date masih future
+        if ($booking->tour_date >= today()) {
+            return;
+        }
+
+        $booking->loadMissing('package');
+
+        $endDate = Carbon::parse($booking->tour_date)
+            ->addDays($booking->package->duration - 1);
+
+        if ($endDate->lt(today())) {
+            $booking->updateQuietly([
+                'status' => 'completed'
+            ]);
+        }
+    });
+}
+
 }

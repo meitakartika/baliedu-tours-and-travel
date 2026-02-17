@@ -17,17 +17,53 @@
             Edit Contact
         </h1>
 
+        <!-- ERROR VALIDATION -->
+        @if ($errors->any())
+            <div class="rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- FORM -->
-        <form class="space-y-10">
+        <form method="POST" action="{{ route('contact.info.update', $contactInfo) }}" class="space-y-10">
+            @csrf
+            @method('PUT')
 
             <!-- INPUTS -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <!-- Type -->
                 <div class="relative mt-4">
-                    <input type="text" name="type" placeholder="Enter contact type"
-                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                    <select name="type"
+                        class="peer appearance-none bg-softGrey w-full border border-mediumGrey rounded-md
+           px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
+           text-darkGrey"
+                        required>
+
+                        <option value="" disabled selected hidden>
+                            Select contact type
+                        </option>
+
+                         @foreach ($types as $key => $label)
+                            <option value="{{ $key }}"
+                                {{ old('type', $contactInfo->type) == $key ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+
+                    </select>
+
+                    <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </span>
+
+                    <label
+                        class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
+               peer-focus:text-darkGreen">
                         Type
                     </label>
                 </div>
@@ -35,46 +71,64 @@
                 <!-- Label -->
                 <div class="relative mt-4">
                     <input type="text" name="label" placeholder="Enter contact label"
+                        value="{{ old('label', $contactInfo->label) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         Label (Optional)
                     </label>
                 </div>
 
-                <!-- Value -->
-                <div class="md:col-span-2">
-                    <div class="relative mt-2">
-                        <input type="text" name="value" placeholder="Enter contact value"
-                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Value
-                        </label>
-                    </div>
+            </div>
+
+            <!-- Value ID -->
+            <div class="md:col-span-2">
+                <div class="relative mt-2">
+                    <input type="text" name="value_id" placeholder="Enter Indonesian contact value"
+                        value="{{ old('value_id', $contactInfo->value_id) }}"
+                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
+                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                        Value (ID)
+                    </label>
+                </div>
+            </div>
+
+            <!-- Value EN -->
+            <div class="md:col-span-2">
+                <div class="relative mt-2">
+                    <input type="text" name="value_en" placeholder="Enter English contact value"
+                        value="{{ old('value_en', $contactInfo->value_en) }}"
+                        class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
+                    <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                        Value (EN)
+                    </label>
                 </div>
             </div>
 
             <!-- SUBMIT -->
             <div class="flex gap-4">
-                <!-- SAVE BUTTON -->
+
+                <!-- SAVE -->
                 <button type="submit"
-                    class="bg-darkGreen text-white text-sm font-medium
-               px-12 md:px-16 py-3 rounded-lg
-               hover:bg-darkGreen/90 transition">
+                    class="bg-darkGreen text-white text-sm font-medium 
+        px-12 md:px-16 py-3 rounded-lg hover:bg-darkGreen/90 transition">
                     Save
                 </button>
 
-                <!-- DELETE BUTTON -->
-                <button type="button"
-                    class="flex items-center gap-3
-               bg-red text-white text-sm font-medium
-               px-8 py-3 rounded-lg
-               hover:bg-red/90 transition">
-                    <i class="fa-solid fa-trash-alt"></i>
-                    Delete Contact
-                </button>
-            </div>
-
         </form>
+
+        <!-- DELETE -->
+        <form id="deleteContact" action="{{ route('contact.info.destroy', $contactInfo) }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <button type="button" onclick="confirmDelete('deleteContact', 'Delete Contact?')"
+                class="bg-red text-white text-sm font-medium
+                    px-8 py-3 rounded-lg hover:bg-red/90 transition">
+                Delete Contact
+            </button>
+        </form>
+
+        </div>
 
     </section>
 @endsection

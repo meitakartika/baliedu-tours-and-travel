@@ -6,7 +6,7 @@
     <section class="w-full">
 
         <!-- BACK -->
-        <a href="{{ route('customers.index') }}"
+        <a href="{{ route('admin.dashboard') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
             Back
@@ -17,18 +17,24 @@
             Account Setting
         </h1>
 
-        <!-- FORM -->
-        <form class="space-y-12">
+        <!-- AVATAR -->
+        <form action="{{ route('admin.account.profile.image') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
             <div class="flex justify-center">
                 <label class="relative cursor-pointer">
-                    <input type="file" class="hidden">
+
+                    <input type="file" name="profile_image" class="hidden"
+                        onchange="this.form.submit(); previewAvatar(this);">
 
                     <!-- Avatar -->
-                    <div
-                        class="w-36 h-36 rounded-full bg-mediumGrey/80
-                    flex items-center justify-center">
-                        <i class="fa-regular fa-user text-6xl text-white"></i>
+                    <div class="w-36 h-36 rounded-full overflow-hidden bg-mediumGrey/50 flex items-center justify-center"
+                        id="avatarPreview">
+                        @if ($admin->profile_image)
+                            <img src="{{ asset('storage/' . $admin->profile_image) }}" class="w-full h-full object-cover">
+                        @else
+                            <i class="fa-regular fa-user text-6xl text-white"></i>
+                        @endif
                     </div>
 
                     <!-- Edit Icon -->
@@ -41,9 +47,33 @@
                     </div>
                 </label>
             </div>
+        </form>
+
+        <!-- FORM -->
+        <form method="POST" action="{{ route('admin.account.updateProfile') }}" enctype="multipart/form-data"
+            class="space-y-12">
+            @csrf
+            @method('PUT')
 
             <!-- Personal Information -->
             <div class="bg-white rounded-3xl shadow-sm p-8">
+
+                {{-- ================= PROFILE MESSAGE ================= --}}
+                @if (session('success_profile'))
+                    <div class="mb-6 rounded-lg bg-lightGreen/20 border border-darkGreen/80 p-4 text-darkGreen text-sm">
+                        {{ session('success_profile') }}
+                    </div>
+                @endif
+
+                @if ($errors->profile->any())
+                    <div class="mb-6 rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                        <ul class="list-disc pl-5 space-y-1">
+                            @foreach ($errors->profile->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <h2 class="font-semibold text-base text-darkGrey mb-8">
                     Personal Information
@@ -52,7 +82,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- First Name -->
                     <div class="relative">
-                        <input type="text"
+                        <input type="text" name="first_name" value="{{ $admin->first_name }}"
                             class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
@@ -62,7 +92,7 @@
 
                     <!-- Last Name -->
                     <div class="relative">
-                        <input type="text"
+                        <input type="text" name="last_name" value="{{ $admin->last_name }}"
                             class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
@@ -72,7 +102,7 @@
 
                     <!-- Phone -->
                     <div class="relative col-span-2">
-                        <input type="text"
+                        <input type="text" name="phone" value="{{ $admin->phone }}"
                             class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
@@ -82,7 +112,7 @@
 
                     <!-- Date -->
                     <div class="relative">
-                        <input type="date"
+                        <input type="date" name="date_of_birth" value="{{ $admin->date_of_birth }}"
                             class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
@@ -92,61 +122,139 @@
 
                     <!-- Country -->
                     <div class="relative">
-                        <select
-                            class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
-                       focus:outline-none focus:border-darkGreen">
-                            <option hidden></option>
-                            <option>Indonesia</option>
+                        <select name="country"
+                            class="peer bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen appearance-none">
+                            <option value="">Select country</option>
+                            @foreach ($countries as $code => $name)
+                                <option value="{{ $code }}" {{ $admin->country == $code ? 'selected' : '' }}>
+                                    {{ $name }}
+                                </option>
+                            @endforeach
                         </select>
+                        <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"> <i
+                                class="fa-solid fa-chevron-down text-xs"></i> </span>
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
                             Country (Optional)
                         </label>
                     </div>
                 </div>
 
-                <button class="mt-8 bg-darkGreen text-white px-16 py-3 rounded-lg text-sm font-medium">
+                <button type="button" onclick="openConfirmProfile()"
+                    class="mt-8 bg-darkGreen text-white px-16 py-3 rounded-lg text-sm font-medium">
                     Update
                 </button>
             </div>
 
-            <!-- Security -->
-            <div class="bg-white rounded-3xl shadow-sm p-8">
+            <!-- ===== CONFIRM UPDATE PROFILE MODAL ===== -->
+            <div id="confirmProfileModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
 
-                <h2 class="font-semibold text-base text-darkGrey mb-8">
-                    Security
-                </h2>
+                <div class="bg-white rounded-xl p-6 w-full max-w-sm">
+                    <h3 class="text-lg font-semibold mb-3 text-darkGreen">Confirm Update</h3>
 
-                <div class="space-y-6">
+                    <p class="text-sm mb-6 text-mediumGrey">
+                        Are you sure you want to update your personal information?
+                    </p>
 
-                    <!-- Email -->
-                    <div class="relative">
-                        <input type="email"
-                            class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
-                       focus:outline-none focus:border-darkGreen">
-                        <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            Email
-                        </label>
-                    </div>
+                    <div class="flex justify-end gap-3">
+                        <button type="button" onclick="closeConfirmProfile()"
+                            class="px-4 py-2 rounded-md border border-lightGrey text-mediumGrey hover:bg-lightGrey/40 transition">
+                            Cancel
+                        </button>
 
-                    <!-- Password -->
-                    <div class="relative">
-                        <input type="password" id="password"
-                            class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
-                       focus:outline-none focus:border-darkGreen">
-                        <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            Password
-                        </label>
-
-                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
-                            onclick="togglePassword()">
-                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                        <button type="submit"
+                            class="px-4 py-2 rounded-md bg-darkGreen text-white hover:bg-darkGreen/90 transition">
+                            Yes, Update
                         </button>
                     </div>
                 </div>
-                
-                <button class="mt-8 bg-darkGreen text-white px-16 py-3 rounded-lg text-sm font-medium">
-                    Change
-                </button>
+            </div>
+        </form>
+
+        <!-- Security -->
+
+        <form method="POST" action="{{ route('admin.account.updateSecurity') }}"
+            class="bg-white rounded-3xl shadow-sm p-8 mt-8">
+            @csrf
+            @method('PUT')
+
+            {{-- ================= SECURITY MESSAGE ================= --}}
+            @if (session('success_security'))
+                <div class="mb-6 rounded-lg bg-lightGreen/20 border border-darkGreen/80 p-4 text-darkGreen text-sm">
+                    {{ session('success_security') }}
+                </div>
+            @endif
+
+            @if ($errors->security->any())
+                <div class="mb-6 rounded-lg bg-red/5 border border-red/80 p-4 text-red text-sm">
+                    <ul class="list-disc pl-5 space-y-1">
+                        @foreach ($errors->security->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <h2 class="font-semibold text-base text-darkGrey mb-8">
+                Security
+            </h2>
+
+            <div class="space-y-6">
+
+                <!-- Email -->
+                <div class="relative">
+                    <input type="email" name="email" value="{{ $admin->email }}"
+                        class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
+                       focus:outline-none focus:border-darkGreen">
+                    <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
+                        Email
+                    </label>
+                </div>
+
+                <!-- Password -->
+                <div class="relative">
+                    <input type="password" id="password" name="password"
+                        class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
+                       focus:outline-none focus:border-darkGreen">
+                    <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
+                        Password
+                    </label>
+
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
+                        onclick="togglePassword()">
+                        <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="button" onclick="openConfirmSecurity()"
+                class="mt-8 bg-darkGreen text-white px-16 py-3 rounded-lg text-sm font-medium">
+                Change
+            </button>
+
+            <!-- ===== CONFIRM SECURITY MODAL ===== -->
+            <div id="confirmSecurityModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+
+                <div class="bg-white rounded-xl p-6 w-full max-w-sm">
+                    <h3 class="text-lg font-semibold mb-3 text-darkGreen">
+                        Confirm Change
+                    </h3>
+
+                    <p class="text-sm text-mediumGrey mb-6">
+                        Are you sure you want to change your email or password?
+                    </p>
+
+                    <div class="flex justify-end gap-3">
+                        <button type="button" onclick="closeConfirmSecurity()"
+                            class="px-4 py-2 rounded-md border border-lightGrey text-mediumGrey hover:bg-lightGrey/40 transition">
+                            Cancel
+                        </button>
+
+                        <button type="submit"
+                            class="px-4 py-2 rounded-md bg-darkGreen text-white hover:bg-darkGreen/90 transition">
+                            Yes, Change
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </form>
@@ -156,6 +264,16 @@
 
 @push('scripts')
     <script>
+        function previewAvatar(input) {
+            const preview = document.getElementById('avatarPreview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => preview.innerHTML =
+                    `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         //Toggle Password
         function togglePassword() {
             const passwordInput = document.getElementById('password');
@@ -167,6 +285,26 @@
                 passwordInput.type = 'password';
                 eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
             }
+        }
+
+        function openConfirmProfile() {
+            document.getElementById('confirmProfileModal').classList.remove('hidden');
+            document.getElementById('confirmProfileModal').classList.add('flex');
+        }
+
+        function closeConfirmProfile() {
+            document.getElementById('confirmProfileModal').classList.add('hidden');
+            document.getElementById('confirmProfileModal').classList.remove('flex');
+        }
+
+        function openConfirmSecurity() {
+            document.getElementById('confirmSecurityModal').classList.remove('hidden');
+            document.getElementById('confirmSecurityModal').classList.add('flex');
+        }
+
+        function closeConfirmSecurity() {
+            document.getElementById('confirmSecurityModal').classList.add('hidden');
+            document.getElementById('confirmSecurityModal').classList.remove('flex');
         }
     </script>
 @endpush

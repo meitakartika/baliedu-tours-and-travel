@@ -8,11 +8,10 @@
         <!-- TOP ACTION -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
-            <div class="w-full md:max-w-md">
-                <input type="text" placeholder="Search for packages"
-                    class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm
-                       focus:outline-none">
-            </div>
+            <form method="GET" action="{{ route('package.tour.index') }}" class="w-full md:max-w-md">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for name/category/type" onchange="this.form.submit()"
+                    class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
+            </form>
 
             <div class="flex items-center gap-3">
                 <!-- Add Button -->
@@ -24,12 +23,92 @@
                 </a>
 
                 <!-- Filters Button -->
-                <a href="#"
-                    class="flex items-center gap-2 border border-darkGreen text-darkGreen text-sm
-                   px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
-                    <i class="fa-solid fa-filter"></i>
-                    Filters
-                </a>
+                <div x-data="{ open: false }" class="relative">
+
+                    @php
+                        $activeFilters = collect(request()->only(['category','type']))
+                            ->flatten()
+                            ->filter()
+                            ->count();
+                    @endphp
+
+                    <!-- BUTTON -->
+                    <button @click="open = !open"
+                        class="relative flex items-center gap-2 border border-darkGreen text-darkGreen text-sm
+           px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
+
+                        <i class="fa-solid fa-filter"></i>
+                        Filter
+
+                        @if ($activeFilters > 0)
+                            <span
+                                class="absolute -top-2 -right-2 
+                     bg-darkGreen text-white text-xs 
+                     w-5 h-5 flex items-center justify-center 
+                     rounded-full">
+                                {{ $activeFilters }}
+                            </span>
+                        @endif
+
+                    </button>
+
+                    <!-- PANEL -->
+                    <div x-show="open" @click.outside="open=false"
+                        class="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-lg p-5 z-50 max-h-96 overflow-y-auto">
+
+                        <form method="GET" action="{{ route('package.tour.index') }}">
+
+                            <!-- keep search value -->
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+
+                            <label class="text-sm font-semibold">Category</label>
+
+                            <div class="mt-2 space-y-2">
+
+                                @foreach ($categories as $category)
+                                    <label class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" name="category[]" value="{{ $category->id }}"
+                                            {{ in_array($category->id, request('category', [])) ? 'checked' : '' }}>
+                                        {{ app()->getLocale() == 'id' ? $category->name_id : $category->name_en }}
+                                    </label>
+                                @endforeach
+
+                            </div>
+
+                            <label class="text-sm font-semibold mt-4 block">Type</label>
+
+                            <div class="mt-2 space-y-2">
+
+                                @foreach ($types as $type)
+                                    <label class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" name="type[]" value="{{ $type->id }}"
+                                            {{ in_array($type->id, request('type', [])) ? 'checked' : '' }}>
+                                        {{ app()->getLocale() == 'id' ? $type->name_id : $type->name_en }}
+                                    </label>
+                                @endforeach
+
+                            </div>
+
+                            <div class="mt-4 flex gap-2">
+
+                                <a href="{{ route('package.tour.index') }}"
+                                    class="flex-1 text-center border border-mediumGrey text-darkGrey 
+               py-2 rounded-md text-sm hover:bg-mediumGrey/10 transition">
+                                    Reset
+                                </a>
+
+                                <button type="submit"
+                                    class="flex-1 bg-darkGreen text-white 
+               py-2 rounded-md text-sm hover:bg-darkGreen/90 transition">
+                                    Apply
+                                </button>
+
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
             </div>
             
         </div>
@@ -68,47 +147,35 @@
                 </thead>
 
                 <tbody class="divide-y border-b border-mediumGrey/20">
-                    @php
-                        $packages = [
-                            [
-                                'name'      => 'Fireflies Tour',
-                                'category'  => 'Special Package',
-                                'type'      => 'Night Adventures',
-                                'price'     => 'Rp 500.000',
-                                'duration'  => '1 day',
-                                'guests'    => '2-10',
-                            ],
-                        ];
-                    @endphp
 
                     @foreach ($packages as $package)
                         <tr class="hover:bg-mediumGrey/5">
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $package['name'] }}
+                                {{ app()->getLocale() == 'id' ? $package->name_id : $package->name_en }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $package['category'] }}
+                                {{ app()->getLocale() == 'id' ? $package->category->name_id : $package->category->name_en }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $package['type'] }}
+                                {{ app()->getLocale() == 'id' ? $package->type->name_id : $package->type->name_en }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $package['price'] }}
+                                Rp {{ number_format($package->price, 0, ',', '.') }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $package['duration'] }}
+                                {{ $package->duration }} days
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $package['guests'] }}
+                                {{ $package->guest_min }} - {{ $package->guest_max }}
                             </td>
 
                             <td class="px-6 py-4 text-right">
-                                <a href="{{ route('package.tour.edit') }}"
+                                <a href="{{ route('package.tour.edit', $package) }}"
                                     class="inline-flex items-center gap-2
           bg-lightGreen/50 text-darkGreen font-medium
           px-4 py-2 rounded-lg
@@ -125,23 +192,65 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing 1-1 of 1 entry</span>
+            <span>Showing {{ $packages->firstItem() }}–{{ $packages->lastItem() }}
+                of {{ $packages->total() }} entries</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">
-                <button class="w-9 h-9 border rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
 
-                <button class="w-9 h-9 bg-darkGreen text-white rounded-lg">1</button>
-                <button class="w-9 h-9 border rounded-lg">2</button>
-                <span class="px-2">...</span>
-                <button class="w-9 h-9 border rounded-lg">9</button>
-                <button class="w-9 h-9 border rounded-lg">10</button>
+                {{-- Previous --}}
+                @if ($packages->onFirstPage())
+                    <span
+                        class="w-9 h-9 flex items-center justify-center 
+                     border rounded-lg text-mediumGrey cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </span>
+                @else
+                    <a href="{{ $packages->previousPageUrl() }}"
+                        class="w-9 h-9 flex items-center justify-center 
+                  border rounded-lg hover:bg-mediumGrey/10">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                @endif
 
-                <button class="w-9 h-9 border rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
+                {{-- Page Numbers --}}
+                @php
+                    $start = max($packages->currentPage() - 2, 1);
+                    $end = min($packages->currentPage() + 2, $packages->lastPage());
+                @endphp
+
+                @foreach ($packages->getUrlRange($start, $end) as $page => $url)
+                    @if ($page == $packages->currentPage())
+                        <span
+                            class="w-9 h-9 flex items-center justify-center 
+                         bg-darkGreen text-white rounded-lg">
+                            {{ $page }}
+                        </span>
+                    @else
+                        <a href="{{ $url }}"
+                            class="w-9 h-9 flex items-center justify-center 
+                      border rounded-lg hover:bg-mediumGrey/10">
+                            {{ $page }}
+                        </a>
+                    @endif
+                @endforeach
+
+
+                {{-- Next --}}
+                @if ($packages->hasMorePages())
+                    <a href="{{ $packages->nextPageUrl() }}"
+                        class="w-9 h-9 flex items-center justify-center 
+                  border rounded-lg hover:bg-mediumGrey/10">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                @else
+                    <span
+                        class="w-9 h-9 flex items-center justify-center 
+                     border rounded-lg text-mediumGrey cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                @endif
+
             </div>
         </div>
     </section>

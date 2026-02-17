@@ -13,6 +13,9 @@ class ContactMessage extends Model
     protected $fillable = [
         'user_id',
         'message',
+        'is_read',
+        'reply_message',
+        'replied_at',
     ];
 
     // Relasi ke user

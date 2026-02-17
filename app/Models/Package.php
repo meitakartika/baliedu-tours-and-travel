@@ -77,19 +77,22 @@ class Package extends Model
     return $this->hasMany(PackageList::class);
 }
 
-// helper untuk memudahkan pemanggilan berdasarkan tipe
 public function includes()
 {
-    return $this->packageLists()->where('type', 'includes');
+    return $this->hasMany(PackageList::class)
+        ->where('type', 'includes');
 }
 
 public function notIncludes()
 {
-    return $this->packageLists()->where('type', 'not_includes');
+    return $this->hasMany(PackageList::class)
+        ->where('type', 'not_includes');
 }
 
 public function mustBring()
 {
-    return $this->packageLists()->where('type', 'must_bring');
+    return $this->hasMany(PackageList::class)
+        ->where('type', 'must_bring');
 }
+
 }
