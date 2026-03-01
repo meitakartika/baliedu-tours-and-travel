@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Package;
+use App\Models\ContactInfo;
+use App\Services\ContentBasedFilteringService;
 
 class TourController extends Controller
 {
@@ -58,7 +60,21 @@ class TourController extends Controller
 public function show(Package $package, Request $request)
 {
     // Load relasi yang dibutuhkan
-    $package->load(['type', 'galleries', 'reviews.user', 'itineraries.details', 'includes', 'notIncludes', 'mustBring']);
+    $package->load([
+    'type',
+    'galleries',
+    'reviews.user',
+    'includes',
+    'notIncludes',
+    'mustBring',
+    'itineraries' => function ($q) {
+        $q->with('details')
+          ->orderBy('day')
+          ->orderBy('time');
+    }
+]);
+
+$similarPackages = $this->cbfService->getSimilarPackages($package, 3);
 
     // Mulai query review
     $reviewsQuery = $package->reviews()->with('user');
@@ -92,7 +108,7 @@ public function show(Package $package, Request $request)
         ->pluck('total', 'rating')
         ->toArray();
 
-    return view('tours.show', compact('package', 'reviews', 'ratingCounts'));
+    return view('tours.show', compact('package', 'reviews', 'ratingCounts', 'similarPackages'));
 }
 
 public function search(Request $request)
@@ -101,13 +117,24 @@ public function search(Request $request)
 
     // LOCATION → name / overview
     if ($request->filled('location')) {
-        $location = $request->location;
+        $keyword = $request->location;
 
-        $query->where(function ($q) use ($location) {
-            $q->where('name_id', 'like', "%$location%")
-              ->orWhere('name_en', 'like', "%$location%")
-              ->orWhere('overview_id', 'like', "%$location%")
-              ->orWhere('overview_en', 'like', "%$location%");
+        $query->where(function ($q) use ($keyword) {
+
+            $q->where('name_id', 'like', "%$keyword%")
+              ->orWhere('name_en', 'like', "%$keyword%")
+              ->orWhere('overview_id', 'like', "%$keyword%")
+              ->orWhere('overview_en', 'like', "%$keyword%")
+
+              ->orWhereHas('itineraries', function ($q2) use ($keyword) {
+                  $q2->where('title_id', 'like', "%$keyword%")
+                     ->orWhere('title_en', 'like', "%$keyword%");
+              })
+
+              ->orWhereHas('itineraries.details', function ($q3) use ($keyword) {
+                  $q3->where('description_id', 'like', "%$keyword%")
+                     ->orWhere('description_en', 'like', "%$keyword%");
+              });
         });
     }
 
@@ -127,6 +154,13 @@ public function search(Request $request)
     $packages = $query->latest()->paginate(9);
 
     return view('search.index', compact('packages'));
+}
+
+private $cbfService;
+
+public function __construct(ContentBasedFilteringService $cbfService)
+{
+    $this->cbfService = $cbfService;
 }
 
 }

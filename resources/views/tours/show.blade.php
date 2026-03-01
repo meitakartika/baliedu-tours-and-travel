@@ -49,42 +49,59 @@
                 <div class="border-t border-lightGrey my-8"></div>
 
                 <!-- Itinerary -->
-                <h3 class="text-lg font-semibold mb-4">Itinerary</h3>
+                <h3 class="text-lg font-semibold mb-3">Itinerary</h3>
 
-                <div class="relative pl-8 space-y-6">
+                @php
+                    $grouped = $package->itineraries->groupBy('day');
+                    $firstDay = $grouped->keys()->first();
+                    $lastDay = $grouped->keys()->last();
+                @endphp
 
-                    @foreach ($package->itineraries as $index => $itinerary)
-                        <div class="relative mb-8 pl-8">
+                @foreach ($grouped as $day => $itineraries)
+                    <!-- DAY TITLE -->
+                    <h4 class="text-base font-semibold text-darkGreen mt-5 mb-4">
+                        Day {{ $day }}
+                    </h4>
 
-                            <!-- Bullet -->
-                            <span
-                                class="
-            absolute left-0 top-2 w-4 h-4 rounded-full
-            {{ $index === 0 || $index === $package->itineraries->count() - 1
-                ? 'bg-darkGreen'
-                : 'bg-white border-2 border-darkGreen' }}">
-                            </span>
+                    <div class="relative">
 
-                            <!-- Vertical Line -->
-                            @if ($index !== $package->itineraries->count() - 1)
-                                <div class="absolute left-1.5 top-6 bottom-0 w-px bg-darkGreen"></div>
-                            @endif
+                        <!-- GARIS FULL -->
+                        <div class="absolute left-2 top-2 bottom-2 w-px bg-darkGreen"></div>
 
-                            <h4 class="font-medium text-black mb-2">
-                                {{ $itinerary->time }}:
-                                {{ app()->getLocale() === 'id' ? $itinerary->title_id : $itinerary->title_en }}
-                            </h4>
+                        <div class="space-y-8">
 
-                            <ul class="list-disc ml-5 text-darkGrey space-y-1">
-                                @foreach ($itinerary->details as $detail)
-                                    <li>{{ app()->getLocale() === 'id' ? $detail->description_id : $detail->description_en }}
-                                    </li>
-                                @endforeach
-                            </ul>
+                            @foreach ($itineraries as $index => $itinerary)
+                                <div class="relative pl-8">
+
+                                    <!-- BULLET (CENTER PERFECT KE GARIS) -->
+                                    <span
+                                        class="absolute left-2 -translate-x-1/2 top-2 w-4 h-4 rounded-full
+    {{ ($day == $firstDay && $index === 0) || ($day == $lastDay && $index === $itineraries->count() - 1)
+        ? 'bg-darkGreen'
+        : 'bg-white border-2 border-darkGreen' }}">
+                                    </span>
+
+                                    <!-- CONTENT -->
+                                    <h4 class="font-medium text-black mb-2">
+                                        {{ $itinerary->time }}
+                                        {{ app()->getLocale() === 'id' ? $itinerary->title_id : $itinerary->title_en }}
+                                    </h4>
+
+                                    <ul class="list-disc ml-5 text-darkGrey space-y-1">
+                                        @foreach ($itinerary->details as $detail)
+                                            <li>
+                                                {{ app()->getLocale() === 'id' ? $detail->description_id : $detail->description_en }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                </div>
+                            @endforeach
+
                         </div>
-                    @endforeach
 
-                </div>
+                    </div>
+                @endforeach
 
                 <div class="border-t border-lightGrey my-8"></div>
 
@@ -92,33 +109,39 @@
                 <h3 class="text-lg font-semibold mb-4">What’s Included</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-darkGrey mb-4">
-                    <div>
-                        <p class="font-medium text-black mb-2">Includes</p>
-                        <ul class="list-disc ml-5 space-y-1">
-                            @foreach ($package->includes as $item)
-                                <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    @if ($package->includes->isNotEmpty())
+                        <div>
+                            <p class="font-medium text-black mb-2">Includes</p>
+                            <ul class="list-disc ml-5 space-y-1">
+                                @foreach ($package->includes as $item)
+                                    <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="space-y-6">
-                        <div>
-                            <p class="font-medium text-black mb-2">Not Includes</p>
-                            <ul class="list-disc ml-5 space-y-1">
-                                @foreach ($package->notIncludes as $item)
-                                    <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                        @if ($package->notIncludes->isNotEmpty())
+                            <div>
+                                <p class="font-medium text-black mb-2">Not Includes</p>
+                                <ul class="list-disc ml-5 space-y-1">
+                                    @foreach ($package->notIncludes as $item)
+                                        <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
-                        <div>
-                            <p class="font-medium text-black mb-2">Must Bring</p>
-                            <ul class="list-disc ml-5 space-y-1">
-                                @foreach ($package->mustBring as $item)
-                                    <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                        @if ($package->mustBring->isNotEmpty())
+                            <div>
+                                <p class="font-medium text-black mb-2">Must Bring</p>
+                                <ul class="list-disc ml-5 space-y-1">
+                                    @foreach ($package->mustBring as $item)
+                                        <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -225,7 +248,7 @@
                 <p class="text-sm text-darkGrey text-center mb-10">Per person</p>
 
                 <!-- Duration & Group Size -->
-                <div class="flex justify-between mb-10 px-6">
+                <div class="flex justify-between mb-8 px-6">
 
                     <!-- Duration -->
                     <div class="flex items-center gap-4">
@@ -250,7 +273,7 @@
 
                 </div>
 
-                <hr class="mb-8">
+                <hr class="mb-7">
 
                 <!-- BOOKING -->
                 <p class="font-semibold mb-6 text-left">Booking</p>
@@ -302,13 +325,33 @@
 
                     @if (Auth::check())
                         <button type="submit"
-                            class="w-full block text-center bg-darkGreen text-white py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition mb-10">
+                            class="w-full block text-center bg-darkGreen text-white py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition mb-4">
                             BOOK NOW
                         </button>
                     @else
                         <a href="{{ route('login') }}"
-                            class="w-full block text-center bg-darkGreen text-white py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition mb-10">
+                            class="w-full block text-center bg-darkGreen text-white py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition mb-4">
                             BOOK NOW
+                        </a>
+                    @endif
+
+                    @if ($adminPhone)
+                        @php
+                            $rawPhone = app()->getLocale() === 'id' ? $adminPhone->value_id : $adminPhone->value_en;
+
+                            // Hapus semua karakter selain angka
+                            $phone = preg_replace('/[^0-9]/', '', $rawPhone);
+                            $packageName = app()->getLocale() === 'id' ? $package->name_id : $package->name_en;
+
+                            $message = urlencode("Hi, I want to ask about {$packageName}");
+                        @endphp
+
+                        <a href="https://wa.me/{{ $phone }}?text={{ $message }}" target="_blank"
+                            class="w-full flex items-center justify-center gap-2
+              border border-darkGreen text-darkGreen text-sm py-3 rounded-lg font-medium
+              hover:bg-darkGreen/10 transition mb-8">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            Chat Admin
                         </a>
                     @endif
 
@@ -325,6 +368,7 @@
 
     <!-- ================= GALLERY ================= -->
     <section class="max-w-7xl mx-auto px-6 pb-20">
+
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-semibold">Tour Gallery</h2>
 
@@ -340,11 +384,66 @@
             </div>
         </div>
 
-        <div id="galleryContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            @foreach ($package->galleries as $index => $gallery)
-                <img src="{{ asset('storage/' . $gallery->image_url) }}"
-                    class="rounded-xl object-cover w-full h-[200px] cursor-pointer" data-index="{{ $index }}">
-            @endforeach
+        <div class="overflow-hidden">
+            <div id="galleryWrapper" class="flex transition-transform duration-500">
+
+                @forelse ($package->galleries->values()->chunk(4) as $chunk)
+                    @php $chunk = $chunk->values(); @endphp
+
+                    <div class="min-w-full">
+
+                        @if (isset($chunk[0], $chunk[1], $chunk[2], $chunk[3]))
+                            <div class="grid grid-cols-3 gap-4">
+
+                                <div class="row-span-2">
+                                    <a href="{{ asset('storage/' . $chunk[0]->image_url) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $chunk[0]->image_url) }}"
+                                            class="w-full h-[420px] object-cover rounded-2xl cursor-pointer">
+                                    </a>
+                                </div>
+
+                                <div>
+                                    <a href="{{ asset('storage/' . $chunk[1]->image_url) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $chunk[1]->image_url) }}"
+                                            class="w-full h-[200px] object-cover rounded-2xl cursor-pointer">
+                                    </a>
+                                </div>
+
+                                <div class="row-span-2">
+                                    <a href="{{ asset('storage/' . $chunk[2]->image_url) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $chunk[2]->image_url) }}"
+                                            class="w-full h-[420px] object-cover rounded-2xl cursor-pointer">
+                                    </a>
+                                </div>
+
+                                <div>
+                                    <a href="{{ asset('storage/' . $chunk[3]->image_url) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $chunk[3]->image_url) }}"
+                                            class="w-full h-[200px] object-cover rounded-2xl cursor-pointer">
+                                    </a>
+                                </div>
+
+                            </div>
+                        @else
+                            <div class="grid grid-cols-3 gap-4">
+                                @foreach ($chunk as $gallery)
+                                    <a href="{{ asset('storage/' . $gallery->image_url) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $gallery->image_url) }}"
+                                            class="w-full h-[300px] object-cover rounded-2xl cursor-pointer">
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
+
+                    </div>
+
+                @empty
+                    <div class="min-w-full flex items-center justify-center h-60">
+                        <p class="text-mediumGrey text-sm">No gallery available.</p>
+                    </div>
+                @endforelse
+
+            </div>
         </div>
     </section>
 
@@ -388,7 +487,8 @@
             </div>
 
             <!-- Filters -->
-            <div class="flex items-center gap-3 overflow-x-auto
+            <div
+                class="flex items-center gap-3 overflow-x-auto
     [-ms-overflow-style:none]
     [scrollbar-width:none]
     [&::-webkit-scrollbar]:hidden">
@@ -398,20 +498,28 @@
                     All ({{ $package->reviews->count() }})
                 </a>
 
-                <a href="{{ route('tours.show', ['package' => $package->id, 'filter' => 'photo']) }}"
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm
-                    {{ request('filter') === 'photo' ? 'bg-darkGreen text-white' : 'bg-lightGrey' }}">
-                    <i class="fa-solid fa-camera text-darkGrey"></i> Photo
-                    ({{ $package->reviews->filter(fn($r) => !empty($r->images))->count() }})
-                </a>
+                @php
+                    $photoCount = $package->reviews->filter(fn($r) => !empty($r->images))->count();
+                @endphp
+
+                @if ($photoCount > 0)
+                    <a href="{{ route('tours.show', ['package' => $package->id, 'filter' => 'photo']) }}"
+                        class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm
+        {{ request('filter') === 'photo' ? 'bg-darkGreen text-white' : 'bg-lightGrey' }}">
+                        <i class="fa-solid fa-camera text-darkGrey"></i> Photo
+                        ({{ $photoCount }})
+                    </a>
+                @endif
 
                 @for ($i = 5; $i >= 1; $i--)
-                    <a href="{{ route('tours.show', ['package' => $package->id, 'filter' => $i]) }}"
-                        class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm
-                        {{ request('filter') == $i ? 'bg-darkGreen text-white' : 'bg-lightGrey' }}">
-                        {{ $i }} <i class="fa-solid fa-star text-yellow-400"></i>
-                        ({{ $ratingCounts[$i] ?? 0 }})
-                    </a>
+                    @if (($ratingCounts[$i] ?? 0) > 0)
+                        <a href="{{ route('tours.show', ['package' => $package->id, 'filter' => $i]) }}"
+                            class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm
+            {{ request('filter') == $i ? 'bg-darkGreen text-white' : 'bg-lightGrey' }}">
+                            {{ $i }} <i class="fa-solid fa-star text-yellow-400"></i>
+                            ({{ $ratingCounts[$i] }})
+                        </a>
+                    @endif
                 @endfor
             </div>
         </div>
@@ -488,7 +596,9 @@
                     </div>
 
                 @empty
-                    <p>No reviews yet.</p>
+                    <div class="min-w-full flex items-center justify-center h-60">
+                        <p class="text-mediumGrey text-sm">No review available.</p>
+                    </div>
                 @endforelse
             </div>
         </div>
@@ -514,249 +624,143 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <!-- CARD -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            @forelse($similarPackages as $item)
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-                <!-- Image -->
-                <div class="relative">
-                    <img src="/images/about-hero.png" class="w-full h-[220px] object-cover" alt="">
-                    <span class="absolute top-6 left-6 bg-darkGreen text-white text-xs px-3 py-2 rounded-full">
-                        Special Package
-                    </span>
-                </div>
+                    <!-- Image -->
+                    <div class="relative">
+                        <img src="{{ asset('storage/' . $item->image_url) }}" class="w-full h-[220px] object-cover">
 
-                <!-- Content -->
-                <div class="p-6">
+                        <span class="absolute top-6 left-6 bg-darkGreen text-white text-xs px-3 py-2 rounded-full">
+                            {{ app()->getLocale() === 'id' ? $item->category->name_id : $item->category->name_en }}
 
-                    <p class="text-sm text-darkGrey mb-2">Night Adventures</p>
-
-                    <h3 class="font-semibold text-lg mb-2">
-                        Fireflies Tour
-                    </h3>
-
-                    <!-- Rating -->
-                    <div class="flex items-center gap-1 text-sm mb-3">
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-
-                        <span class="font-medium ml-1">4.9</span>
-                        <span class="text-darkGrey">(2 reviews)</span>
+                        </span>
                     </div>
 
-                    <p class="text-sm text-darkGrey mb-4 line-clamp-2">
-                        Watching and learning about fireflies is a must-see activity during your visit in Bali.
-                    </p>
+                    <!-- Content -->
+                    <div class="p-6">
 
-                    <!-- Meta -->
-                    <div class="flex items-center justify-between text-xs font-medium text-darkGreen mb-5">
+                        <p class="text-sm text-darkGrey mb-2">
+                            {{ app()->getLocale() === 'id' ? $item->type->name_id : $item->type->name_en }}
 
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-clock"></i>
-                            <span>1 day</span>
+                        </p>
+
+                        <h3 class="font-semibold text-lg mb-2">
+                            {{ app()->getLocale() === 'id' ? $item->name_id : $item->name_en }}
+                        </h3>
+
+                        @php
+                            $rating = round($item->reviews_avg_rating ?? 0, 1);
+                            $fullStars = floor($rating);
+                            $halfStar = $rating - $fullStars >= 0.5;
+                            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                        @endphp
+
+                        <!-- Rating -->
+                        <div class="flex items-center gap-1 text-sm mb-3">
+                            <div class="flex items-center text-yellow-400">
+
+                                {{-- Full stars --}}
+                                @for ($i = 0; $i < $fullStars; $i++)
+                                    <i class="fas fa-star"></i>
+                                @endfor
+
+                                {{-- Half star --}}
+                                @if ($halfStar)
+                                    <i class="fas fa-star-half-alt"></i>
+                                @endif
+
+                                {{-- Empty stars --}}
+                                @for ($i = 0; $i < $emptyStars; $i++)
+                                    <i class="far fa-star"></i>
+                                @endfor
+
+                            </div>
+
+                            <span class="font-medium ml-1">{{ $rating }}</span>
+                            <span class="text-darkGrey">({{ $item->reviews_count }} reviews)</span>
                         </div>
 
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-user-friends"></i>
-                            <span>2–10 guests</span>
+                        {{-- DEBUG SCORE (hapus nanti) --}}
+                        <p class="text-xs text-gray-400 mb-2">
+                            similarity: {{ number_format($item->similarity_score, 3) }}
+                        </p>
+
+                        <p class="text-sm text-darkGrey mb-4 line-clamp-2">
+                            {{ app()->getLocale() === 'id' ? $item->overview_id : $item->overview_en }}
+                        </p>
+
+                        <!-- Meta -->
+                        <div class="flex items-center justify-between text-xs font-medium text-darkGreen mb-5">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-clock"></i>
+                                <span>
+                                    {{ $item->duration }} {{ $item->duration > 1 ? 'days' : 'day' }}
+                                </span>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-user-friends"></i>
+                                <span>{{ $item->guest_min }}–{{ $item->guest_max }} guests</span>
+                            </div>
                         </div>
 
-                    </div>
+                        <div class="border-t border-lightGrey my-5"></div>
 
-                    <div class="border-t border-lightGrey my-6"></div>
+                        <!-- Price -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex flex-col justify-center">
+                                <p class="text-xs text-darkGrey mb-1">Starting from</p>
+                                <p class="font-semibold">
+                                    Rp{{ number_format($item->price, 0, ',', '.') }}
+                                </p>
+                            </div>
 
-                    <!-- Price -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex flex-col justify-center">
-                            <p class="text-xs text-darkGrey mb-1">Starting from</p>
-                            <p class="font-semibold">Rp500.000</p>
+                            <a href="{{ route('tours.show', $item->id) }}"
+                                class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center">
+                                Read More
+                                <i class="fas fa-angle-double-right text-xs"></i>
+                            </a>
                         </div>
 
-                        <a href="#"
-                            class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center">
-                            Read More
-                            <i class="fas fa-angle-double-right text-xs"></i>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- CARD -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-
-                <!-- Image -->
-                <div class="relative">
-                    <img src="/images/about-hero.png" class="w-full h-[220px] object-cover" alt="">
-                    <span class="absolute top-6 left-6 bg-darkGreen text-white text-xs px-3 py-2 rounded-full">
-                        Special Package
-                    </span>
-                </div>
-
-                <!-- Content -->
-                <div class="p-6">
-
-                    <p class="text-sm text-darkGrey mb-2">Night Adventures</p>
-
-                    <h3 class="font-semibold text-lg mb-2">
-                        Fireflies Tour
-                    </h3>
-
-                    <!-- Rating -->
-                    <div class="flex items-center gap-1 text-sm mb-3">
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-
-                        <span class="font-medium ml-1">4.9</span>
-                        <span class="text-darkGrey">(2 reviews)</span>
-                    </div>
-
-                    <p class="text-sm text-darkGrey mb-4 line-clamp-2">
-                        Watching and learning about fireflies is a must-see activity during your visit in Bali.
-                    </p>
-
-                    <!-- Meta -->
-                    <div class="flex items-center justify-between text-xs font-medium text-darkGreen mb-5">
-
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-clock"></i>
-                            <span>1 day</span>
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-user-friends"></i>
-                            <span>2–10 guests</span>
-                        </div>
-
-                    </div>
-
-                    <div class="border-t border-lightGrey my-6"></div>
-
-                    <!-- Price -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex flex-col justify-center">
-                            <p class="text-xs text-darkGrey mb-1">Starting from</p>
-                            <p class="font-semibold">Rp500.000</p>
-                        </div>
-
-                        <a href="#"
-                            class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center">
-                            Read More
-                            <i class="fas fa-angle-double-right text-xs"></i>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- CARD -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-
-                <!-- Image -->
-                <div class="relative">
-                    <img src="/images/about-hero.png" class="w-full h-[220px] object-cover" alt="">
-                    <span class="absolute top-6 left-6 bg-darkGreen text-white text-xs px-3 py-2 rounded-full">
-                        Special Package
-                    </span>
-                </div>
-
-                <!-- Content -->
-                <div class="p-6">
-
-                    <p class="text-sm text-darkGrey mb-2">Night Adventures</p>
-
-                    <h3 class="font-semibold text-lg mb-2">
-                        Fireflies Tour
-                    </h3>
-
-                    <!-- Rating -->
-                    <div class="flex items-center gap-1 text-sm mb-3">
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-
-                        <span class="font-medium ml-1">4.9</span>
-                        <span class="text-darkGrey">(2 reviews)</span>
-                    </div>
-
-                    <p class="text-sm text-darkGrey mb-4 line-clamp-2">
-                        Watching and learning about fireflies is a must-see activity during your visit in Bali.
-                    </p>
-
-                    <!-- Meta -->
-                    <div class="flex items-center justify-between text-xs font-medium text-darkGreen mb-5">
-
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-clock"></i>
-                            <span>1 day</span>
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-user-friends"></i>
-                            <span>2–10 guests</span>
-                        </div>
-
-                    </div>
-
-                    <div class="border-t border-lightGrey my-6"></div>
-
-                    <!-- Price -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex flex-col justify-center">
-                            <p class="text-xs text-darkGrey mb-1">Starting from</p>
-                            <p class="font-semibold">Rp500.000</p>
-                        </div>
-
-                        <a href="#"
-                            class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center">
-                            Read More
-                            <i class="fas fa-angle-double-right text-xs"></i>
-                        </a>
                     </div>
 
                 </div>
-            </div>
+
+            @empty
+                <div class="min-w-full flex items-center justify-center h-60">
+                    <p class="text-mediumGrey text-sm">No similar package found.</p>
+                </div>
+            @endforelse
+
         </div>
+
     </section>
 
 @endsection
 
 @push('scripts')
     <script>
-        const galleryContainer = document.getElementById('galleryContainer');
-        const images = galleryContainer.querySelectorAll('img');
-        let currentIndex = 0;
+        const wrapper = document.getElementById('galleryWrapper');
+        const totalSlides = wrapper.children.length;
+        let currentSlide = 0;
 
-        function showImage(index) {
-            images.forEach((img, i) => {
-                img.style.display = i === index ? 'block' : 'none';
-            });
+        function updateSlide() {
+            wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
 
-        // Inisialisasi
-        showImage(currentIndex);
-
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            showImage(currentIndex);
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
         });
 
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % images.length;
-            showImage(currentIndex);
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
         });
 
         // load review
