@@ -29,7 +29,7 @@
                     <div>
                         <p class="text-white text-sm font-medium">Location</p>
                         <input type="text" name="location" value="{{ request('location') }}"
-                            placeholder="Search location"
+                            placeholder="Search keywords"
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                         <div class="relative">
                             <img src="{{ asset('storage/' . $package->image_url) }}" class="w-full h-[220px] object-cover">
                             <span class="absolute top-6 left-6 bg-darkGreen text-white text-xs px-3 py-2 rounded-full">
-                                {{ app()->getLocale() === 'id' ? $package->name_id : $package->name_en }}
+                                {{ app()->getLocale() === 'id' ? $package->category->name_id : $package->category->name_en }}
                             </span>
                         </div>
 

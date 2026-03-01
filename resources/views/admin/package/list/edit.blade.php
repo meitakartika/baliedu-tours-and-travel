@@ -293,8 +293,32 @@
         }
 
         function removeItem(button) {
-    button.closest('.item').remove();
-}
 
+            const item = button.closest('.item');
+            const wrapper = item.parentElement;
+
+            item.remove();
+
+            reIndex(wrapper);
+        }
+
+        function reIndex(wrapper) {
+
+            const items = wrapper.querySelectorAll('.item');
+
+            items.forEach((item, index) => {
+
+                const textareas = item.querySelectorAll('textarea');
+                const hiddenInput = item.querySelector('input[type="hidden"]');
+
+                textareas.forEach(textarea => {
+                    textarea.name = textarea.name.replace(/\[\d+\]/, `[${index}]`);
+                });
+
+                if (hiddenInput) {
+                    hiddenInput.name = hiddenInput.name.replace(/\[\d+\]/, `[${index}]`);
+                }
+            });
+        }
     </script>
 @endpush

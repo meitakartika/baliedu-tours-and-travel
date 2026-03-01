@@ -42,9 +42,9 @@ class ItineraryController extends Controller
     {
         $validated = $request->validate([
             'package_id' => 'required|exists:packages,id',
-
             'itineraries' => 'required|array',
 
+            'itineraries.*.day' => 'required|integer',
             'itineraries.*.time' => 'required|date_format:H:i',
             'itineraries.*.title_id' => 'required|string|max:255',
             'itineraries.*.title_en' => 'required|string|max:255',
@@ -61,6 +61,7 @@ class ItineraryController extends Controller
 
                 $itinerary = Itinerary::create([
                     'package_id' => $validated['package_id'],
+                    'day'        => $itineraryData['day'],
                     'time'       => $itineraryData['time'],
                     'title_id'   => $itineraryData['title_id'],
                     'title_en'   => $itineraryData['title_en'],
@@ -96,6 +97,7 @@ class ItineraryController extends Controller
             'package_id' => 'required|exists:packages,id',
             'itineraries' => 'required|array',
 
+            'itineraries.*.day' => 'required|integer',
             'itineraries.*.time' => 'required',
             'itineraries.*.title_id' => 'required',
             'itineraries.*.title_en' => 'required',
@@ -115,6 +117,7 @@ class ItineraryController extends Controller
                     ['id' => $itineraryData['id'] ?? null],
                     [
                         'package_id' => $validated['package_id'],
+                        'day'        => $itineraryData['day'],
                         'time' => $itineraryData['time'],
                         'title_id' => $itineraryData['title_id'],
                         'title_en' => $itineraryData['title_en'],

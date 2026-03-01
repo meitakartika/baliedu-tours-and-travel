@@ -60,7 +60,7 @@
                     <i class="fa-solid fa-location-dot text-white text-2xl"></i>
                     <div>
                         <p class="text-white text-sm font-medium">Location</p>
-                        <input type="text" name="location" placeholder="Search location"
+                        <input type="text" name="location" placeholder="Search keywords"
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>

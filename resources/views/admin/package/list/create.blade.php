@@ -81,7 +81,13 @@
                 <div id="includes-wrapper" class="col-span-2 space-y-4">
 
                     @foreach ($includes as $i => $include)
-                        <div class="grid grid-cols-2 gap-4 includes-item">
+                        <div class="grid grid-cols-2 gap-4 item relative">
+
+                            <button type="button" onclick="removeItem(this)"
+                                class="absolute -top-2 -right-2 bg-red text-white z-20
+               w-6 h-6 rounded-full text-xs hover:bg-red/80">
+                                ✕
+                            </button>
 
                             <div class="relative mt-2">
                                 <textarea name="list[includes][{{ $i }}][content_id]" rows="4"
@@ -124,7 +130,13 @@
                 <div id="notIncludes-wrapper" class="col-span-2 space-y-4">
 
                     @foreach ($notIncludes as $i => $notInclude)
-                        <div class="grid grid-cols-2 gap-4 notIncludes-item">
+                        <div class="grid grid-cols-2 gap-4 item relative">
+
+                            <button type="button" onclick="removeItem(this)"
+                                class="absolute -top-2 -right-2 bg-red text-white z-20
+               w-6 h-6 rounded-full text-xs hover:bg-red/80">
+                                ✕
+                            </button>
 
                             <div class="relative mt-2">
                                 <textarea name="list[not_includes][{{ $i }}][content_id]" rows="4"
@@ -168,8 +180,14 @@
                 <div id="mustBring-wrapper" class="col-span-2 space-y-4">
 
                     @foreach ($mustBring as $i => $bring)
-                        <div class="grid grid-cols-2 gap-4 mustBring-item">
+                        <div class="grid grid-cols-2 gap-4 item relative">
 
+                            <button type="button" onclick="removeItem(this)"
+                                class="absolute -top-2 -right-2 bg-red text-white z-20
+               w-6 h-6 rounded-full text-xs hover:bg-red/80">
+                                ✕
+                            </button>
+                            
                             <div class="relative mt-2">
                                 <textarea name="list[must_bring][{{ $i }}][content_id]" rows="4"
                                     placeholder="Enter the indonesian content"
@@ -221,14 +239,20 @@
     <script>
         function addItem(wrapperId, type) {
 
-    const wrapper = document.getElementById(wrapperId);
-
-            const index = wrapper.children.length;
+            const wrapper = document.getElementById(wrapperId);
+            const index = wrapper.querySelectorAll('.item').length;
 
             const html = `
-        <div class="grid grid-cols-2 gap-4 includes-item">
+        <div class="grid grid-cols-2 gap-4 item relative">
 
-                            <div class="relative mt-2">
+            <button type="button"
+                onclick="removeItem(this)"
+                class="absolute -top-2 -right-2 bg-red text-white z-20
+                w-6 h-6 rounded-full text-xs hover:bg-red/80">
+                ✕
+            </button>
+
+            <div class="relative mt-2">
                                 <textarea name="list[${type}][${index}][content_id]" rows="4"
                                     placeholder="Enter the indonesian content"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
@@ -247,10 +271,34 @@
                                 </label>
                             </div>
 
-                        </div>
+        </div>
     `;
 
             wrapper.insertAdjacentHTML('beforeend', html);
+        }
+
+        function removeItem(button) {
+
+            const item = button.closest('.item');
+            const wrapper = item.parentElement;
+
+            item.remove();
+
+            reIndex(wrapper);
+        }
+
+        function reIndex(wrapper) {
+
+            const items = wrapper.querySelectorAll('.item');
+
+            items.forEach((item, index) => {
+
+                const textareas = item.querySelectorAll('textarea');
+
+                textareas.forEach(textarea => {
+                    textarea.name = textarea.name.replace(/\[\d+\]/, `[${index}]`);
+                });
+            });
         }
     </script>
 @endpush

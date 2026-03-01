@@ -75,9 +75,19 @@
                 <!-- TEMPLATE ITINERARY -->
                 <template id="itinerary-template">
                     <div class="itinerary-item grid grid-cols-1 md:grid-cols-2 gap-6 col-span-2">
-                        <h2 class="itinerary-title font-semibold text-base text-darkGrey mt-4 col-span-2">
-                            Itinerary Details __INDEX_DISPLAY__
-                        </h2>
+                        <div class="flex items-center justify-between col-span-2 mt-4">
+
+                            <h2 class="itinerary-title font-semibold text-base text-darkGrey">
+                                Itinerary Details __INDEX_DISPLAY__
+                            </h2>
+
+                            <button type="button"
+                                class="delete-itinerary flex items-center gap-2 text-red text-sm font-medium hover:opacity-70">
+                                <i class="fa-solid fa-trash"></i>
+                                Delete
+                            </button>
+
+                        </div>
 
                         <!-- Name ID -->
                         <div class="relative mt-1">
@@ -99,19 +109,31 @@
                             </label>
                         </div>
 
+                        <!-- DAY -->
+                        <div class="relative mt-2">
+                            <input type="number" name="itineraries[__INDEX__][day]" placeholder="Enter day number"
+                                class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
+                            <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                Day
+                            </label>
+                        </div>
+
                         <!-- Time -->
-                        <div class="col-span-2">
-                            <div class="relative mt-2">
-                                <input type="time" name="itineraries[__INDEX__][time]" placeholder="Select the time"
-                                    class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
-                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Time
-                                </label>
-                            </div>
+                        <div class="relative mt-2">
+                            <input type="time" name="itineraries[__INDEX__][time]" placeholder="Select the time"
+                                class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
+                            <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                Time
+                            </label>
                         </div>
 
                         <div class="detail-wrapper col-span-2">
-                            <div class="detail-item grid grid-cols-2 gap-4">
+                            <div class="detail-item grid grid-cols-2 gap-4 relative">
+                                <!-- DELETE BUTTON -->
+                                <button type="button"
+                                    class="remove-description absolute -top-2 -right-3 z-20 bg-red text-white w-6 h-6 rounded-full text-xs flex items-center justify-center hover:bg-red/80">
+                                    <i class="fa-solid fa-xmark text-[10px]"></i>
+                                </button>
                                 <!-- Description ID -->
                                 <div class="relative mt-2">
                                     <textarea name="itineraries[__INDEX__][details][0][description_id]" rows="4"
@@ -181,62 +203,88 @@
     <script>
         let itineraryIndex = 0;
 
+        function toggleDeleteButtons() {
+
+            const allItineraries =
+                document.querySelectorAll('.itinerary-item');
+
+            const deleteButtons =
+                document.querySelectorAll('.delete-itinerary');
+
+            if (allItineraries.length <= 1) {
+
+                deleteButtons.forEach(btn => {
+                    btn.classList.add('hidden');
+                });
+
+            } else {
+
+                deleteButtons.forEach(btn => {
+                    btn.classList.remove('hidden');
+                });
+
+            }
+        }
+
         // AUTO LOAD FIRST ITINERARY
         document.addEventListener("DOMContentLoaded", () => {
 
-    const oldItineraries = @json(old('itineraries'));
+            const oldItineraries = @json(old('itineraries'));
 
-    if (oldItineraries && oldItineraries.length > 0) {
+            if (oldItineraries && oldItineraries.length > 0) {
 
-        oldItineraries.forEach((itinerary, i) => {
-            addItinerary(itinerary);
+                oldItineraries.forEach((itinerary, i) => {
+                    addItinerary(itinerary);
+                });
+
+            } else {
+                addItinerary();
+            }
         });
-
-    } else {
-        addItinerary();
-    }
-});
 
         // ================= ADD ITINERARY =================
         function addItinerary(oldData = null) {
 
-    const template = document
-        .getElementById("itinerary-template")
-        .innerHTML;
+            const template = document
+                .getElementById("itinerary-template")
+                .innerHTML;
 
-    const html = template
-        .replaceAll('__INDEX__', itineraryIndex)
-        .replaceAll('__INDEX_DISPLAY__', itineraryIndex + 1);
+            const html = template
+                .replaceAll('__INDEX__', itineraryIndex)
+                .replaceAll('__INDEX_DISPLAY__', itineraryIndex + 1);
 
-    document
-        .getElementById('itinerary-wrapper')
-        .insertAdjacentHTML('beforeend', html);
+            document
+                .getElementById('itinerary-wrapper')
+                .insertAdjacentHTML('beforeend', html);
 
-    // ================= FILL OLD =================
-    if (oldData) {
+            // ================= FILL OLD =================
+            if (oldData) {
 
-        const currentItem = document
-            .querySelectorAll('.itinerary-item')[itineraryIndex];
+                const currentItem = document
+                    .querySelectorAll('.itinerary-item')[itineraryIndex];
 
-        currentItem.querySelector(`[name="itineraries[${itineraryIndex}][title_id]"]`).value =
-            oldData.title_id ?? '';
+                currentItem.querySelector(`[name="itineraries[${itineraryIndex}][title_id]"]`).value =
+                    oldData.title_id ?? '';
 
-        currentItem.querySelector(`[name="itineraries[${itineraryIndex}][title_en]"]`).value =
-            oldData.title_en ?? '';
+                currentItem.querySelector(`[name="itineraries[${itineraryIndex}][title_en]"]`).value =
+                    oldData.title_en ?? '';
 
-        currentItem.querySelector(`[name="itineraries[${itineraryIndex}][time]"]`).value =
-            oldData.time ?? '';
+                currentItem.querySelector(`[name="itineraries[${itineraryIndex}][day]"]`).value =
+                    oldData.day ?? '';
 
-        // DETAILS
-        const detailWrapper = currentItem.querySelector('.detail-wrapper');
+                currentItem.querySelector(`[name="itineraries[${itineraryIndex}][time]"]`).value =
+                    oldData.time ?? '';
 
-        detailWrapper.innerHTML = '';
+                // DETAILS
+                const detailWrapper = currentItem.querySelector('.detail-wrapper');
 
-        if (oldData.details) {
+                detailWrapper.innerHTML = '';
 
-            oldData.details.forEach((detail, dIndex) => {
+                if (oldData.details) {
 
-                const detailHTML = `
+                    oldData.details.forEach((detail, dIndex) => {
+
+                        const detailHTML = `
                 <div class="detail-item grid grid-cols-2 gap-4">
 
                     <div class="relative mt-4">
@@ -264,13 +312,14 @@
                 </div>
                 `;
 
-                detailWrapper.insertAdjacentHTML('beforeend', detailHTML);
-            });
-        }
-    }
+                        detailWrapper.insertAdjacentHTML('beforeend', detailHTML);
+                    });
+                }
+            }
 
-    itineraryIndex++;
-}
+            toggleDeleteButtons();
+            itineraryIndex++;
+        }
 
         // CLICK ADD ITINERARY
         document.addEventListener('click', function(e) {
@@ -307,8 +356,11 @@
 
             // bikin detail baru
             const detailHTML = `
-        <div class="detail-item grid grid-cols-2 gap-4">
-
+        <div class="detail-item grid grid-cols-2 gap-4 relative">
+ <button type="button"
+        class="remove-description absolute -right-3 z-20 bg-red text-white w-6 h-6 rounded-full text-xs flex items-center justify-center hover:bg-red/80">
+        <i class="fa-solid fa-xmark text-[10px]"></i>
+    </button>
             <div class="relative mt-4">
             <textarea
                 name="itineraries[${itineraryIdx}][details][${detailIndex}][description_id]"
@@ -338,6 +390,86 @@
 
             detailWrapper.insertAdjacentHTML('beforeend', detailHTML);
 
+        });
+
+        // ================= REMOVE DESCRIPTION =================
+        document.addEventListener('click', function(e) {
+
+            if (!e.target.closest('.remove-description')) return;
+
+            const detailItem = e.target.closest('.detail-item');
+            const detailWrapper = detailItem.closest('.detail-wrapper');
+
+            detailItem.remove();
+
+            // OPTIONAL: re-index ulang supaya name tetap urut
+            const itineraryItem = detailWrapper.closest('.itinerary-item');
+            const firstTextarea = itineraryItem.querySelector('textarea');
+            const match = firstTextarea.name.match(/itineraries\[(\d+)\]/);
+            const itineraryIdx = match[1];
+
+            const allDetails = detailWrapper.querySelectorAll('.detail-item');
+
+            allDetails.forEach((item, index) => {
+
+                const textareas = item.querySelectorAll('textarea');
+
+                textareas[0].name =
+                    `itineraries[${itineraryIdx}][details][${index}][description_id]`;
+
+                textareas[1].name =
+                    `itineraries[${itineraryIdx}][details][${index}][description_en]`;
+            });
+
+        });
+
+        // ================= DELETE ITINERARY =================
+
+        document.addEventListener('click', function(e) {
+
+            if (!e.target.closest('.delete-itinerary')) return;
+
+            const allItineraries =
+                document.querySelectorAll('.itinerary-item');
+
+            const itineraryItem =
+                e.target.closest('.itinerary-item');
+
+            itineraryItem.remove();
+
+            // ================= RE-INDEX =================
+            const remainingItineraries =
+                document.querySelectorAll('.itinerary-item');
+
+            remainingItineraries.forEach((item, index) => {
+
+                // Update title display
+                const title = item.querySelector('.itinerary-title');
+                title.textContent = `Itinerary Details ${index + 1}`;
+
+                // Update semua input & textarea name
+                const inputs =
+                    item.querySelectorAll('input, textarea');
+
+                inputs.forEach(input => {
+
+                    const name = input.name;
+
+                    if (!name) return;
+
+                    const newName =
+                        name.replace(/itineraries\[\d+\]/,
+                            `itineraries[${index}]`);
+
+                    input.name = newName;
+                });
+
+            });
+
+            // Update global index supaya next add tidak bentrok
+            itineraryIndex = remainingItineraries.length;
+
+            toggleDeleteButtons();
         });
     </script>
 @endpush

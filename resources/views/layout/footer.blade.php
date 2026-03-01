@@ -26,10 +26,13 @@
             <div class="lg:ml-10">
                 <h4 class="font-semibold mt-2 mb-6">Tour Packages</h4>
                 <ul class="space-y-3 text-sm text-white/90">
-                    <li><a href="#" class="hover:opacity-80">Special Packages</a></li>
-                    <li><a href="#" class="hover:opacity-80">Bali Trips</a></li>
-                    <li><a href="#" class="hover:opacity-80">Homestay</a></li>
-                    <li><a href="#" class="hover:opacity-80">Volunteer</a></li>
+                    @foreach ($categories as $category)
+                        <li>
+                            <a href="{{ route('tours.category', $category->id) }}" class="hover:opacity-80">
+                                {{ app()->getLocale() === 'id' ? $category->name_id : $category->name_en }}
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -37,23 +40,28 @@
             <div>
                 <h4 class="font-semibold mt-2 mb-6">Contact Info</h4>
                 <ul class="space-y-4 text-sm text-white/90">
-                    <li class="flex items-start gap-3">
-                        <i class="fa-solid fa-location-dot mt-1"></i>
-                        <span>
-                            Jl. Pasekan Gg. Batubara 26,<br>
-                            Batubulan, Sukawati, Gianyar – Bali
-                        </span>
-                    </li>
+                    @if ($baliOffice)
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1"></i>
+                            <span>
+                                {!! nl2br(e(app()->getLocale() === 'id' ? $baliOffice->value_id : $baliOffice->value_en)) !!}
+                            </span>
+                        </li>
+                    @endif
 
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-phone"></i>
-                        +62 813 5318 7669
-                    </li>
+                    @if ($adminPhone)
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone"></i>
+                            {{ app()->getLocale() === 'id' ? $adminPhone->value_id : $adminPhone->value_en }}
+                        </li>
+                    @endif
 
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-envelope"></i>
-                        baliedutours@gmail.com
-                    </li>
+                    @if ($adminEmail)
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope"></i>
+                            {{ app()->getLocale() === 'id' ? $adminEmail->value_id : $adminEmail->value_en }}
+                        </li>
+                    @endif
                 </ul>
             </div>
 
@@ -62,30 +70,48 @@
                 <h4 class="font-semibold mt-2 mb-6">Follow Us</h4>
 
                 <div class="grid grid-cols-3 gap-3 text-lg max-w-[120px]">
-                    <a href="#" class="hover:opacity-80">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
+                    @foreach ($socialMedias as $sm)
+                        @php
+                            $iconClass = '';
+                            $isImage = false;
 
-                    <a href="#" class="hover:opacity-80">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
+                            switch (strtolower($sm->label)) {
+                                case 'facebook':
+                                    $iconClass = 'fa-brands fa-facebook-f';
+                                    break;
+                                case 'instagram':
+                                    $iconClass = 'fa-brands fa-instagram';
+                                    break;
+                                case 'twitter':
+                                case 'x':
+                                    $iconClass = 'fa-brands fa-twitter';
+                                    break;
+                                case 'youtube':
+                                    $iconClass = 'fa-brands fa-youtube';
+                                    break;
+                                case 'tripadvisor':
+                                    $isImage = true;
+                                    break;
+                                case 'flickr':
+                                    $iconClass = 'fa-brands fa-flickr';
+                                    break;
+                            }
+                        @endphp
 
-                    <a href="#" class="hover:opacity-80">
-                        <i class="fa-brands fa-twitter"></i>
-                    </a>
+                        @if ($isImage)
+                            <a href="{{ app()->getLocale() === 'id' ? $sm->value_id : $sm->value_en }}" target="_blank"
+                                class="hover:opacity-80 flex items-center">
+                                <img src="{{ asset('images/icons/tripadvisor.svg') }}" alt="{{ $sm->label }}"
+                                    class="w-5 h-5 object-contain">
+                            </a>
+                        @else
+                            <a href="{{ app()->getLocale() === 'id' ? $sm->value_id : $sm->value_en }}" target="_blank"
+                                class="hover:opacity-80">
+                                <i class="{{ $iconClass }}"></i>
+                            </a>
+                        @endif
+                    @endforeach
 
-                    <a href="#" class="hover:opacity-80">
-                        <i class="fa-brands fa-youtube"></i>
-                    </a>
-
-                    <a href="#" class="hover:opacity-80 flex items-center">
-                        <img src="{{ asset('images/icons/tripadvisor.svg') }}" alt="TripAdvisor"
-                            class="w-4 h-4 object-contain">
-                    </a>
-
-                    <a href="#" class="hover:opacity-80">
-                        <i class="fa-brands fa-flickr"></i>
-                    </a>
                 </div>
             </div>
         </div>

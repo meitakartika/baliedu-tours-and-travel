@@ -80,7 +80,7 @@
                             <button type="button"
                                 class="delete-itinerary flex items-center gap-2 text-red text-sm font-medium hover:opacity-70">
                                 <i class="fa-solid fa-trash"></i>
-                                Delete Itinerary
+                                Delete
                             </button>
 
                         </div>
@@ -105,15 +105,22 @@
                             </label>
                         </div>
 
+                        <!-- DAY -->
+                        <div class="relative mt-2">
+                            <input type="number" name="itineraries[__INDEX__][day]" placeholder="Enter day number"
+                                class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
+                            <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                Day
+                            </label>
+                        </div>
+
                         <!-- TIME -->
-                        <div class="col-span-2">
-                            <div class="relative mt-2">
-                                <input type="time" name="itineraries[__INDEX__][time]" placeholder="Select the time"
-                                    class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
-                                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Time
-                                </label>
-                            </div>
+                        <div class="relative mt-2">
+                            <input type="time" name="itineraries[__INDEX__][time]" placeholder="Select the time"
+                                class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
+                            <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                                Time
+                            </label>
                         </div>
 
                         <div class="detail-wrapper col-span-2"></div>
@@ -211,6 +218,7 @@
 
                 current.querySelector(`[name="itineraries[${itineraryIndex}][title_id]"]`).value = oldData.title_id ?? '';
                 current.querySelector(`[name="itineraries[${itineraryIndex}][title_en]"]`).value = oldData.title_en ?? '';
+                current.querySelector(`[name="itineraries[${itineraryIndex}][day]"]`).value = oldData.day ?? '';
                 current.querySelector(`[name="itineraries[${itineraryIndex}][time]"]`).value = oldData.time ?? '';
 
                 if (oldData.details) {
@@ -235,19 +243,22 @@
             const index = dIndex ?? detailWrapper.querySelectorAll('.detail-item').length;
 
             const html = `
-    <div class="detail-item grid grid-cols-2 gap-4">
+    <div class="detail-item grid grid-cols-2 gap-4 relative mt-2">
 
     <input type="hidden"
         name="itineraries[${itineraryIdx}][details][${index}][id]"
         value="${detail?.id ?? ''}">
 
         <!-- DELETE -->
-    <button type="button"
-        class="delete-detail col-span-2 flex justify-start text-red text-sm mt-2 hover:text-red/80">
-        Delete Description
+        <button type="button"
+        class="delete-detail absolute -top-2 -right-3 z-20
+        bg-red text-white w-6 h-6 rounded-full 
+        text-xs flex items-center justify-center 
+        hover:bg-red/80">
+        <i class="fa-solid fa-xmark text-[10px]"></i>
     </button>
     
-    <div class="relative">
+    <div class="relative mt-2">
         <textarea
         name="itineraries[${itineraryIdx}][details][${index}][description_id]"
         rows="4" placeholder="Enter the indonesian description"
@@ -258,7 +269,7 @@
         </label>
     </div>
 
-    <div class="relative">
+    <div class="relative mt-2">
         <textarea
         name="itineraries[${itineraryIdx}][details][${index}][description_en]"
         rows="4" placeholder="Enter the english description"
@@ -286,10 +297,15 @@
             if (e.target.closest('.add-description')) {
 
                 const itineraryItem = e.target.closest('.itinerary-item');
-                const textarea = itineraryItem.querySelector('textarea');
-                const match = textarea.name.match(/itineraries\[(\d+)\]/);
 
-                addDetail(itineraryItem, match[1]);
+                // Ambil input pertama yg pasti ada
+                const input = itineraryItem.querySelector('input[name^="itineraries["]');
+
+                const match = input.name.match(/itineraries\[(\d+)\]/);
+
+                const itineraryIdx = match[1];
+
+                addDetail(itineraryItem, itineraryIdx);
             }
 
             if (e.target.closest('.delete-itinerary')) {

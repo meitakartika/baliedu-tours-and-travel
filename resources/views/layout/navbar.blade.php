@@ -7,25 +7,57 @@
         <div class="flex items-center gap-3 md:gap-6 text-xs">
             <span class="flex items-center gap-2">
                 <i class="fa-solid fa-phone"></i>
-                <span class="hidden md:inline">+62 813 5318 7669</span>
+                <span class="hidden md:inline">{{ app()->getLocale() === 'id' ? $adminPhone->value_id : $adminPhone->value_en }}</span>
             </span>
 
             <span class="flex items-center gap-2">
                 <i class="fa-solid fa-envelope"></i>
-                <span class="hidden md:inline">baliedutours@gmail.com</span>
+                <span class="hidden md:inline">{{ app()->getLocale() === 'id' ? $adminEmail->value_id : $adminEmail->value_en }}</span>
             </span>
         </div>
 
         <!-- Right -->
         <div class="flex items-center gap-3 md:gap-4">
-            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-facebook-f"></i> </a>
-            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-instagram"></i> </a>
-            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-twitter"></i> </a>
-            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-youtube"></i> </a>
-            <a href="#"class="hover:opacity-80 flex items-center"> <img
-                    src="{{ asset('images/icons/tripadvisor.svg') }}" alt="TripAdvisor" class="w-4 h-4 object-contain">
+            @foreach($socialMedias as $sm)
+        @php
+            $iconClass = '';
+            $isImage = false;
+
+            // Tentukan icon FontAwesome / image
+            switch(strtolower($sm->label)) {
+                case 'facebook':
+                    $iconClass = 'fa-brands fa-facebook-f';
+                    break;
+                case 'instagram':
+                    $iconClass = 'fa-brands fa-instagram';
+                    break;
+                case 'twitter':
+                case 'x':
+                    $iconClass = 'fa-brands fa-twitter';
+                    break;
+                case 'youtube':
+                    $iconClass = 'fa-brands fa-youtube';
+                    break;
+                case 'tripadvisor':
+                    $isImage = true;
+                    $imageSrc = asset('images/icons/tripadvisor.svg');
+                    break;
+                case 'flickr':
+                    $iconClass = 'fa-brands fa-flickr';
+                    break;
+            }
+        @endphp
+
+        @if($isImage)
+            <a href="{{ app()->getLocale() === 'id' ? $sm->value_id : $sm->value_en }}" target="_blank" class="hover:opacity-80 flex items-center">
+                <img src="{{ $imageSrc }}" alt="{{ $sm->label }}" class="w-4 h-4 object-contain">
             </a>
-            <a href="#" class="hover:opacity-80"> <i class="fa-brands fa-flickr"></i> </a>
+        @else
+            <a href="{{ app()->getLocale() === 'id' ? $sm->value_id : $sm->value_en }}" target="_blank" class="hover:opacity-80">
+                <i class="{{ $iconClass }}"></i>
+            </a>
+        @endif
+    @endforeach
 
             <div class="h-5 border-l border-white/50"></div>
 

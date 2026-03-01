@@ -9,7 +9,7 @@
 
         <!-- Background Image -->
         @php
-            $heroTypeId = $category->types->first()?->id ?? 1;
+            $heroTypeId = $category->id ?? 1;
         @endphp
 
         <img src="/images/tours{{ $heroTypeId }}-hero.png" class="absolute inset-0 w-full h-full object-cover">
@@ -27,8 +27,7 @@
             <!-- ===== SEARCH BAR ===== -->
             <form method="GET" action="{{ route('tours.category', $category->id) }}" class="mb-8 relative">
 
-                <input type="text" name="search" value="{{ request('search') }}"
-                    placeholder="Cari paket wisata..."
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari paket wisata..."
                     class="w-full rounded-full border border-mediumGrey/30
                    py-4 pl-6 pr-12 text-sm
                    focus:outline-none focus:ring-1 focus:ring-darkGreen" />
@@ -100,8 +99,8 @@
 
                         <!-- Image -->
                         <div class="relative">
-                            <img src="{{ asset('storage/'.$package->image_url) }}"
-                                class="w-full h-[220px] object-cover" alt="">
+                            <img src="{{ asset('storage/' . $package->image_url) }}" class="w-full h-[220px] object-cover"
+                                alt="">
                             <span class="absolute top-6 left-6 bg-darkGreen text-white text-xs px-3 py-2 rounded-full">
                                 {{ app()->getLocale() === 'id' ? $category->name_id : $category->name_en }}
                             </span>
@@ -156,7 +155,9 @@
                             <div class="flex items-center justify-between text-xs font-medium text-darkGreen mb-5">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-clock"></i>
-                                    <span>{{ $package->duration }} day</span>
+                                    <span>
+                                        {{ $package->duration }} {{ $package->duration > 1 ? 'days' : 'day' }}
+                                    </span>
                                 </div>
 
                                 <div class="flex items-center gap-2">
