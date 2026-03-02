@@ -8,8 +8,9 @@
         <!-- TOP ACTION -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
-           <form method="GET" action="{{ route('package.list.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for lists" onchange="this.form.submit()"
+            <form method="GET" action="{{ route('package.list.index') }}" class="w-full md:max-w-md">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for lists"
+                    onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
 
@@ -23,7 +24,7 @@
                 </a>
 
             </div>
-            
+
         </div>
 
         <!-- TABLE -->
@@ -32,20 +33,88 @@
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Tour Package
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'name' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.list.index', [
+                                'sort' => 'name',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Tour Package
+
+                                @if ($sort === 'name')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Includes Count
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'includes' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.list.index', [
+                                'sort' => 'includes',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Includes Count
+
+                                @if ($sort === 'includes')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Not Includes Count
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'not_includes' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.list.index', [
+                                'sort' => 'not_includes',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Not Includes Count
+
+                                @if ($sort === 'not_includes')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Must Bring Count
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'must_bring' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.list.index', [
+                                'sort' => 'must_bring',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Must Bring Count
+
+                                @if ($sort === 'must_bring')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="px-6 py-4 whitespace-nowrap"></th>
                     </tr>

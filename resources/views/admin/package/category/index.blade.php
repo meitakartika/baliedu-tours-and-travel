@@ -9,7 +9,8 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('package.category.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for categories" onchange="this.form.submit()"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for categories"
+                    onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
 
@@ -22,7 +23,7 @@
                     Add New Category
                 </a>
             </div>
-            
+
         </div>
 
         <!-- TABLE -->
@@ -31,12 +32,46 @@
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
                         <th class="w-72 text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Name
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'name' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.category.index', [
+                                'sort' => 'name',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Name
+
+                                @if ($sort === 'name')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Description
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'description' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.category.index', [
+                                'sort' => 'description',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Description
+
+                                @if ($sort === 'description')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="px-6 py-4 whitespace-nowrap"></th>
                     </tr>
@@ -52,7 +87,7 @@
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
                                 <div class="max-w-[300px] truncate">
-                                {{ app()->getLocale() == 'id' ? $category->description_id : $category->description_en }}
+                                    {{ app()->getLocale() == 'id' ? $category->description_id : $category->description_en }}
                                 </div>
                             </td>
 

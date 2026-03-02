@@ -9,7 +9,8 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('package.itinerary.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for itineraries" onchange="this.form.submit()"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for itineraries"
+                    onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
 
@@ -22,7 +23,7 @@
                     Add New Itinerary
                 </a>
             </div>
-            
+
         </div>
 
         <!-- TABLE -->
@@ -31,12 +32,46 @@
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Tour Package
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'name' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.itinerary.index', [
+                                'sort' => 'name',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Tour Package
+
+                                @if ($sort === 'name')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Itineraries Count
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'itineraries' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.itinerary.index', [
+                                'sort' => 'itineraries',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Itineraries Count
+
+                                @if ($sort === 'itineraries')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="px-6 py-4 whitespace-nowrap"></th>
                     </tr>

@@ -14,32 +14,75 @@ class TypeController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $sort = $request->get('sort');
+        $direction = $request->get('direction', 'asc');
 
-        $types = Type::with('category')
-            ->when($search, function ($query) use ($search) {
+        // =========================
+        // VALIDASI SORT & DIRECTION
+        // =========================
+        $allowedSorts = ['name', 'description', 'category'];
+        $allowedDirections = ['asc', 'desc'];
 
-                $query->where(function ($q) use ($search) {
-                    $q->where('name_id', 'like', "%{$search}%")
-                        ->orWhere('name_en', 'like', "%{$search}%")
-                        ->orWhere('description_id', 'like', "%{$search}%")
-                        ->orWhere('description_en', 'like', "%{$search}%")
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = null;
+        }
 
-                        ->orWhereHas('category', function ($category) use ($search) {
-                            $category->where('name_id', 'like', "%{$search}%")
-                                ->orWhere('name_en', 'like', "%{$search}%");
-                        });
-                });
-            })
-            ->when($request->filled('category'), function ($q) use ($request) {
-                $q->whereIn('category_id', $request->category);
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'asc';
+        }
+
+        // Tentukan kolom berdasarkan locale
+        $nameColumn = app()->getLocale() == 'id' ? 'name_id' : 'name_en';
+        $descColumn = app()->getLocale() == 'id' ? 'description_id' : 'description_en';
+        $categoryNameColumn = app()->getLocale() == 'id' ? 'categories.name_id' : 'categories.name_en';
+
+        $query = Type::with('category');
+
+        // =========================
+        // SEARCH
+        // =========================
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name_id', 'like', "%{$search}%")
+                    ->orWhere('name_en', 'like', "%{$search}%")
+                    ->orWhere('description_id', 'like', "%{$search}%")
+                    ->orWhere('description_en', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($category) use ($search) {
+                        $category->where('name_id', 'like', "%{$search}%")
+                            ->orWhere('name_en', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // =========================
+        // FILTER CATEGORY
+        // =========================
+        if ($request->filled('category')) {
+            $query->whereIn('category_id', $request->category);
+        }
+
+        // =========================
+        // SORTING
+        // =========================
+        if ($sort === 'name') {
+            $query->orderBy($nameColumn, $direction);
+        } elseif ($sort === 'description') {
+            $query->orderBy($descColumn, $direction);
+        } elseif ($sort === 'category') {
+            $query->join('categories', 'types.category_id', '=', 'categories.id')
+                ->orderBy($categoryNameColumn, $direction)
+                ->select('types.*');
+        } else {
+            $query->latest();
+        }
+
+        $types = $query
+        ->paginate(10)
+        ->withQueryString();
 
         $categories = Category::all();
 
-        return view('admin.package.type.index', compact('types', 'categories'));
+        return view('admin.package.type.index', compact('types', 'categories', 'sort', 'direction'));
     }
 
     /**
@@ -118,16 +161,15 @@ class TypeController extends Controller
      * Tipe berdasarkan kategori (untuk di package admin)
      */
     public function getByCategory(Category $category)
-{
-    $locale = app()->getLocale();
-    $column = $locale === 'id' ? 'name_id' : 'name_en';
+    {
+        $locale = app()->getLocale();
+        $column = $locale === 'id' ? 'name_id' : 'name_en';
 
-    $types = $category->types()
-        ->select('id', 'name_id', 'name_en')
-        ->orderBy($column)
-        ->get();
+        $types = $category->types()
+            ->select('id', 'name_id', 'name_en')
+            ->orderBy($column)
+            ->get();
 
-    return response()->json($types);
-}
-
+        return response()->json($types);
+    }
 }

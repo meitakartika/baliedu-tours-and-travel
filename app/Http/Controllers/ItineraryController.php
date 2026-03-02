@@ -13,21 +13,65 @@ class ItineraryController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $sort = $request->get('sort');
+        $direction = $request->get('direction', 'asc');
 
-        $packages = Package::withCount('itineraries')
+        /*
+    =====================
+    VALIDASI
+    =====================
+    */
+        $allowedSorts = ['name', 'itineraries'];
+        $allowedDirections = ['asc', 'desc'];
 
-            ->when($search, function ($query) use ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name_en', 'like', "%{$search}%")
-                        ->orWhere('name_id', 'like', "%{$search}%");
-                });
-            })
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = null;
+        }
 
-            ->latest()
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'asc';
+        }
+
+        $nameColumn = app()->getLocale() == 'id'
+            ? 'name_id'
+            : 'name_en';
+
+        $query = Package::withCount('itineraries');
+
+        /*
+    =====================
+    SEARCH
+    =====================
+    */
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name_en', 'like', "%{$search}%")
+                    ->orWhere('name_id', 'like', "%{$search}%");
+            });
+        }
+
+        /*
+    =====================
+    SORTING
+    =====================
+    */
+        if ($sort === 'name') {
+            $query->orderBy($nameColumn, $direction);
+        } elseif ($sort === 'itineraries') {
+            $query->orderBy('itineraries_count', $direction);
+        } else {
+            $query->latest();
+        }
+
+        $packages = $query
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.package.itinerary.index', compact('packages'));
+        return view('admin.package.itinerary.index', compact(
+            'packages',
+            'sort',
+            'direction'
+        ));
     }
 
     public function create()

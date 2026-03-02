@@ -195,12 +195,12 @@
                         <div class="relative">
                             <span
                                 class="absolute -left-6 top-0 h-full w-2 rounded-r-full
-        {{ request()->routeIs('admin.testimonials.*') ? 'bg-darkGreen' : 'bg-transparent' }}">
+        {{ request()->routeIs('testimonials.admin.*') ? 'bg-darkGreen' : 'bg-transparent' }}">
                             </span>
 
                             <a href="{{ route('testimonials.admin.index') }}"
                                 class="flex items-center gap-4 px-4 py-3 rounded-lg
-       {{ request()->routeIs('admin.testimonials.*') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
+       {{ request()->routeIs('testimonials.admin.*') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <i class="fa-solid fa-user-friends"></i>
                                 Testimonials
                             </a>
@@ -232,11 +232,7 @@
 
                             <!-- SUB MENU -->
                             <div
-                                class="
-            ml-8 mt-2 space-y-1
-            {{ $contactActive ? 'block' : 'hidden' }}
-            group-hover:block
-        ">
+                                class="ml-8 mt-2 space-y-1 {{ $contactActive ? 'block' : 'hidden' }} group-hover:block">
 
                                 <!-- Contact Info -->
                                 <a href="{{ route('contact.info.index') }}"

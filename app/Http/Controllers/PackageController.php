@@ -16,35 +16,65 @@ class PackageController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Package::query()
-            ->with(['category', 'type']);
+        $search = $request->search;
+        $sort = $request->get('sort');
+        $direction = $request->get('direction', 'asc');
+
+        /*
+    =====================
+    VALIDASI SORT
+    =====================
+    */
+        $allowedSorts = [
+            'name',
+            'category',
+            'type',
+            'price',
+            'duration',
+            'guests'
+        ];
+
+        $allowedDirections = ['asc', 'desc'];
+
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = null;
+        }
+
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'asc';
+        }
+
+        // Locale column
+        $nameColumn = app()->getLocale() == 'id' ? 'name_id' : 'name_en';
+        $categoryNameColumn = app()->getLocale() == 'id'
+            ? 'categories.name_id'
+            : 'categories.name_en';
+        $typeNameColumn = app()->getLocale() == 'id'
+            ? 'types.name_id'
+            : 'types.name_en';
+
+        $query = Package::query()->with(['category', 'type']);
 
         /*
     =====================
     SEARCH
     =====================
     */
-        if ($request->search) {
-
-            $search = $request->search;
-
+        if ($search) {
             $query->where(function ($q) use ($search) {
 
-                // name
                 $q->where('name_id', 'like', "%$search%")
-                    ->orWhere('name_en', 'like', "%$search%");
+                    ->orWhere('name_en', 'like', "%$search%")
 
-                // category
-                $q->orWhereHas('category', function ($cat) use ($search) {
-                    $cat->where('name_id', 'like', "%$search%")
-                        ->orWhere('name_en', 'like', "%$search%");
-                });
+                    ->orWhereHas('category', function ($cat) use ($search) {
+                        $cat->where('name_id', 'like', "%$search%")
+                            ->orWhere('name_en', 'like', "%$search%");
+                    })
 
-                // type
-                $q->orWhereHas('type', function ($type) use ($search) {
-                    $type->where('name_id', 'like', "%$search%")
-                        ->orWhere('name_en', 'like', "%$search%");
-                });
+                    ->orWhereHas('type', function ($type) use ($search) {
+                        $type->where('name_id', 'like', "%$search%")
+                            ->orWhere('name_en', 'like', "%$search%");
+                    });
             });
         }
 
@@ -66,8 +96,32 @@ class PackageController extends Controller
             $query->whereIn('type_id', $request->type);
         }
 
+        /*
+    =====================
+    SORTING
+    =====================
+    */
+        if ($sort === 'name') {
+            $query->orderBy($nameColumn, $direction);
+        } elseif ($sort === 'price') {
+            $query->orderBy('price', $direction);
+        } elseif ($sort === 'duration') {
+            $query->orderBy('duration', $direction);
+        } elseif ($sort === 'guests') {
+            $query->orderBy('guest_min', $direction)->orderBy('guest_max', $direction);
+        } elseif ($sort === 'category') {
+            $query->join('categories', 'packages.category_id', '=', 'categories.id')
+                ->orderBy($categoryNameColumn, $direction)
+                ->select('packages.*');
+        } elseif ($sort === 'type') {
+            $query->join('types', 'packages.type_id', '=', 'types.id')
+                ->orderBy($typeNameColumn, $direction)
+                ->select('packages.*');
+        } else {
+            $query->latest();
+        }
+
         $packages = $query
-            ->latest()
             ->paginate(10)
             ->withQueryString();
 
@@ -77,7 +131,9 @@ class PackageController extends Controller
         return view('admin.package.tour.index', compact(
             'packages',
             'categories',
-            'types'
+            'types',
+            'sort',
+            'direction'
         ));
     }
 
@@ -175,10 +231,10 @@ class PackageController extends Controller
 
         DB::transaction(function () use ($request, $validated, $package, $removedIds) {
 
-        $data = collect($validated)->except([
-            'galleries',
-            'removed_galleries'
-        ])->toArray();
+            $data = collect($validated)->except([
+                'galleries',
+                'removed_galleries'
+            ])->toArray();
 
             // Update gambar utama jika ada upload baru
             if ($request->hasFile('image_url')) {
@@ -187,8 +243,8 @@ class PackageController extends Controller
                     Storage::disk('public')->delete($package->image_url);
                 }
                 $data['image_url'] = $request
-                ->file('image_url')
-                ->store('package_main', 'public');
+                    ->file('image_url')
+                    ->store('package_main', 'public');
             }
 
             // Update package utama
@@ -206,18 +262,18 @@ class PackageController extends Controller
             }
 
             // Upload gambar baru untuk gallery
-        foreach ($request->file('galleries', []) as $image) {
-            $path = $image->store('package_galleries', 'public');
-            $package->galleries()->create([
-                'image_url' => $path
-            ]);
-        }
-    });
+            foreach ($request->file('galleries', []) as $image) {
+                $path = $image->store('package_galleries', 'public');
+                $package->galleries()->create([
+                    'image_url' => $path
+                ]);
+            }
+        });
 
-    return redirect()
-        ->route('package.tour.index', $package->id)
-        ->with('success', 'Package updated successfully!');
-}
+        return redirect()
+            ->route('package.tour.index', $package->id)
+            ->with('success', 'Package updated successfully!');
+    }
 
     /**
      * Hapus package + galleries

@@ -95,32 +95,158 @@
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
                         <th class="text-left px-4 py-4 font-semibold text-sm whitespace-nowrap">
-                            ID
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'id' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('bookings.index', [
+                                'sort' => 'id',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                ID
+
+                                @if ($sort === 'id')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Name
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'name' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('bookings.index', [
+                                'sort' => 'name',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Name
+
+                                @if ($sort === 'name')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Tour Package
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'package' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('bookings.index', [
+                                'sort' => 'package',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Tour Package
+
+                                @if ($sort === 'package')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Date
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'date' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('bookings.index', [
+                                'sort' => 'date',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Date
+
+                                @if ($sort === 'date')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Guests
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'guests' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('bookings.index', [
+                                'sort' => 'guests',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Guests
+
+                                @if ($sort === 'guests')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Total Price
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'price' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('bookings.index', [
+                                'sort' => 'price',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Total Price
+
+                                @if ($sort === 'price')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Status
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'status' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('bookings.index', [
+                                'sort' => 'status',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Status
+
+                                @if ($sort === 'status')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="px-6 py-4 whitespace-nowrap"></th>
                     </tr>

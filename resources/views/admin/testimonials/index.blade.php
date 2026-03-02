@@ -99,20 +99,92 @@
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Name
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'name' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('testimonials.admin.index', [
+                                'sort' => 'name',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'rating' => request('rating'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Name
+
+                                @if ($sort === 'name')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Tour Package
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'package' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('testimonials.admin.index', [
+                                'sort' => 'package',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'rating' => request('rating'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Tour Package
+
+                                @if ($sort === 'package')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Rating
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'rating' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('testimonials.admin.index', [
+                                'sort' => 'rating',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'rating' => request('rating'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Rating
+
+                                @if ($sort === 'rating')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Date
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'date' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('testimonials.admin.index', [
+                                'sort' => 'date',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'rating' => request('rating'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Date
+
+                                @if ($sort === 'date')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="px-6 py-4 whitespace-nowrap"></th>
                     </tr>

@@ -12,22 +12,83 @@ class ContactInfoController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ContactInfo::query()
-            ->when($request->search, function ($q) use ($request) {
-                $q->where(function ($sub) use ($request) {
-                    $sub->where('type', 'like', "%{$request->search}%")
-                        ->orWhere('label', 'like', "%{$request->search}%")
-                        ->orWhere('value_en', 'like', "%{$request->search}%")
-                        ->orWhere('value_id', 'like', "%{$request->search}%");
-                });
-            })
-            ->when($request->filled('type'), function ($q) use ($request) {
-                $q->whereIn('type', $request->type);
+        $search     = $request->search;
+        $type       = $request->type;
+        $sort       = $request->get('sort');
+        $direction  = $request->get('direction', 'desc');
+
+        /*
+    =========================
+    VALIDASI SORT & DIRECTION
+    =========================
+    */
+        $allowedSorts = ['type', 'label', 'value', 'created_at'];
+        $allowedDirections = ['asc', 'desc'];
+
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = null;
+        }
+
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'desc';
+        }
+
+        // Tentukan kolom value berdasarkan locale
+        $valueColumn = app()->getLocale() == 'id'
+            ? 'value_id'
+            : 'value_en';
+
+        $query = ContactInfo::query();
+
+        /*
+    =========================
+    SEARCH
+    =========================
+    */
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('type', 'like', "%{$search}%")
+                    ->orWhere('label', 'like', "%{$search}%")
+                    ->orWhere('value_en', 'like', "%{$search}%")
+                    ->orWhere('value_id', 'like', "%{$search}%");
             });
+        }
 
-        $contactInfos = $query->latest()->paginate(10)->withQueryString();
+        /*
+    =========================
+    FILTER TYPE
+    =========================
+    */
+        if ($request->filled('type')) {
+            $query->whereIn('type', $type);
+        }
 
-        return view('admin.contact-info.index', compact('contactInfos'));
+        /*
+    =========================
+    SORTING
+    =========================
+    */
+        if ($sort === 'type') {
+            $query->orderBy('type', $direction);
+        } elseif ($sort === 'label') {
+            $query->orderBy('label', $direction);
+        } elseif ($sort === 'value') {
+            $query->orderBy($valueColumn, $direction);
+        } elseif ($sort === 'created_at') {
+            $query->orderBy('created_at', $direction);
+        } else {
+            $query->latest();
+        }
+
+        $contactInfos = $query
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.contact-info.index', compact(
+            'contactInfos',
+            'sort',
+            'direction'
+        ));
     }
 
     /**
@@ -63,11 +124,11 @@ class ContactInfoController extends Controller
      * Tampilkan form edit contact info
      */
     public function edit(ContactInfo $contactInfo)
-{
-    $types = ContactInfo::types();
+    {
+        $types = ContactInfo::types();
 
-    return view('admin.contact-info.edit', compact('contactInfo','types'));
-}
+        return view('admin.contact-info.edit', compact('contactInfo', 'types'));
+    }
 
     /**
      * Update contact info
@@ -98,7 +159,7 @@ class ContactInfoController extends Controller
             ->with('success', 'Contact info berhasil dihapus.');
     }
 
-// USER
+    // USER
     public function contact()
     {
         $phones = ContactInfo::where('type', 'phone')->get();

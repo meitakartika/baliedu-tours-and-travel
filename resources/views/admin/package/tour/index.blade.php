@@ -9,7 +9,8 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('package.tour.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for name/category/type" onchange="this.form.submit()"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for name/category/type"
+                    onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
 
@@ -26,7 +27,7 @@
                 <div x-data="{ open: false }" class="relative">
 
                     @php
-                        $activeFilters = collect(request()->only(['category','type']))
+                        $activeFilters = collect(request()->only(['category', 'type']))
                             ->flatten()
                             ->filter()
                             ->count();
@@ -110,7 +111,7 @@
 
                 </div>
             </div>
-            
+
         </div>
 
         <!-- TABLE -->
@@ -119,28 +120,143 @@
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Name
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'name' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.tour.index', [
+                                'sort' => 'name',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'category' => request('category'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Name
+
+                                @if ($sort === 'name')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Category
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'category' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.tour.index', [
+                                'sort' => 'category',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'category' => request('category'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Category
+
+                                @if ($sort === 'category')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Type
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'type' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.tour.index', [
+                                'sort' => 'type',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'category' => request('category'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Type
+
+                                @if ($sort === 'type')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Price
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'price' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.tour.index', [
+                                'sort' => 'price',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'category' => request('category'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Price
+
+                                @if ($sort === 'price')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Duration
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'duration' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.tour.index', [
+                                'sort' => 'duration',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'category' => request('category'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Duration
+
+                                @if ($sort === 'duration')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
+
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Guests
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'guests' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('package.tour.index', [
+                                'sort' => 'guests',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'category' => request('category'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Guests
+
+                                @if ($sort === 'guests')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="px-6 py-4 whitespace-nowrap"></th>
                     </tr>

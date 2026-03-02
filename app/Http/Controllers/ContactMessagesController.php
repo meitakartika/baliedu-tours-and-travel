@@ -16,34 +16,86 @@ class ContactMessagesController extends Controller
     {
         $search = $request->search;
         $status = $request->status;
+        $sort = $request->get('sort');
+        $direction = $request->get('direction', 'desc');
 
-        $messages = ContactMessage::with('user')
-            ->when($search, function ($query) use ($search) {
+        /*
+    =========================
+    VALIDASI SORT
+    =========================
+    */
+        $allowedSorts = ['name', 'date', 'email', 'status'];
+        $allowedDirections = ['asc', 'desc'];
 
-                $query->where(function ($q) use ($search) {
-                    $q->whereHas('user', function ($userQuery) use ($search) {
-                        $userQuery->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%")
-                            ->orWhere('email', 'like', "%{$search}%");
-                    })
-                        ->orWhere('created_at', 'like', "%{$search}%");
-                });
-            })
-            ->when($status, function ($query) use ($status) {
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = null;
+        }
 
-            if (in_array('replied', $status)) {
-                $query->whereNotNull('replied_at');
-            }
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'desc';
+        }
 
-            if (in_array('not_replied', $status)) {
-                $query->whereNull('replied_at');
-            }
-        })
-            ->latest()
+        $query = ContactMessage::with('user')
+            ->leftJoin('users', 'contact_messages.user_id', '=', 'users.id')
+            ->select('contact_messages.*');
+
+        /*
+    =========================
+    SEARCH
+    =========================
+    */
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('users.first_name', 'like', "%{$search}%")
+                    ->orWhere('users.last_name', 'like', "%{$search}%")
+                    ->orWhere('users.email', 'like', "%{$search}%")
+                    ->orWhere('contact_messages.created_at', 'like', "%{$search}%");
+            });
+        }
+
+        /*
+    =========================
+    FILTER STATUS
+    =========================
+    */
+        if ($status) {
+            $query->where(function ($q) use ($status) {
+                if (in_array('replied', $status)) {
+                    $q->orWhereNotNull('contact_messages.replied_at');
+                }
+
+                if (in_array('not_replied', $status)) {
+                    $q->orWhereNull('contact_messages.replied_at');
+                }
+            });
+        }
+
+        /*
+    =========================
+    SORTING
+    =========================
+    */
+        if ($sort === 'name') {
+            $query->orderBy('users.first_name', $direction);
+        } elseif ($sort === 'email') {
+            $query->orderBy('users.email', $direction);
+        } elseif ($sort === 'status') {
+            $query->orderByRaw("contact_messages.replied_at IS NULL " . ($direction === 'asc' ? 'ASC' : 'DESC'));
+        } elseif ($sort === 'date') {
+            $query->orderBy('contact_messages.created_at', $direction);
+        } else {
+            $query->latest('contact_messages.created_at');
+        }
+
+        $messages = $query
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.contact-messages.index', compact('messages'));
+        return view('admin.contact-messages.index', compact(
+            'messages',
+            'sort',
+            'direction'
+        ));
     }
 
     /**

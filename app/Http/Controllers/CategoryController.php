@@ -13,22 +13,57 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $sort = $request->get('sort');
+        $direction = $request->get('direction', 'asc');
 
-        $categories = Category::query()
-            ->when($search, function ($query) use ($search) {
+        // =========================
+        // VALIDASI SORT & DIRECTION
+        // =========================
+        $allowedSorts = ['name', 'description'];
+        $allowedDirections = ['asc', 'desc'];
 
-                $query->where(function ($q) use ($search) {
-                    $q->where('name_id', 'like', "%{$search}%")
-                        ->orWhere('name_en', 'like', "%{$search}%")
-                        ->orWhere('description_id', 'like', "%{$search}%")
-                        ->orWhere('description_en', 'like', "%{$search}%");
-                });
-            })
-            ->latest()
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = null;
+        }
+
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'asc';
+        }
+
+        // Tentukan kolom berdasarkan locale
+        $nameColumn = app()->getLocale() == 'id' ? 'name_id' : 'name_en';
+        $descColumn = app()->getLocale() == 'id' ? 'description_id' : 'description_en';
+
+        $query = Category::query();
+
+        // =========================
+        // SEARCH
+        // =========================
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name_id', 'like', "%{$search}%")
+                  ->orWhere('name_en', 'like', "%{$search}%")
+                  ->orWhere('description_id', 'like', "%{$search}%")
+                  ->orWhere('description_en', 'like', "%{$search}%");
+            });
+        }
+
+        // =========================
+        // SORTING
+        // =========================
+        if ($sort === 'name') {
+            $query->orderBy($nameColumn, $direction);
+        } elseif ($sort === 'description') {
+            $query->orderBy($descColumn, $direction);
+        } else {
+            $query->latest();
+        }
+
+        $categories = $query
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.package.category.index', compact('categories'));
+        return view('admin.package.category.index', compact('categories', 'sort', 'direction'));
     }
 
     /**

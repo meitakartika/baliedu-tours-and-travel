@@ -63,7 +63,7 @@
                             </label>
 
                             <label class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="type[]" value="not_replied"
+                                <input type="checkbox" name="status[]" value="not_replied"
                                     {{ in_array('not_replied', request('status', [])) ? 'checked' : '' }}>
                                 Not Replied
                             </label>
@@ -98,20 +98,92 @@
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Name
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'name' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('contact.messages.index', [
+                                'sort' => 'name',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Name
+
+                                @if ($sort === 'name')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Date
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'date' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('contact.messages.index', [
+                                'sort' => 'date',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Date
+
+                                @if ($sort === 'date')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Email
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'email' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('contact.messages.index', [
+                                'sort' => 'email',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Email
+
+                                @if ($sort === 'email')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Status
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'status' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('contact.messages.index', [
+                                'sort' => 'status',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'status' => request('status'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Status
+
+                                @if ($sort === 'status')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="px-6 py-4 whitespace-nowrap"></th>
                     </tr>

@@ -625,7 +625,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
             @forelse($similarPackages as $item)
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col h-full">
 
                     <!-- Image -->
                     <div class="relative">
@@ -638,14 +638,14 @@
                     </div>
 
                     <!-- Content -->
-                    <div class="p-6">
+                    <div class="p-6 flex flex-col flex-1">
 
                         <p class="text-sm text-darkGrey mb-2">
                             {{ app()->getLocale() === 'id' ? $item->type->name_id : $item->type->name_en }}
 
                         </p>
 
-                        <h3 class="font-semibold text-lg mb-2">
+                        <h3 class="tour-title font-semibold text-lg mb-2 line-clamp-2">
                             {{ app()->getLocale() === 'id' ? $item->name_id : $item->name_en }}
                         </h3>
 
@@ -686,7 +686,7 @@
                             similarity: {{ number_format($item->similarity_score, 3) }}
                         </p>
 
-                        <p class="text-sm text-darkGrey mb-4 line-clamp-2">
+                        <p class="tour-overview text-sm text-darkGrey mb-4 line-clamp-2">
                             {{ app()->getLocale() === 'id' ? $item->overview_id : $item->overview_en }}
                         </p>
 
@@ -705,10 +705,10 @@
                             </div>
                         </div>
 
-                        <div class="border-t border-lightGrey my-5"></div>
+                        <div class="border-t border-lightGrey mb-5"></div>
 
                         <!-- Price -->
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between mt-auto">
                             <div class="flex flex-col justify-center">
                                 <p class="text-xs text-darkGrey mb-1">Starting from</p>
                                 <p class="font-semibold">
@@ -717,7 +717,7 @@
                             </div>
 
                             <a href="{{ route('tours.show', $item->id) }}"
-                                class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center">
+                                class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center hover:bg-darkGreen/90 transition">
                                 Read More
                                 <i class="fas fa-angle-double-right text-xs"></i>
                             </a>
@@ -882,6 +882,24 @@
 
                 });
 
+        });
+
+        // Card CBF
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".tour-title").forEach(function(title) {
+                const overview = title.closest(".p-6").querySelector(".tour-overview");
+
+                if (!overview) return;
+
+                // kalau tinggi judul lebih kecil dari 2 baris
+                const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
+                const isOneLine = title.offsetHeight <= lineHeight * 1.5;
+
+                if (isOneLine) {
+                    overview.classList.remove("line-clamp-2");
+                    overview.classList.add("line-clamp-3");
+                }
+            });
         });
     </script>
 @endpush

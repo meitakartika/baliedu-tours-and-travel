@@ -12,6 +12,19 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $sort = $request->get('sort', 'created_at'); // default
+        $direction = $request->get('direction', 'desc'); // default
+
+        $allowedSorts = ['first_name', 'last_name', 'email', 'created_at'];
+        $allowedDirections = ['asc', 'desc'];
+
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = 'created_at';
+        }
+
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'desc';
+        }
 
         $customers = User::customer()
             ->when($search, function ($query) use ($search) {
@@ -22,11 +35,11 @@ class CustomerController extends Controller
                         ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            ->latest()
+            ->orderBy($sort, $direction)
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.customers.index', compact('customers'));
+        return view('admin.customers.index', compact('customers', 'sort', 'direction'));
     }
 
     public function create()

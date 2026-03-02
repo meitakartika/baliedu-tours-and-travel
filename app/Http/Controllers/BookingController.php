@@ -15,30 +15,101 @@ class BookingController extends Controller
         $search = $request->search;
         $statusFilter = $request->status;
 
-        $bookings = Booking::with(['user', 'package'])
+        $sort = $request->get('sort');
+        $direction = $request->get('direction', 'asc');
 
-            ->when($search, function ($query) use ($search) {
-                $query->whereHas('user', function ($q) use ($search) {
-                    $q->where('first_name', 'like', "%$search%")
-                    ->orWhere('last_name', 'like', "%{$search}%");
-                })
-                    ->orWhereHas('package', function ($q) use ($search) {
-                        $q->where('name_id', 'like', "%$search%")
-                        ->orWhere('name_en', 'like', "%{$search}%");
-                    });
-            })
+        /*
+    ==========================
+    VALIDASI SORT
+    ==========================
+    */
+        $allowedSorts = [
+            'id',
+            'name',
+            'package',
+            'date',
+            'guests',
+            'price',
+            'status'
+        ];
 
-            ->when($statusFilter, function ($query) use ($statusFilter) {
-                $query->whereIn('status', $statusFilter);
-            })
+        $allowedDirections = ['asc', 'desc'];
 
-            ->latest()
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = null;
+        }
+
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'asc';
+        }
+
+        $packageNameColumn = app()->getLocale() == 'id'
+            ? 'packages.name_id'
+            : 'packages.name_en';
+
+        $query = Booking::with(['user', 'package'])
+            ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
+            ->leftJoin('packages', 'bookings.package_id', '=', 'packages.id')
+            ->select('bookings.*');
+
+        /*
+    ==========================
+    SEARCH
+    ==========================
+    */
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('users.first_name', 'like', "%{$search}%")
+                    ->orWhere('users.last_name', 'like', "%{$search}%")
+                    ->orWhere('packages.name_id', 'like', "%{$search}%")
+                    ->orWhere('packages.name_en', 'like', "%{$search}%");
+            });
+        }
+
+        /*
+    ==========================
+    FILTER STATUS
+    ==========================
+    */
+        if ($statusFilter) {
+            $query->whereIn('bookings.status', $statusFilter);
+        }
+
+        /*
+    ==========================
+    SORTING
+    ==========================
+    */
+        if ($sort === 'id') {
+            $query->orderBy('bookings.id', $direction);
+        } elseif ($sort === 'name') {
+            $query->orderBy('users.first_name', $direction);
+        } elseif ($sort === 'package') {
+            $query->orderBy($packageNameColumn, $direction);
+        } elseif ($sort === 'date') {
+            $query->orderBy('bookings.tour_date', $direction);
+        } elseif ($sort === 'guests') {
+            $query->orderBy('bookings.guest_count', $direction);
+        } elseif ($sort === 'price') {
+            $query->orderBy('bookings.total_price', $direction);
+        } elseif ($sort === 'status') {
+            $query->orderBy('bookings.status', $direction);
+        } else {
+            $query->latest('bookings.created_at');
+        }
+
+        $bookings = $query
             ->paginate(10)
             ->withQueryString();
 
-        $status = ['Pending', 'Confirmed', 'Cancelled','Completed'];
+        $status = ['pending', 'confirmed', 'cancelled', 'completed'];
 
-        return view('admin.bookings.index', compact('bookings', 'status'));
+        return view('admin.bookings.index', compact(
+            'bookings',
+            'status',
+            'sort',
+            'direction'
+        ));
     }
 
     public function edit(Booking $booking)
@@ -46,7 +117,7 @@ class BookingController extends Controller
         return view('admin.bookings.edit', compact('booking'));
     }
 
-     public function update(Request $request, Booking $booking)
+    public function update(Request $request, Booking $booking)
     {
         $validated = $request->validate([
             'status' => 'required|in:pending,confirmed,cancelled,completed'

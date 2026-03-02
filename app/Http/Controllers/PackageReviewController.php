@@ -12,27 +12,89 @@ class PackageReviewController extends Controller
         $search = $request->search;
         $ratings = $request->rating;
 
-        $testimonials = PackageReview::with(['user', 'package'])
+        $sort = $request->get('sort');
+        $direction = $request->get('direction', 'asc');
 
-            ->when($search, function ($query) use ($search) {
-                $query->whereHas('user', function ($q) use ($search) {
-                    $q->where('first_name', 'like', "%$search%")
-                        ->orWhere('last_name', 'like', "%{$search}%");
-                })
-                    ->orWhereHas('package', function ($q) use ($search) {
-                        $q->where('name_id', 'like', "%$search%")
-                            ->orWhere('name_en', 'like', "%{$search}%");
-                    });
-            })
-            ->when($ratings, function ($query) use ($ratings) {
-                $query->whereIn('rating', $ratings);
-            })
+        /*
+    ==========================
+    VALIDASI SORT
+    ==========================
+    */
+        $allowedSorts = [
+            'name',
+            'package',
+            'rating',
+            'date'
+        ];
 
-            ->latest()
+        $allowedDirections = ['asc', 'desc'];
+
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = null;
+        }
+
+        if (!in_array($direction, $allowedDirections)) {
+            $direction = 'asc';
+        }
+
+        $packageNameColumn = app()->getLocale() == 'id'
+            ? 'packages.name_id'
+            : 'packages.name_en';
+
+        $query = PackageReview::with(['user', 'package'])
+            ->leftJoin('users', 'package_reviews.user_id', '=', 'users.id')
+            ->leftJoin('packages', 'package_reviews.package_id', '=', 'packages.id')
+            ->select('package_reviews.*');
+
+        /*
+    ==========================
+    SEARCH
+    ==========================
+    */
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('users.first_name', 'like', "%{$search}%")
+                    ->orWhere('users.last_name', 'like', "%{$search}%")
+                    ->orWhere('packages.name_id', 'like', "%{$search}%")
+                    ->orWhere('packages.name_en', 'like', "%{$search}%");
+            });
+        }
+
+        /*
+    ==========================
+    FILTER RATING
+    ==========================
+    */
+        if ($ratings) {
+            $query->whereIn('package_reviews.rating', $ratings);
+        }
+
+        /*
+    ==========================
+    SORTING
+    ==========================
+    */
+        if ($sort === 'name') {
+            $query->orderBy('users.first_name', $direction);
+        } elseif ($sort === 'package') {
+            $query->orderBy($packageNameColumn, $direction);
+        } elseif ($sort === 'rating') {
+            $query->orderBy('package_reviews.rating', $direction);
+        } elseif ($sort === 'date') {
+            $query->orderBy('package_reviews.created_at', $direction);
+        } else {
+            $query->latest('package_reviews.created_at');
+        }
+
+        $testimonials = $query
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.testimonials.index', compact('testimonials'));
+        return view('admin.testimonials.index', compact(
+            'testimonials',
+            'sort',
+            'direction'
+        ));
     }
 
     public function edit(PackageReview $testimonial)

@@ -18,7 +18,8 @@
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endif
                 @endforeach
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for contacts" onchange="this.form.submit()"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for contacts"
+                    onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
 
@@ -141,16 +142,70 @@
                 <thead class="bg-mediumGrey/10 text-darkGrey">
                     <tr>
                         <th class="w-64 text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Type
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'type' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('contact.info.index', [
+                                'sort' => 'type',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Type
+
+                                @if ($sort === 'type')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="w-64 text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Label
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'label' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('contact.info.index', [
+                                'sort' => 'label',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Label
+
+                                @if ($sort === 'label')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="text-left px-6 py-4 font-semibold text-sm whitespace-nowrap">
-                            Value
-                            <i class="fa-solid fa-sort ml-2 text-xs"></i>
+                            @php
+                                $newDirection = $sort === 'value' && $direction === 'asc' ? 'desc' : 'asc';
+                            @endphp
+
+                            <a href="{{ route('contact.info.index', [
+                                'sort' => 'value',
+                                'direction' => $newDirection,
+                                'search' => request('search'),
+                                'type' => request('type'),
+                            ]) }}"
+                                class="flex items-center gap-2">
+                                Value
+
+                                @if ($sort === 'value')
+                                    <i
+                                        class="fa-solid {{ $direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down' }} text-xs"></i>
+                                @else
+                                    <i class="fa-solid fa-sort text-xs"></i>
+                                @endif
+                            </a>
                         </th>
                         <th class="px-6 py-4 whitespace-nowrap"></th>
                     </tr>
