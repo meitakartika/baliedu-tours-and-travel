@@ -50,27 +50,35 @@
 
                     <!-- YEAR -->
                     <label class="text-xs text-mediumGrey">Year</label>
-                    <select name="year" class="w-full border border-mediumGrey rounded-lg px-3 py-2 mt-1 mb-3">
+                    <div class="relative mt-1 mb-2">
+                        <select name="year"
+                            class="appearance-none w-full border border-mediumGrey rounded-lg px-3 py-2 pr-10 bg-white">
 
-                        @for ($y = now()->year; $y >= 2025; $y--)
-                            <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>
-                                {{ $y }}
-                            </option>
-                        @endfor
-                    </select>
+                            @for ($y = now()->year; $y >= 2025; $y--)
+                                <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>
+                                    {{ $y }}
+                                </option>
+                            @endfor
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-xs text-mediumGrey pointer-events-none"></i>
+                    </div>
 
                     <!-- MONTH -->
                     <label class="text-xs text-mediumGrey">Month</label>
-                    <select name="month" class="w-full border border-mediumGrey rounded-lg px-3 py-2 mt-1 mb-4">
 
-                        <option value="">Full Year</option>
+                    <div class="relative mt-1 mb-6">
+                        <select name="month"
+                            class="appearance-none w-full border border-mediumGrey rounded-lg px-3 py-2 pr-10 bg-white">
 
-                        @foreach (range(1, 12) as $m)
-                            <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
-                                {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
-                            </option>
-                        @endforeach
-                    </select>
+                            <option value="">Full Year</option>
+                            @foreach (range(1, 12) as $m)
+                                <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
+                                    {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-xs text-mediumGrey pointer-events-none"></i>
+                    </div>
 
                     <div class="mt-4 flex gap-2">
                         <a href="{{ route('admin.dashboard') }}"
