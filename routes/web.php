@@ -19,6 +19,7 @@ use App\Http\Controllers\AdminAccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\TestimonialsController;
+use App\Http\Controllers\AdminSearchController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -94,5 +95,6 @@ Route::middleware(['auth', 'admin'])
         Route::put('account/profile', [AdminAccountController::class,'updateProfile'])->name('admin.account.updateProfile');
         Route::put('account/security', [AdminAccountController::class,'updateSecurity'])->name('admin.account.updateSecurity');
         Route::post('profile-image', [AdminAccountController::class,'updateProfileImage'])->name('admin.account.profile.image');
+        Route::get('/admin/search', [AdminSearchController::class, 'index'])->name('admin.search');
 
     });

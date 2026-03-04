@@ -296,14 +296,12 @@
                     </button>
 
                     <!-- Search -->
-                    <div class="w-full max-w-md relative hidden sm:block">
-                        <i
-                            class="fa-solid fa-magnifying-glass
-               absolute left-4 top-1/2 -translate-y-1/2 text-mediumGrey"></i>
-                        <input type="text" placeholder="Search"
-                            class="w-full pl-12 pr-4 py-2 rounded-full
-                       bg-lightGrey focus:outline-none">
-                    </div>
+                    <form action="{{ route('admin.search') }}" method="GET"
+                        class="w-full max-w-md relative hidden sm:block">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-mediumGrey"></i>
+                        <input type="text" name="search" placeholder="Search"
+                            class="w-full pl-12 pr-4 py-2 rounded-full bg-lightGrey focus:outline-none">
+                    </form>
                 </div>
 
                 <!-- RIGHT -->
