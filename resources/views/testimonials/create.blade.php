@@ -24,7 +24,7 @@
             <!-- Title -->
             <div class="h-full flex items-center justify-center">
                 <h1 class="text-white text-3xl md:text-4xl font-semibold">
-                    {{ __('testimonials.my') }} <span class="text-lightGreen">{{ __('testimonials.testimonial') }}</span>
+                    {{ __('testimonials.my1') }} <span class="text-lightGreen">{{ __('testimonials.testimonial1') }}</span>
                 </h1>
             </div>
 

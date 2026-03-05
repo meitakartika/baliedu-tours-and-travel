@@ -33,7 +33,8 @@ return [
 
     // FORM PAGE
     'back' => 'Kembali ke Testimoni',
-    'my' => 'Saya',
+    'my1' => 'Testimoni',
+    'testimonial1' => 'Saya',
 
     'share_title' => 'Bagikan Cerita Anda',
     'share_desc' => 'Bagikan momen terbaik Anda selama mengikuti tur bersama kami.',

@@ -33,7 +33,8 @@ return [
 
     // FORM PAGE
     'back' => 'Back to Testimonials',
-    'my' => 'My',
+    'my1' => 'My',
+    'testimonial1' => 'Testimonial',
 
     'share_title' => 'Share Your Story',
     'share_desc' => 'Share your best moments from the tour with us.',
