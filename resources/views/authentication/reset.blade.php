@@ -9,11 +9,11 @@
 @section('content')
     <div class="min-h-screen flex items-center justify-center bg-white px-6">
 
-        <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12">
 
             {{-- LEFT IMAGE --}}
             <div class="flex justify-center pt-2 mt-6 md:mt-0">
-                <div class="relative w-full md:max-w-md h-[88vh] max-h-[800px] rounded-3xl overflow-hidden">
+                <div class="relative w-full md:max-w-lg h-[88vh] max-h-[800px] rounded-3xl overflow-hidden">
                     <img id="sliderImage" src="{{ asset('images/bali1.png') }}" alt="Bali"
                         class="w-full h-full object-cover" />
 
@@ -29,7 +29,7 @@
             </div>
 
             {{-- RIGHT FORM --}}
-            <div class="flex flex-col justify-start max-w-md w-full">
+            <div class="flex flex-col justify-start w-full">
 
                 {{-- Back --}}
                 <a href="{{ url()->previous() }}"

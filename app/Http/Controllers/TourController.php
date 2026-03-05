@@ -113,7 +113,9 @@ $similarPackages = $this->cbfService->getSimilarPackages($package, 3);
 
 public function search(Request $request)
 {
-    $query = Package::query();
+    $query = Package::with(['type', 'galleries'])
+        ->withAvg('reviews', 'rating')
+        ->withCount('reviews');
 
     // LOCATION → name / overview
     if ($request->filled('location')) {
@@ -151,7 +153,7 @@ public function search(Request $request)
               ->where('guest_max', '>=', $guests);
     }
 
-    $packages = $query->latest()->paginate(9);
+    $packages = $query->latest()->paginate(9)->withQueryString();
 
     return view('search.index', compact('packages'));
 }

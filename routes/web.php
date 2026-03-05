@@ -74,6 +74,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking-success', function () {return view('booking.success');})->name('booking.success');
 });
 
+Route::view('/terms', 'legal.terms')->name('terms');
+Route::view('/privacy', 'legal.privacy')->name('privacy');
+
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->group(function () {
@@ -98,3 +101,9 @@ Route::middleware(['auth', 'admin'])
         Route::get('/admin/search', [AdminSearchController::class, 'index'])->name('admin.search');
 
     });
+
+    Route::get('/language/{locale}', function ($locale) {
+    if (! in_array($locale, ['en', 'id'])) {
+        abort(400);}
+    session(['locale' => $locale]);
+    return redirect()->back();})->name('language.switch');

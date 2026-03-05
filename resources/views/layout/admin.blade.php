@@ -310,7 +310,7 @@
                     <!-- Language -->
                     <div class="relative group shrink-0">
                         <button class="flex items-center gap-2 hover:opacity-80 text-sm">
-                            <i class="fa-solid fa-globe"></i> EN
+                            <i class="fa-solid fa-globe"></i> {{ strtoupper(app()->getLocale()) }}
                             <i class="fa-solid fa-chevron-down text-xs"></i>
                         </button>
 
@@ -320,10 +320,10 @@
                        opacity-0 invisible
                        group-hover:opacity-100 group-hover:visible
                        transition-all duration-200">
-                            <a href="#" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
+                            <a href="{{ route('language.switch', ['locale' => 'en']) }}" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
                                 <img src="/images/icons/en.svg" class="w-4 h-4 rounded-sm"> EN
                             </a>
-                            <a href="#" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
+                            <a href="{{ route('language.switch', ['locale' => 'id']) }}" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
                                 <img src="/images/icons/id.svg" class="w-4 h-4 rounded-sm"> ID
                             </a>
                         </div>

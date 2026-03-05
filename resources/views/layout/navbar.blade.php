@@ -1,5 +1,5 @@
 <!-- ================= TOP BAR ================= -->
-<div class="relative text-white text-sm"
+<div class="relative z-50 text-white text-sm"
     style="background-image: url('/images/topbar-bg.png'); background-size: cover; background-position: center;">
     <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
 
@@ -66,29 +66,37 @@
             <div class="h-5 border-l border-white/50"></div>
 
             <!-- Language -->
-            <div class="relative group">
-                <button class="flex items-center gap-2 hover:opacity-80 text-xs">
-                    <i class="fa-solid fa-globe"></i> EN
-                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                </button>
+<div class="relative group">
+    <button class="flex items-center gap-2 hover:opacity-80 text-xs">
+        <i class="fa-solid fa-globe"></i>
+        {{ strtoupper(app()->getLocale()) }}
+        <i class="fa-solid fa-chevron-down text-xs"></i>
+    </button>
 
-                <div
-                    class="absolute right-0 top-full pt-2 w-24 bg-white text-darkGrey rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+    <div
+        class="absolute right-0 mt-2 w-24 bg-white text-darkGrey rounded-md shadow-lg
+        opacity-0 invisible group-hover:opacity-100 group-hover:visible
+        transition-all duration-200">
 
-                    <a href="#" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
-                        <img src="/images/icons/en.svg" class="w-4 h-4 rounded-sm"> EN
-                    </a>
-                    <a href="#" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
-                        <img src="/images/icons/id.svg" class="w-4 h-4 rounded-sm"> ID
-                    </a>
-                </div>
-            </div>
+        <a href="{{ route('language.switch', ['locale' => 'en']) }}"
+           class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
+            <img src="/images/icons/en.svg" class="w-4 h-4 rounded-sm">
+            EN
+        </a>
+
+        <a href="{{ route('language.switch', ['locale' => 'id']) }}"
+           class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
+            <img src="/images/icons/id.svg" class="w-4 h-4 rounded-sm">
+            ID
+        </a>
+    </div>
+</div>
         </div>
     </div>
 </div>
 
 <!-- ================= NAVBAR ================= -->
-<nav class="relative z-50 bg-white shadow-sm" x-data="{ open: false }">
+<nav class="relative z-40 bg-white shadow-sm" x-data="{ open: false }">
     <div class="relative max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <!-- Logo -->
@@ -123,7 +131,7 @@
                 <ul
                     class="absolute left-0 top-full w-48 bg-white shadow-lg rounded-lg
     opacity-0 invisible group-hover:opacity-100 group-hover:visible
-    transition-all duration-200 z-50">
+    transition-all duration-200 z-40">
 
                     @foreach ($categories as $category)
                         <li>
@@ -241,7 +249,7 @@
     </div>
     <!-- OVERLAY -->
     <div x-show="open" x-cloak x-transition.opacity @keydown.escape.window="open = false" @click.self="open = false"
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-40">
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 flex items-start justify-center pt-40">
 
         <!-- SEARCH BOX -->
         <div x-transition class="bg-white rounded-2xl shadow-xl pt-10 pb-4 px-6 w-full max-w-xl relative">
