@@ -48,6 +48,22 @@ return [
     'testimonial_title_2' => 'Wisatawan Kami',
     'reviews_text' => '100+ ulasan di website',
     'happy_travelers' => 'Wisatawan Bahagia',
+    'rating_number' => '4.9',
+
+    'cultural_title' => 'Tur Edukasi Budaya',
+    'cultural_text' => '"Kegiatan edukasi budaya bersama masyarakat lokal membuat saya merasa benar-benar terhubung dengan Bali. Belajar langsung dari seniman dan penduduk setempat memberikan pengalaman yang tidak bisa saya temukan pada tur biasa."',
+    'cultural_name' => 'Courtney Henry',
+    'cultural_country' => 'Jakarta, Indonesia',
+
+    'adventure_title' => 'Tur Petualangan',
+    'adventure_text' => '"Mengikuti perjalanan hiking Adventour adalah petualangan yang tak terlupakan. Menyusuri pegunungan Bali bersama pemandu berpengalaman membuat saya merasa lebih dekat dengan alam sambil menemukan pemandangan tersembunyi yang jarang dilihat wisatawan."',
+    'adventure_name' => 'Sarah Wilson',
+    'adventure_country' => 'Sydney, Australia',
+
+    'romantic_title' => 'Tur Romantis',
+    'romantic_text' => '"Tur romantis ini menjadi pengalaman yang sangat indah dan berkesan bagi kami. Menyaksikan matahari terbenam bersama di suasana Bali yang tenang menciptakan momen spesial yang terasa intim dan jauh lebih bermakna daripada liburan biasa."',
+    'romantic_name' => 'Michael Brown',
+    'romantic_country' => 'Singapura',
 
     // GALLERY
     'gallery_label' => 'GALERI',
@@ -58,5 +74,23 @@ return [
     // FAQ
     'faq_label' => 'FAQ',
     'faq_title' => 'Pertanyaan yang Sering Diajukan',
+
+    'q1' => 'Paket tur apa saja yang ditawarkan oleh Baliedu?',
+    'a1' => 'Kami menawarkan berbagai program seperti workshop budaya, kunjungan edukasi, kolaborasi sekolah, program lingkungan, tur edukasi, dan berbagai aktivitas berbasis pengalaman.',
+
+    'q2' => 'Bagaimana cara memesan paket tur?',
+    'a2' => 'Anda dapat memesan langsung melalui website kami atau menghubungi tim kami.',
+
+    'q3' => 'Apakah program dapat disesuaikan dengan kebutuhan grup?',
+    'a3' => 'Ya. Program dapat disesuaikan dengan kebutuhan grup Anda. Silakan hubungi kami untuk informasi lebih lanjut.',
+
+    'q4' => 'Apa saja metode pembayaran yang tersedia?',
+    'a4' => 'Kami menerima pembayaran melalui transfer bank. Detail lebih lanjut akan diberikan pada informasi tur.',
+
+    'q5' => 'Apakah ada kebijakan pembatalan dan pengembalian dana?',
+    'a5' => 'Ya, kami memiliki kebijakan pembatalan dan pengembalian dana.',
+
+    'q6' => 'Bagaimana cara mendapatkan informasi lebih lanjut?',
+    'a6' => 'Anda dapat menghubungi tim kami melalui halaman kontak atau menghubungi kami langsung untuk informasi lebih lanjut.',
 
 ];

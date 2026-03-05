@@ -18,6 +18,31 @@
     .blob-animate {
         animation: blobFloat 6.5s ease-in-out infinite;
     }
+
+    /* Transisi halus untuk pergerakan kartu */
+    .testimonial-card{
+    transition: all 0.6s ease;
+}
+
+/* CARD DEPAN */
+.testimonial-card:nth-child(1){
+    transform: translateX(0) scale(1);
+    z-index: 3;
+}
+
+/* CARD TENGAH */
+.testimonial-card:nth-child(2){
+    transform: translateX(25px) scale(0.95);
+    z-index: 2;
+    opacity: 0.9;
+}
+
+/* CARD BELAKANG */
+.testimonial-card:nth-child(3){
+    transform: translateX(50px) scale(0.9);
+    z-index: 1;
+    opacity: 0.8;
+}
 </style>
 
 @section('content')
@@ -330,7 +355,7 @@
                 <div class="flex gap-16">
                     <div>
                         <p class="text-3xl font-semibold flex items-center gap-2">
-                            4.9
+                            {{ __('home.rating_number') }}
                             <span>★</span>
                         </p>
                         <p class="text-sm opacity-90 mt-2">
@@ -350,61 +375,84 @@
             </div>
 
             <!-- RIGHT CONTENT -->
-            <div class="relative w-full max-w-xl h-[360px]" id="testimonial-stack">
+            <div class="relative w-full max-w-xl h-[360px] overflow-visible mt-12 lg:mt-0" id="testimonial-stack">
 
-                <!-- CARD 3 (BELAKANG) -->
-                <div class="testimonial-card absolute inset-0 bg-white rounded-[40px]
-        shadow-sm translate-x-8 translate-y-8 scale-95 opacity-60 z-0"
-                    data-index="2">
-                </div>
+    <!-- CARD 1 -->
+    <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
+        <!-- Quote Icon -->
+    <span
+        class="absolute top-8 right-8 text-[80px] font-serif font-bold 
+        text-gray-200 leading-none select-none pointer-events-none">
+        “
+    </span>
 
-                <!-- CARD 2 (TENGAH) -->
-                <div class="testimonial-card absolute inset-0 bg-white rounded-[40px]
-        shadow-md translate-x-4 translate-y-4 scale-[0.97] opacity-80 z-10"
-                    data-index="1">
-                </div>
+        <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.cultural_title') }}</p>
 
-                <!-- CARD 1 (DEPAN / AKTIF) -->
-                <div class="testimonial-card relative bg-white rounded-[40px] shadow-2xl
-        p-10 z-20 h-full flex flex-col justify-between cursor-pointer"
-                    data-index="0">
+        <p class="text-darkGrey font-medium mb-8">
+            {{ __('home.cultural_text') }}
+        </p>
 
-                    <!-- Quote Icon -->
-                    <span
-                        class="absolute top-10 right-12 text-[80px] font-serif font-bold
-            text-lightGrey leading-none select-none pointer-events-none">
-                        “
-                    </span>
-
-                    <!-- Content -->
-                    <div>
-                        <p class="text-darkGreen text-xl font-medium mb-6 opacity-80">
-                            Cultural Education Tours
-                        </p>
-
-                        <p class="text-darkGrey font-medium leading-relaxed max-w-[90%]">
-                            “Cultural education activities with the local community
-                            made me feel truly connected to Bali. Learning directly
-                            from local artists and residents gave me an experience
-                            I couldn’t find on ordinary tours.”
-                        </p>
-                    </div>
-
-                    <!-- Author -->
-                    <div class="flex items-center gap-4 pt-8 border-t border-gray-100">
-                        <img src="/images/avatar.png" class="w-14 h-14 rounded-full object-cover" />
-
-                        <div>
-                            <p class="font-medium text-lg text-darkGrey mb-1">
-                                Courtney Henry
-                            </p>
-                            <p class="text-sm text-darkGrey">
-                                Jakarta, Indonesia
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        <!-- Divider -->
+    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
+            <img src="/images/avatar1.png" class="w-14 h-14 rounded-full">
+            <div>
+                <p class="font-medium text-md mb-1">{{ __('home.cultural_name') }}</p>
+                <p class="text-sm text-darkGrey">{{ __('home.cultural_country') }}</p>
             </div>
+        </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
+        <!-- Quote Icon -->
+    <span
+        class="absolute top-8 right-8 text-[80px] font-serif font-bold 
+        text-gray-200 leading-none select-none pointer-events-none">
+        “
+    </span>
+
+        <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.adventure_title') }}</p>
+
+        <p class="text-darkGrey font-medium mb-8">
+            {{ __('home.adventure_text') }}
+        </p>
+
+        <!-- Divider -->
+    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
+            <img src="/images/avatar2.png" class="w-14 h-14 rounded-full">
+            <div>
+                <p class="font-medium text-md mb-1">{{ __('home.adventure_name') }}</p>
+                <p class="text-sm text-darkGrey">{{ __('home.adventure_country') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
+        <!-- Quote Icon -->
+    <span
+        class="absolute top-6 right-8 text-[80px] font-serif font-bold 
+        text-gray-200 leading-none select-none pointer-events-none">
+        “
+    </span>
+
+        <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.romantic_title') }}</p>
+
+        <p class="text-darkGrey font-medium mb-8">
+            {{ __('home.romantic_text') }}
+        </p>
+
+        <!-- Divider -->
+    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
+            <img src="/images/avatar3.png" class="w-14 h-14 rounded-full">
+            <div>
+                <p class="font-medium text-md mb-1">{{ __('home.romantic_name') }}</p>
+                <p class="text-sm text-darkGrey">{{ __('home.romantic_country') }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
         </div>
     </section>
 
@@ -478,15 +526,13 @@
                 <div class="faq-item border-b border-mediumGrey/20 px-6">
                     <button class="faq-btn w-full py-5 flex items-center justify-between">
                         <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            What tour packages does Baliedu offer?
+                            {{ __('home.q1') }}
                         </span>
                         <span class="text-xl text-mediumGrey">+</span>
                     </button>
 
                     <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        We offer a wide range of programs, including cultural workshops,
-                        educational visits, school collaborations, environmental programs,
-                        educational tours, and other experience-based activities.
+                        {{ __('home.a1') }}
                     </p>
                 </div>
 
@@ -494,13 +540,13 @@
                 <div class="faq-item border-b border-mediumGrey/20 px-6">
                     <button class="faq-btn w-full py-5 flex items-center justify-between">
                         <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            How can I book a tour package?
+                            {{ __('home.q2') }}
                         </span>
                         <span class="text-xl text-mediumGrey">+</span>
                     </button>
 
                     <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        You can book directly through our website or contact our team.
+                        {{ __('home.a2') }}
                     </p>
                 </div>
 
@@ -508,13 +554,13 @@
                 <div class="faq-item border-b border-mediumGrey/20 px-6">
                     <button class="faq-btn w-full py-5 flex items-center justify-between">
                         <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            Can the program be customized to suit group needs?
+                            {{ __('home.q3') }}
                         </span>
                         <span class="text-xl text-mediumGrey">+</span>
                     </button>
 
                     <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        Yes. Programs can be customized based on your group’s needs. Please contact us for further details.
+                        {{ __('home.a3') }}
                     </p>
                 </div>
 
@@ -522,13 +568,13 @@
                 <div class="faq-item border-b border-mediumGrey/20 px-6">
                     <button class="faq-btn w-full py-5 flex items-center justify-between">
                         <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            What payment options are provided?
+                            {{ __('home.q4') }}
                         </span>
                         <span class="text-xl text-mediumGrey">+</span>
                     </button>
 
                     <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        We accept payments via bank transfer. Further details will be provided in the tour details.
+                        {{ __('home.a4') }}
                     </p>
                 </div>
 
@@ -536,13 +582,13 @@
                 <div class="faq-item border-b border-mediumGrey/20 px-6">
                     <button class="faq-btn w-full py-5 flex items-center justify-between">
                         <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            Is there a cancellation and refund policy?
+                            {{ __('home.q5') }}
                         </span>
                         <span class="text-xl text-mediumGrey">+</span>
                     </button>
 
                     <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        Yes, we have a cancellation and refund policy.
+                        {{ __('home.a5') }}
                     </p>
                 </div>
 
@@ -550,13 +596,13 @@
                 <div class="faq-item border-b border-mediumGrey/20 px-6">
                     <button class="faq-btn w-full py-5 flex items-center justify-between">
                         <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            How can I ask for more information?
+                            {{ __('home.q6') }}
                         </span>
                         <span class="text-xl text-mediumGrey">+</span>
                     </button>
 
                     <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        You can contact our team through the contact page or reach out to us directly for more information.
+                        {{ __('home.a6') }}
                     </p>
                 </div>
 
@@ -567,51 +613,19 @@
 
 @push('scripts')
     <script>
-        //TESTIMONI
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.testimonial-card');
+    const stack = document.getElementById("testimonial-stack");
 
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    rotateCards();
-                });
-            });
+stack.addEventListener("click", function () {
 
-            function rotateCards() {
-                const order = [{
-                        classes: [
-                            'relative', 'z-20', 'opacity-100',
-                            'translate-x-0', 'translate-y-0', 'scale-100'
-                        ]
-                    },
-                    {
-                        classes: [
-                            'absolute', 'z-10', 'opacity-80',
-                            'translate-x-4', 'translate-y-4', 'scale-[0.97]'
-                        ]
-                    },
-                    {
-                        classes: [
-                            'absolute', 'z-0', 'opacity-60',
-                            'translate-x-8', 'translate-y-8', 'scale-95'
-                        ]
-                    }
-                ];
+    const cards = stack.querySelectorAll(".testimonial-card");
 
-                cards.forEach(card => {
-                    let index = parseInt(card.dataset.index);
-                    let nextIndex = (index + 1) % cards.length;
-                    card.dataset.index = nextIndex;
+    // ambil card pertama
+    const firstCard = cards[0];
 
-                    // reset semua transform
-                    card.className =
-                        'testimonial-card bg-white rounded-[40px] transition-all duration-500 ease-in-out';
+    // pindahkan ke belakang
+    stack.appendChild(firstCard);
+});
 
-                    // apply posisi baru
-                    order[nextIndex].classes.forEach(c => card.classList.add(c));
-                });
-            }
-        });
         //FAQ
         document.addEventListener('DOMContentLoaded', () => {
 

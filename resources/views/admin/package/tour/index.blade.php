@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Package Tour')
+@section('title', __('admin.title'))
 
 @section('content')
     <section class="w-full">
@@ -9,7 +9,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('package.tour.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for name/category/type"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.search_placeholder') }}"
                     onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
@@ -20,7 +20,7 @@
                     class="flex items-center gap-2 bg-darkGreen text-white text-sm
                    px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition">
                     <i class="fa-solid fa-plus"></i>
-                    Add New Package
+                    {{ __('admin.add_package') }}
                 </a>
 
                 <!-- Filters Button -->
@@ -39,7 +39,7 @@
            px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
 
                         <i class="fa-solid fa-filter"></i>
-                        Filter
+                        {{ __('admin.filter') }}
 
                         @if ($activeFilters > 0)
                             <span
@@ -62,7 +62,7 @@
                             <!-- keep search value -->
                             <input type="hidden" name="search" value="{{ request('search') }}">
 
-                            <label class="text-sm font-semibold">Category</label>
+                            <label class="text-sm font-semibold">{{ __('admin.category') }}</label>
 
                             <div class="mt-2 space-y-2">
 
@@ -76,7 +76,7 @@
 
                             </div>
 
-                            <label class="text-sm font-semibold mt-4 block">Type</label>
+                            <label class="text-sm font-semibold mt-4 block">{{ __('admin.type') }}</label>
 
                             <div class="mt-2 space-y-2">
 
@@ -95,13 +95,13 @@
                                 <a href="{{ route('package.tour.index') }}"
                                     class="flex-1 text-center border border-mediumGrey text-darkGrey 
                py-2 rounded-md text-sm hover:bg-mediumGrey/10 transition">
-                                    Reset
+                                    {{ __('admin.reset') }}
                                 </a>
 
                                 <button type="submit"
                                     class="flex-1 bg-darkGreen text-white 
                py-2 rounded-md text-sm hover:bg-darkGreen/90 transition">
-                                    Apply
+                                    {{ __('admin.apply') }}
                                 </button>
 
                             </div>
@@ -132,7 +132,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Name
+                                {{ __('admin.name') }}
 
                                 @if ($sort === 'name')
                                     <i
@@ -155,7 +155,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Category
+                                {{ __('admin.category') }}
 
                                 @if ($sort === 'category')
                                     <i
@@ -178,7 +178,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Type
+                                {{ __('admin.type') }}
 
                                 @if ($sort === 'type')
                                     <i
@@ -201,7 +201,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Price
+                                {{ __('admin.price') }}
 
                                 @if ($sort === 'price')
                                     <i
@@ -224,7 +224,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Duration
+                                {{ __('admin.duration') }}
 
                                 @if ($sort === 'duration')
                                     <i
@@ -248,7 +248,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Guests
+                                {{ __('admin.guests') }}
 
                                 @if ($sort === 'guests')
                                     <i
@@ -283,7 +283,7 @@
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
-                                {{ $package->duration }} days
+                                {{ $package->duration }} {{ __('admin.day') }}
                             </td>
 
                             <td class="px-6 py-4 text-darkGrey text-sm">
@@ -297,7 +297,7 @@
           px-4 py-2 rounded-lg
           hover:bg-lightGreen/30 transition text-sm">
                                     <i class="fa-regular fa-pen-to-square"></i>
-                                    Edit
+                                    {{ __('admin.edit') }}
                                 </a>
                             </td>
                         </tr>
@@ -308,8 +308,11 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing {{ $packages->firstItem() }}–{{ $packages->lastItem() }}
-                of {{ $packages->total() }} entries</span>
+            <span>{{ __('admin.showing_entries', [
+                'from' => $packages->firstItem(),
+                'to' => $packages->lastItem(),
+                'total' => $packages->total(),
+            ]) }}</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">

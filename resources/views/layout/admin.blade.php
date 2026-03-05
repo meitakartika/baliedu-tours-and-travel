@@ -88,7 +88,7 @@
                                 class="flex items-center gap-4 px-4 py-3 rounded-lg
        {{ request()->routeIs('admin.dashboard') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <i class="fa-solid fa-home"></i>
-                                Dashboard
+                                {{ __('layout.dashboard') }}
                             </a>
                         </div>
 
@@ -102,7 +102,7 @@
                                 class="flex items-center gap-4 px-4 py-3 rounded-lg
        {{ request()->routeIs('customers.*') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <i class="fa-solid fa-user-friends"></i>
-                                Customers
+                                {{ __('layout.customers') }}
                             </a>
                         </div>
 
@@ -126,7 +126,7 @@
                {{ $packageActive ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <span class="flex items-center gap-4">
                                     <i class="fa-solid fa-suitcase-rolling"></i>
-                                    Tour Package
+                                    {{ __('layout.tour_package') }}
                                 </span>
                                 <i class="fa-solid fa-chevron-down text-xs"></i>
                             </div>
@@ -141,7 +141,7 @@
            {{ request()->routeIs('package.category.*')
                ? 'text-darkGreen font-semibold'
                : 'text-mediumGrey hover:text-darkGreen' }}">
-                                    Category
+                                    {{ __('layout.category') }}
                                 </a>
 
                                 <!-- Type -->
@@ -150,7 +150,7 @@
            {{ request()->routeIs('package.type.*')
                ? 'text-darkGreen font-semibold'
                : 'text-mediumGrey hover:text-darkGreen' }}">
-                                    Type
+                                    {{ __('layout.type') }}
                                 </a>
 
                                 <!-- Package -->
@@ -159,7 +159,7 @@
            {{ request()->routeIs('package.tour.*')
                ? 'text-darkGreen font-semibold'
                : 'text-mediumGrey hover:text-darkGreen' }}">
-                                    Package Tour
+                                    {{ __('layout.package_tour') }}
                                 </a>
 
                                 <!-- Itinerary -->
@@ -168,7 +168,7 @@
            {{ request()->routeIs('package.itinerary.*')
                ? 'text-darkGreen font-semibold'
                : 'text-mediumGrey hover:text-darkGreen' }}">
-                                    Itinerary
+                                    {{ __('layout.itinerary') }}
                                 </a>
 
                                 <!-- List -->
@@ -177,7 +177,7 @@
            {{ request()->routeIs('package.list.*')
                ? 'text-darkGreen font-semibold'
                : 'text-mediumGrey hover:text-darkGreen' }}">
-                                    List
+                                    {{ __('layout.list') }}
                                 </a>
 
                             </div>
@@ -193,7 +193,7 @@
                                 class="flex items-center gap-4 px-4 py-3 rounded-lg
        {{ request()->routeIs('bookings.*') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <i class="fa-solid fa-calendar"></i>
-                                Bookings
+                                {{ __('layout.bookings') }}
                             </a>
                         </div>
 
@@ -207,7 +207,7 @@
                                 class="flex items-center gap-4 px-4 py-3 rounded-lg
        {{ request()->routeIs('testimonials.admin.*') ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <i class="fa-solid fa-user-friends"></i>
-                                Testimonials
+                                {{ __('layout.testimonials') }}
                             </a>
                         </div>
 
@@ -230,7 +230,7 @@
                {{ $contactActive ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
                                 <span class="flex items-center gap-4">
                                     <i class="fa-solid fa-address-book"></i>
-                                    Contact
+                                    {{ __('layout.contact') }}
                                 </span>
                                 <i class="fa-solid fa-chevron-down text-xs"></i>
                             </div>
@@ -245,7 +245,7 @@
            {{ request()->routeIs('contact.info.*')
                ? 'text-darkGreen font-semibold'
                : 'text-mediumGrey hover:text-darkGreen' }}">
-                                    Contact Info
+                                    {{ __('layout.contact_info') }}
                                 </a>
 
                                 <!-- Contact Message -->
@@ -254,7 +254,7 @@
            {{ request()->routeIs('contact.messages.*')
                ? 'text-darkGreen font-semibold'
                : 'text-mediumGrey hover:text-darkGreen' }}">
-                                    Contact Message
+                                    {{ __('layout.contact_message') }}
                                 </a>
 
                             </div>
@@ -270,7 +270,7 @@
                         <button type="submit"
                             class="flex items-center gap-4 px-4 py-3 rounded-lg
           text-darkGrey hover:text-red">
-                            <i class="fa-solid fa-right-from-bracket"></i>Logout</button>
+                            <i class="fa-solid fa-right-from-bracket"></i>{{ __('layout.logout') }}</button>
                     </form>
                 </nav>
 
@@ -299,7 +299,7 @@
                     <form action="{{ route('admin.search') }}" method="GET"
                         class="w-full max-w-md relative hidden sm:block">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-mediumGrey"></i>
-                        <input type="text" name="search" placeholder="Search"
+                        <input type="text" name="search" placeholder="{{ __('layout.search') }}"
                             class="w-full pl-12 pr-4 py-2 rounded-full bg-lightGrey focus:outline-none">
                     </form>
                 </div>
@@ -319,7 +319,7 @@
                        bg-white text-darkGrey rounded-md shadow-lg
                        opacity-0 invisible
                        group-hover:opacity-100 group-hover:visible
-                       transition-all duration-200">
+                       transition-all duration-200 z-50">
                             <a href="{{ route('language.switch', ['locale' => 'en']) }}" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
                                 <img src="/images/icons/en.svg" class="w-4 h-4 rounded-sm"> EN
                             </a>
@@ -344,7 +344,7 @@
                             <div class="text-sm hidden md:block">
                                 <p class="font-semibold text-darkGrey">{{ Auth::user()->first_name }}
                                     {{ Auth::user()->last_name }}</p>
-                                <p class="text-xs text-darkGrey">Admin</p>
+                                <p class="text-xs text-darkGrey">{{ __('layout.admin') }}</p>
                             </div>
                         </a>
                     </div>
@@ -371,7 +371,7 @@
                 .classList.toggle('-translate-x-full');
         }
 
-        function confirmDelete(formId, title = 'Delete Data?', text = 'This action cannot be undone!') {
+        function confirmDelete(formId, title = '{{ __('layout.delete_data') }}', text = '{{ __('layout.delete_warning') }}') {
             Swal.fire({
                 title: title,
                 text: text,
@@ -379,8 +379,8 @@
                 showCancelButton: true,
                 confirmButtonColor: '#E21B2C',
                 cancelButtonColor: '#828282',
-                confirmButtonText: 'Delete',
-                cancelButtonText: 'Cancel',
+                confirmButtonText: '{{ __('layout.delete') }}',
+                cancelButtonText: '{{ __('layout.cancel') }}',
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {

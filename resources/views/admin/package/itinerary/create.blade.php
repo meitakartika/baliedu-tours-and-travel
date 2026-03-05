@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Add New Itinerary')
+@section('title', __('admin.add_new_itinerary'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('package.itinerary.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Add New Itinerary
+            {{ __('admin.add_new_itinerary') }}
         </h1>
 
         <!-- ERROR VALIDATION -->
@@ -36,7 +36,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <!-- Category -->
-                <h2 class="font-semibold text-base text-darkGrey mt-4">Tour Package</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4">{{ __('admin.tour_package') }}</h2>
                 <div class="col-span-2">
                     <div class="relative mt-1">
                         <select name="package_id"
@@ -46,7 +46,7 @@
                             required>
 
                             <option value="" disabled selected hidden>
-                                Select the tour package
+                                {{ __('admin.select_tour_package') }}
                             </option>
 
                             @foreach ($packages as $package)
@@ -65,7 +65,7 @@
                         <label
                             class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white
                peer-focus:text-darkGreen">
-                            Tour Package
+                            {{ __('admin.tour_package') }}
                         </label>
                     </div>
                 </div>
@@ -78,13 +78,13 @@
                         <div class="flex items-center justify-between col-span-2 mt-4">
 
                             <h2 class="itinerary-title font-semibold text-base text-darkGrey">
-                                Itinerary Details __INDEX_DISPLAY__
+                                {{ __('admin.itinerary_details') }} __INDEX_DISPLAY__
                             </h2>
 
                             <button type="button"
                                 class="delete-itinerary flex items-center gap-2 text-red text-sm font-medium hover:opacity-70">
                                 <i class="fa-solid fa-trash"></i>
-                                Delete
+                                {{ __('admin.delete') }}
                             </button>
 
                         </div>
@@ -92,38 +92,38 @@
                         <!-- Name ID -->
                         <div class="relative mt-1">
                             <input type="text" name="itineraries[__INDEX__][title_id]"
-                                placeholder="Enter the indonesian name"
+                                placeholder="{{ __('admin.enter_indonesian_name') }}"
                                 class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Name (ID)
+                                {{ __('admin.name') }} (ID)
                             </label>
                         </div>
 
                         <!-- Name EN -->
                         <div class="relative mt-1">
                             <input type="text" name="itineraries[__INDEX__][title_en]"
-                                placeholder="Enter the english name"
+                                placeholder="{{ __('admin.enter_english_name') }}"
                                 class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Name (EN)
+                                {{ __('admin.name') }} (EN)
                             </label>
                         </div>
 
                         <!-- DAY -->
                         <div class="relative mt-2">
-                            <input type="number" name="itineraries[__INDEX__][day]" placeholder="Enter day number"
+                            <input type="number" name="itineraries[__INDEX__][day]" placeholder="{{ __('admin.enter_day') }}"
                                 class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Day
+                                {{ __('admin.day') }}
                             </label>
                         </div>
 
                         <!-- Time -->
                         <div class="relative mt-2">
-                            <input type="time" name="itineraries[__INDEX__][time]" placeholder="Select the time"
+                            <input type="time" name="itineraries[__INDEX__][time]" placeholder="{{ __('admin.select_time') }}"
                                 class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Time
+                                {{ __('admin.time') }}
                             </label>
                         </div>
 
@@ -137,24 +137,24 @@
                                 <!-- Description ID -->
                                 <div class="relative mt-2">
                                     <textarea name="itineraries[__INDEX__][details][0][description_id]" rows="4"
-                                        placeholder="Enter the indonesian description"
+                                        placeholder="{{ __('admin.enter_indonesian_description') }}"
                                         class="bg-softGrey w-full border border-mediumGrey rounded-md
                px-3 py-3 text-sm resize-none
                focus:outline-none focus:border-darkGreen"></textarea>
                                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                        Description (ID)
+                                        {{ __('admin.description') }} (ID)
                                     </label>
                                 </div>
 
                                 <!-- Description EN -->
                                 <div class="relative mt-2">
                                     <textarea name="itineraries[__INDEX__][details][0][description_en]" rows="4"
-                                        placeholder="Enter the english description"
+                                        placeholder="{{ __('admin.enter_english_description') }}"
                                         class="bg-softGrey w-full border border-mediumGrey rounded-md
                px-3 py-3 text-sm resize-none
                focus:outline-none focus:border-darkGreen"></textarea>
                                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                        Description (EN)
+                                        {{ __('admin.description') }} (EN)
                                     </label>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                         <button type="button"
                             class="add-description flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
                             <i class="fa-solid fa-plus"></i>
-                            Add More Description
+                            {{ __('admin.add_more_description') }}
                         </button>
 
                         <hr class="border-darkGreen mt-4 col-span-2">
@@ -182,7 +182,7 @@
                    rounded-xl h-40 cursor-pointer
                    text-sm text-mediumGrey hover:border-darkGreen hover:text-darkGreen gap-2">
                         <i class="fa-solid fa-plus text-xl"></i>
-                        Add More Itinerary Details
+                        {{ __('admin.add_more_itinerary') }}
                     </label>
                 </div>
 
@@ -191,7 +191,7 @@
                     class="bg-darkGreen text-white text-sm font-medium
                    px-12 py-3 rounded-lg w-1/2 lg:w-1/3 col-span-2
                    hover:bg-darkGreen/90 transition">
-                    Add New
+                    {{ __('admin.add_new') }}
                 </button>
             </div>
         </form>
@@ -290,22 +290,22 @@
                     <div class="relative mt-4">
                         <textarea
                         name="itineraries[${itineraryIndex}][details][${dIndex}][description_id]"
-                        placeholder="Enter the indonesian description" rows="4"
+                        placeholder="{{ __('admin.enter_indonesian description') }}n" rows="4"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 py-3 text-sm resize-none focus:outline-none focus:border-darkGreen">${detail.description_id ?? ''}</textarea>
 
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Description (ID)
+                            {{ __('admin.description') }} (ID)
                         </label>
                     </div>
 
                     <div class="relative mt-4">
                         <textarea
                         name="itineraries[${itineraryIndex}][details][${dIndex}][description_en]"
-                        placeholder="Enter the english description" rows="4"
+                        placeholder="{{ __('admin.enter_english_description') }}" rows="4"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 py-3 text-sm resize-none focus:outline-none focus:border-darkGreen">${detail.description_en ?? ''}</textarea>
 
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Description (EN)
+                            {{ __('admin.description') }} (EN)
                         </label>
                     </div>
 
@@ -364,24 +364,24 @@
             <div class="relative mt-4">
             <textarea
                 name="itineraries[${itineraryIdx}][details][${detailIndex}][description_id]"
-                placeholder="Enter the indonesian description" rows="4"
+                placeholder="{{ __('admin.enter_indonesian_description') }}" rows="4"
                 class="bg-softGrey w-full border border-mediumGrey rounded-md
                px-3 py-3 text-sm resize-none
                focus:outline-none focus:border-darkGreen"></textarea>
                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                Description (ID)
+                {{ __('admin.description') }} (ID)
                 </label>
                 </div>
 
             <div class="relative mt-4">
             <textarea
                 name="itineraries[${itineraryIdx}][details][${detailIndex}][description_en]"
-                placeholder="Enter the english description" rows="4"
+                placeholder="{{ __('admin.enter_english_description') }}" rows="4"
                 class="bg-softGrey w-full border border-mediumGrey rounded-md
                px-3 py-3 text-sm resize-none
                focus:outline-none focus:border-darkGreen"></textarea>
                <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                Description (EN)
+                {{ __('admin.description') }} (EN)
                 </label>
                 </div>
 

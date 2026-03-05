@@ -26,4 +26,32 @@ return [
 
     'footer_description' => 'Baliedu Tours and Travel menawarkan perjalanan Bali yang autentik dan bermakna, mengajak wisatawan untuk menjelajahi budaya, alam, dan kehidupan Bali secara lebih dekat.',
 
+    // ADMIN
+    'dashboard' => 'Dashboard',
+    'customers' => 'Pelanggan',
+
+    'tour_package' => 'Paket Wisata',
+    'category' => 'Kategori',
+    'type' => 'Tipe',
+    'package_tour' => 'Paket Tur',
+    'itinerary' => 'Itinerary',
+    'list' => 'Daftar',
+
+    'bookings' => 'Pemesanan',
+    'testimonials' => 'Testimoni',
+
+    'contact' => 'Kontak',
+    'contact_info' => 'Info Kontak',
+    'contact_message' => 'Pesan Kontak',
+
+    'search' => 'Cari',
+
+    'logout' => 'Keluar',
+    'admin' => 'Admin',
+
+    'delete_data' => 'Hapus Data?',
+    'delete_warning' => 'Aksi ini tidak dapat dibatalkan!',
+    'delete' => 'Hapus',
+    'cancel' => 'Batal',
+    
 ];

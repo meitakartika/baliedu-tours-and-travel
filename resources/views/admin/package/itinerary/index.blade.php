@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Package Itinerary')
+@section('title', __('admin.package_itinerary'))
 
 @section('content')
     <section class="w-full">
@@ -9,7 +9,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('package.itinerary.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for itineraries"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.search_itineraries') }}"
                     onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
@@ -20,7 +20,7 @@
                     class="flex items-center gap-2 bg-darkGreen text-white text-sm
                    px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition">
                     <i class="fa-solid fa-plus"></i>
-                    Add New Itinerary
+                    {{ __('admin.add_new_itinerary') }}
                 </a>
             </div>
 
@@ -42,7 +42,7 @@
                                 'search' => request('search'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Tour Package
+                                {{ __('admin.tour_package') }}
 
                                 @if ($sort === 'name')
                                     <i
@@ -63,7 +63,7 @@
                                 'search' => request('search'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Itineraries Count
+                                {{ __('admin.itineraries_count') }}
 
                                 @if ($sort === 'itineraries')
                                     <i
@@ -86,7 +86,7 @@
                             </td>
 
                             <td class="text-left px-6 py-4 text-darkGrey text-sm">
-                                {{ $package->itineraries_count }} itineraries
+                                {{ $package->itineraries_count }} Itinerary
                             </td>
 
                             <td class="px-6 py-4 text-right">
@@ -96,7 +96,7 @@
           px-4 py-2 rounded-lg
           hover:bg-lightGreen/30 transition text-sm">
                                     <i class="fa-regular fa-pen-to-square"></i>
-                                    Edit
+                                    {{ __('admin.edit') }}
                                 </a>
                             </td>
                         </tr>
@@ -107,8 +107,11 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing {{ $packages->firstItem() }}–{{ $packages->lastItem() }}
-                of {{ $packages->total() }} entries</span>
+            <span>{{ __('admin.showing_entries', [
+                'from' => $packages->firstItem(),
+                'to' => $packages->lastItem(),
+                'total' => $packages->total(),
+            ]) }}</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">

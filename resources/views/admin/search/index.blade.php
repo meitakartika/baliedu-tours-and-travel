@@ -1,18 +1,18 @@
 @extends('layout.admin')
 
-@section('title', 'Search Result')
+@section('title', __('admin.search_result'))
 
 @section('content')
 
 <h2 class="text-xl font-semibold text-darkGrey mb-8">
-    Search Result for "{{ $search }}"
+    {{ __('admin.result_for') }} "{{ $search }}"
 </h2>
 
 {{-- ================= BOOKING ================= --}}
 @if($bookings->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Bookings ({{ $bookings->count() }})
+        {{ __('admin.bookings') }} ({{ $bookings->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($bookings as $booking)
@@ -32,7 +32,7 @@
 @if($packages->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Packages ({{ $packages->count() }})
+        {{ __('admin.packages') }} ({{ $packages->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($packages as $package)
@@ -49,7 +49,7 @@
 @if($customers->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Customers ({{ $customers->count() }})
+        {{ __('admin.customers') }} ({{ $customers->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($customers as $customer)
@@ -69,7 +69,7 @@
 @if($categories->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Categories ({{ $categories->count() }})
+        {{ __('admin.categories') }} ({{ $categories->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($categories as $category)
@@ -86,13 +86,13 @@
 @if($types->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Types ({{ $types->count() }})
+        {{ __('admin.types') }} ({{ $types->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($types as $type)
             <li class="bg-white p-4 rounded-lg shadow-sm text-sm">
                 {{ $type->name_en }}
-                (Category: {{ $type->category->name_en ?? '-' }})
+                ({{ __('admin.category') }}: {{ $type->category->name_en ?? '-' }})
             </li>
         @endforeach
     </ul>
@@ -104,13 +104,13 @@
 @if($itineraries->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Itineraries ({{ $itineraries->count() }})
+        {{ __('admin.itineraries') }} ({{ $itineraries->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($itineraries as $package)
             <li class="bg-white p-4 rounded-lg shadow-sm text-sm">
                 {{ $package->name_en }}
-                ({{ $package->itineraries_count }} itineraries)
+                ({{ $package->itineraries_count }} {{ __('admin.itineraries') }})
             </li>
         @endforeach
     </ul>
@@ -122,15 +122,15 @@
 @if($lists->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Lists ({{ $lists->count() }})
+        {{ __('admin.lists') }} ({{ $lists->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($lists as $package)
             <li class="bg-white p-4 rounded-lg shadow-sm text-sm">
                 {{ $package->name_en }}
-                | Includes: {{ $package->includes_count }}
-                | Not Includes: {{ $package->not_includes_count }}
-                | Must Bring: {{ $package->must_bring_count }}
+                | {{ __('admin.includes') }}: {{ $package->includes_count }}
+                | {{ __('admin.not_includes') }}: {{ $package->not_includes_count }}
+                | {{ __('admin.must_bring') }}: {{ $package->must_bring_count }}
             </li>
         @endforeach
     </ul>
@@ -142,7 +142,7 @@
 @if($testimonials->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Testimonials ({{ $testimonials->count() }})
+        {{ __('admin.testimonials') }} ({{ $testimonials->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($testimonials as $testimonial)
@@ -162,7 +162,7 @@
 @if($contactInfos->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Contact Info ({{ $contactInfos->count() }})
+        {{ __('admin.contact_info') }} ({{ $contactInfos->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($contactInfos as $info)
@@ -181,7 +181,7 @@
 @if($contactMessages->count())
 <div class="mb-10">
     <h3 class="font-semibold text-darkGrey text-md mb-3">
-        Contact Messages ({{ $contactMessages->count() }})
+        {{ __('admin.contact_messages') }} ({{ $contactMessages->count() }})
     </h3>
     <ul class="space-y-2">
         @foreach($contactMessages as $message)
@@ -211,7 +211,7 @@
     !$types->count()
 )
 <div class="bg-white p-6 rounded-lg shadow-sm text-center text-mediumGrey">
-    No result found.
+    {{ __('admin.no_result') }}
 </div>
 @endif
 

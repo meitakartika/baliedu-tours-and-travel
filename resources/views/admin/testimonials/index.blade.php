@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Testimonials')
+@section('title', __('admin.testimonials'))
 
 @section('content')
     <section class="w-full">
@@ -9,7 +9,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('testimonials.admin.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for user/package"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.search_testimonial') }}"
                     onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
@@ -30,7 +30,7 @@
            px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
 
                     <i class="fa-solid fa-filter"></i>
-                    Filter
+                    {{ __('admin.filter') }}
 
                     @if ($activeFilters > 0)
                         <span
@@ -53,7 +53,7 @@
                         <!-- keep search value -->
                         <input type="hidden" name="search" value="{{ request('search') }}">
 
-                        <label class="text-sm font-semibold">Rating</label>
+                        <label class="text-sm font-semibold">{{ __('admin.rating') }}</label>
 
                         <div class="mt-2 space-y-2">
 
@@ -76,13 +76,13 @@
                             <a href="{{ route('testimonials.admin.index') }}"
                                 class="flex-1 text-center border border-mediumGrey text-darkGrey 
                py-2 rounded-md text-sm hover:bg-mediumGrey/10 transition">
-                                Reset
+                                {{ __('admin.reset') }}
                             </a>
 
                             <button type="submit"
                                 class="flex-1 bg-darkGreen text-white 
                py-2 rounded-md text-sm hover:bg-darkGreen/90 transition">
-                                Apply
+                                {{ __('admin.apply') }}
                             </button>
 
                         </div>
@@ -110,7 +110,7 @@
                                 'rating' => request('rating'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Name
+                                {{ __('admin.name') }}
 
                                 @if ($sort === 'name')
                                     <i
@@ -132,7 +132,7 @@
                                 'rating' => request('rating'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Tour Package
+                                {{ __('admin.tour_package') }}
 
                                 @if ($sort === 'package')
                                     <i
@@ -154,7 +154,7 @@
                                 'rating' => request('rating'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Rating
+                                {{ __('admin.rating') }}
 
                                 @if ($sort === 'rating')
                                     <i
@@ -176,7 +176,7 @@
                                 'rating' => request('rating'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Date
+                                {{ __('admin.date') }}
 
                                 @if ($sort === 'date')
                                     <i
@@ -237,7 +237,7 @@
           px-4 py-2 rounded-lg
           hover:bg-lightGreen/30 transition text-sm">
                                     <i class="fa-regular fa-pen-to-square"></i>
-                                    Edit
+                                    {{ __('admin.edit') }}
                                 </a>
                             </td>
                         </tr>
@@ -248,8 +248,11 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing {{ $testimonials->firstItem() }}–{{ $testimonials->lastItem() }}
-                of {{ $testimonials->total() }} entries</span>
+            <span>{{ __('admin.showing_entries', [
+                'from' => $testimonials->firstItem(),
+                'to' => $testimonials->lastItem(),
+                'total' => $testimonials->total(),
+            ]) }}</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">

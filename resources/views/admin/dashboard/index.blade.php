@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Dashboard')
+@section('title', __('admin.dashboard'))
 
 @section('content')
 
@@ -8,7 +8,7 @@
         <!-- ================= DASHBOARD HEADER ================= -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <h1 class="text-2xl font-semibold text-black">
-                Dashboard
+                {{ __('admin.dashboard') }}
             </h1>
 
             <!-- Filter -->
@@ -28,7 +28,7 @@
 
                     <div class="text-left flex-1">
                         <p class="text-sm font-medium text-darkGrey">
-                            Filter Periode
+                            {{ __('admin.filter_period') }}
                         </p>
 
                         <p class="text-xs text-mediumGrey">
@@ -49,7 +49,7 @@
                     class="absolute right-0 mt-2 bg-white rounded-xl shadow-lg p-4 w-64 z-50">
 
                     <!-- YEAR -->
-                    <label class="text-xs text-mediumGrey">Year</label>
+                    <label class="text-xs text-mediumGrey">{{ __('admin.year') }}</label>
                     <div class="relative mt-1 mb-2">
                         <select name="year"
                             class="appearance-none w-full border border-mediumGrey rounded-lg px-3 py-2 pr-10 bg-white">
@@ -64,13 +64,13 @@
                     </div>
 
                     <!-- MONTH -->
-                    <label class="text-xs text-mediumGrey">Month</label>
+                    <label class="text-xs text-mediumGrey">{{ __('admin.month') }}</label>
 
                     <div class="relative mt-1 mb-6">
                         <select name="month"
                             class="appearance-none w-full border border-mediumGrey rounded-lg px-3 py-2 pr-10 bg-white">
 
-                            <option value="">Full Year</option>
+                            <option value="">{{ __('admin.full_year') }}</option>
                             @foreach (range(1, 12) as $m)
                                 <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
                                     {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
@@ -84,13 +84,13 @@
                         <a href="{{ route('admin.dashboard') }}"
                             class="flex-1 text-center border border-mediumGrey text-darkGrey 
                        py-2 rounded-md text-sm hover:bg-mediumGrey/10 transition">
-                            Reset
+                            {{ __('admin.reset') }}
                         </a>
 
                         <button type="submit"
                             class="flex-1 bg-darkGreen text-white 
                        py-2 rounded-md text-sm hover:bg-darkGreen/90 transition">
-                            Apply
+                            {{ __('admin.apply') }}
                         </button>
                     </div>
 
@@ -105,7 +105,7 @@
             <!-- Total Tour Packages -->
             <div class="bg-white rounded-xl p-6 shadow-sm">
                 <div class="flex items-center justify-between mb-2">
-                    <p class="text-sm text-mediumGrey font-medium">Total Tour Packages</p>
+                    <p class="text-sm text-mediumGrey font-medium">{{ __('admin.total_tour_packages') }}</p>
                     <div class="w-10 h-10 rounded-xl bg-lightGreen/30 flex items-center justify-center">
                         <i class="fa-solid fa-suitcase-rolling text-darkGreen text-lg"></i>
                     </div>
@@ -116,14 +116,14 @@
                 <div class="flex items-center gap-2 text-sm {{ $growthPackages >= 0 ? 'text-darkGreen' : 'text-red' }}">
                     <i class="fa-solid {{ $growthPackages >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down' }}"></i>
                     {{ abs(round($growthPackages, 1)) }}%
-                    {{ $growthPackages >= 0 ? 'Up' : 'Down' }} from past {{ $month ? 'month' : 'year' }}
+                    {{ $growthPackages >= 0 ? __('admin.up') : __('admin.down') }} {{ __('admin.from_past') }} {{ $month ? __('admin.month_label') : __('admin.year_label') }}
                 </div>
             </div>
 
             <!-- Total User -->
             <div class="bg-white rounded-xl p-6 shadow-sm">
                 <div class="flex items-center justify-between mb-2">
-                    <p class="text-sm text-mediumGrey font-medium">Total User</p>
+                    <p class="text-sm text-mediumGrey font-medium">{{ __('admin.total_users') }}</p>
                     <div class="w-10 h-10 rounded-xl bg-lightGreen/30 flex items-center justify-center">
                         <i class="fa-solid fa-user-friends text-darkGreen text-lg"></i>
                     </div>
@@ -134,14 +134,14 @@
                 <div class="flex items-center gap-2 text-sm {{ $growthUsers >= 0 ? 'text-darkGreen' : 'text-red' }}">
                     <i class="fa-solid {{ $growthUsers >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down' }}"></i>
                     {{ abs(round($growthUsers, 1)) }}%
-                    {{ $growthUsers >= 0 ? 'Up' : 'Down' }} from past {{ $month ? 'month' : 'year' }}
+                    {{ $growthUsers >= 0 ? __('admin.up') : __('admin.down') }} {{ __('admin.from_past') }} {{ $month ? __('admin.month_label') : __('admin.year_label') }}
                 </div>
             </div>
 
             <!-- Total Testimonials -->
             <div class="bg-white rounded-xl p-6 shadow-sm">
                 <div class="flex items-center justify-between mb-2">
-                    <p class="text-sm text-mediumGrey font-medium">Total Testimonials</p>
+                    <p class="text-sm text-mediumGrey font-medium">{{ __('admin.total_testimonials') }}</p>
                     <div class="w-10 h-10 rounded-xl bg-lightGreen/30 flex items-center justify-center">
                         <i class="fa-solid fa-star text-darkGreen text-lg"></i>
                     </div>
@@ -153,7 +153,7 @@
                     class="flex items-center gap-2 text-sm {{ $growthTestimonials >= 0 ? 'text-darkGreen' : 'text-red' }}">
                     <i class="fa-solid {{ $growthTestimonials >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down' }}"></i>
                     {{ abs(round($growthTestimonials, 1)) }}%
-                    {{ $growthTestimonials >= 0 ? 'Up' : 'Down' }} from past {{ $month ? 'month' : 'year' }}
+                    {{ $growthTestimonials >= 0 ? __('admin.up') : __('admin.down') }} {{ __('admin.from_past') }} {{ $month ? __('admin.month_label') : __('admin.year_label') }}
                 </div>
             </div>
 
@@ -165,7 +165,7 @@
             <!-- Total Bookings -->
             <div class="bg-white rounded-xl p-6 shadow-sm flex flex-col justify-center h-full">
                 <div class="flex items-center justify-between mb-6">
-                    <p class="text-sm text-mediumGrey font-medium">Total Bookings</p>
+                    <p class="text-sm text-mediumGrey font-medium">{{ __('admin.total_bookings') }}</p>
                     <div class="w-10 h-10 rounded-xl bg-lightGreen/30 flex items-center justify-center">
                         <i class="fa-solid fa-calendar-check text-darkGreen text-lg"></i>
                     </div>
@@ -176,14 +176,14 @@
                 <div class="flex items-center gap-2 text-sm {{ $growthBookings >= 0 ? 'text-darkGreen' : 'text-red' }}">
                     <i class="fa-solid {{ $growthBookings >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down' }}"></i>
                     {{ abs(round($growthBookings, 1)) }}%
-                    {{ $growthBookings >= 0 ? 'Up' : 'Down' }} from past {{ $month ? 'month' : 'year' }}
+                    {{ $growthBookings >= 0 ? __('admin.up') : __('admin.down') }} {{ __('admin.from_past') }} {{ $month ? __('admin.month_label') : __('admin.year_label') }}
                 </div>
             </div>
 
             <!-- Status Booking -->
             <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm">
                 <h3 class="text-center text-sm font-medium text-mediumGrey mb-5">
-                    Status Bookings in This Month
+                    {{ __('admin.status_bookings_month') }}
                 </h3>
 
                 <div class="flex flex-wrap justify-center gap-8">
@@ -209,7 +209,7 @@
                                 {{ $pendingPercent }}%
                             </span>
                         </div>
-                        <p class="text-xs md:text-sm text-darkGrey">Pending</p>
+                        <p class="text-xs md:text-sm text-darkGrey">{{ __('admin.pending') }}</p>
                     </div>
 
                     <!-- Confirmed -->
@@ -233,7 +233,7 @@
                                 {{ $confirmedPercent }}%
                             </span>
                         </div>
-                        <p class="text-xs md:text-sm text-darkGrey">Confirmed</p>
+                        <p class="text-xs md:text-sm text-darkGrey">{{ __('admin.confirmed') }}</p>
                     </div>
 
                     <!-- Completed -->
@@ -257,7 +257,7 @@
                                 {{ $completedPercent }}%
                             </span>
                         </div>
-                        <p class="text-xs md:text-sm text-darkGrey">Completed</p>
+                        <p class="text-xs md:text-sm text-darkGrey">{{ __('admin.completed') }}</p>
                     </div>
 
                     <!-- Cancelled -->
@@ -281,7 +281,7 @@
                                 {{ $cancelledPercent }}%
                             </span>
                         </div>
-                        <p class="text-xs md:text-sm text-darkGrey">Cancelled</p>
+                        <p class="text-xs md:text-sm text-darkGrey">{{ __('admin.cancelled') }}</p>
                     </div>
 
                 </div>
@@ -291,7 +291,7 @@
 
         <!-- ================= CHART ================= -->
         <div class="bg-white rounded-xl p-6 shadow-sm">
-            <h3 class="text-base font-semibold mb-6">Chart Bookings</h3>
+            <h3 class="text-base font-semibold mb-6">{{ __('admin.chart_bookings') }}</h3>
 
             <div id="bookingChart"></div>
         </div>
@@ -313,7 +313,7 @@
             },
 
             series: [{
-                name: 'Bookings',
+                name: '{{ __('admin.bookings') }}',
                 data: @json($data)
             }],
 
@@ -372,7 +372,7 @@
                 theme: 'light',
                 y: {
                     formatter: function(val) {
-                        return val + " bookings";
+                        return val + " {{ __('admin.bookings') }}";
                     }
                 }
             }

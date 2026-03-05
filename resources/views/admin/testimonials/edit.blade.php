@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Edit Testimonial')
+@section('title', __('admin.edit_testimonial'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('testimonials.admin.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Edit Testimonial
+            {{ __('admin.edit_testimonial') }}
         </h1>
 
         <!-- FORM -->
@@ -50,7 +50,7 @@
                             value="{{ $testimonial->user->first_name }} {{ $testimonial->user->last_name }}"
                             class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Name
+                            {{ __('admin.name') }}
                         </label>
                     </div>
 
@@ -59,7 +59,7 @@
                         <input type="email" name="email" readonly value="{{ $testimonial->user->email }}"
                             class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Email
+                            {{ __('admin.email') }}
                         </label>
                     </div>
 
@@ -69,14 +69,14 @@
                             value="{{ app()->getLocale() == 'id' ? $testimonial->package->name_id : $testimonial->package->name_en }}"
                             class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Tour Package
+                            {{ __('admin.tour_package') }}
                         </label>
                     </div>
 
                     <!-- RATING -->
                     <div class="relative mt-2">
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Rating
+                            {{ __('admin.rating') }}
                         </label>
 
                         <div
@@ -100,14 +100,14 @@
                 <textarea name="message" rows="7" readonly
                     class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 pt-4 text-sm focus:outline-none focus:border-darkGreen">{{ $testimonial->comment }}</textarea>
                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                    Testimonial
+                    {{ __('admin.testimonial') }}
                 </label>
             </div>
 
             <!-- CURRENT IMAGE -->
             <div>
                 <p class="text-sm font-medium text-darkGrey mb-3">
-                    Image Review
+                    {{ __('admin.image_review') }}
                 </p>
 
                 <div class="w-full">
@@ -125,7 +125,7 @@
                             @endforeach
                         </div>
                     @else
-                        <p class="text-xs text-mediumGrey">No images uploaded</p>
+                        <p class="text-xs text-mediumGrey">{{ __('admin.no_images') }}</p>
                     @endif
 
                     <input type="hidden" name="images" id="imagesInput" value='@json($testimonial->images ?? [])'>
@@ -140,7 +140,7 @@
                     class="bg-darkGreen text-white text-sm font-medium
                            px-12 md:px-16 py-3 rounded-lg
                            hover:bg-darkGreen/90 transition">
-                    Save
+                    {{ __('admin.save') }}
                 </button>
 
         </form>
@@ -150,10 +150,10 @@
             @csrf
             @method('DELETE')
 
-            <button type="button" onclick="confirmDelete('deleteTestimonial', 'Delete Testimonial?')"
+            <button type="button" onclick="confirmDelete('deleteTestimonial', '{{ __('admin.delete_testimonial') }}?')"
                 class="bg-red text-white text-sm font-medium
                     px-8 py-3 rounded-lg hover:bg-red/90 transition">
-                Delete Testimonial
+                {{ __('admin.delete_testimonial') }}
             </button>
         </form>
 

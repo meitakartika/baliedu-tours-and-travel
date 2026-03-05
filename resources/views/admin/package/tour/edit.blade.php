@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'EditPackage')
+@section('title', __('admin.edit_package'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('package.tour.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Edit Package
+            {{ __('admin.edit_package') }}
         </h1>
 
         @if ($errors->any())
@@ -62,7 +62,7 @@
                         required>
 
                         <option value="" disabled selected hidden>
-                            Select the category
+                            {{ __('admin.select_category') }}
                         </option>
 
                         @foreach ($categories as $category)
@@ -81,7 +81,7 @@
                     <label
                         class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
                peer-focus:text-darkGreen">
-                        Category
+                        {{ __('admin.category') }}
                     </label>
                 </div>
 
@@ -92,7 +92,7 @@
            px-3 text-sm h-12 focus:outline-none focus:border-darkGreen
            text-darkGrey">
 
-                        <option>Select category first</option>
+                        <option>{{ __('admin.select_category_first') }}</option>
 
                     </select>
 
@@ -103,49 +103,49 @@
                     <label
                         class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
                peer-focus:text-darkGreen">
-                        Type
+                        {{ __('admin.type') }}
                     </label>
                 </div>
 
                 <!-- Name ID -->
                 <div class="relative mt-2">
-                    <input type="text" name="name_id" placeholder="Enter the indonesian name"
+                    <input type="text" name="name_id" placeholder="{{ __('admin.enter_indonesian_name') }}"
                         value="{{ old('name_id', $package->name_id) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Name (ID)
+                        {{ __('admin.name') }} (ID)
                     </label>
                 </div>
 
                 <!-- Name EN -->
                 <div class="relative mt-2">
-                    <input type="text" name="name_en" placeholder="Enter the english name"
+                    <input type="text" name="name_en" placeholder="{{ __('admin.enter_english_name') }}"
                         value="{{ old('name_en', $package->name_en) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Name (EN)
+                        {{ __('admin.name') }} (EN)
                     </label>
                 </div>
 
                 <!-- Overview ID -->
                 <div class="relative mt-2">
-                    <textarea name="overview_id" rows="4" placeholder="Enter the indonesian overview"
+                    <textarea name="overview_id" rows="4" placeholder="{{ __('admin.enter_overview_id') }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md
                px-3 py-3 text-sm resize-none
                focus:outline-none focus:border-darkGreen">{{ old('overview_id', $package->overview_id) }}</textarea>
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Overview (ID)
+                        {{ __('admin.overview') }} (ID)
                     </label>
                 </div>
 
                 <!-- Overview EN -->
                 <div class="relative mt-2">
-                    <textarea name="overview_en" rows="4" placeholder="Enter the english overview"
+                    <textarea name="overview_en" rows="4" placeholder="{{ __('admin.enter_overview_en') }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md
                px-3 py-3 text-sm resize-none
                focus:outline-none focus:border-darkGreen">{{ old('overview_en', $package->overview_en) }}</textarea>
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Overview (EN)
+                        {{ __('admin.overview') }} (EN)
                     </label>
                 </div>
 
@@ -153,7 +153,7 @@
                 <div class="relative mt-2">
 
                     <!-- INPUT TAMPILAN -->
-                    <input type="text" id="price_display" placeholder="Enter the price"
+                    <input type="text" id="price_display" placeholder="{{ __('admin.enter_price') }}"
                         value="{{ old('price', isset($package) ? number_format($package->price, 0, ',', '.') : '') }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
 
@@ -161,44 +161,44 @@
                     <input type="hidden" name="price" id="price" value="{{ old('price', $package->price) }}">
 
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Price
+                        {{ __('admin.price') }}
                     </label>
                 </div>
 
                 <!-- Duration -->
                 <div class="relative mt-2">
-                    <input type="number" name="duration" placeholder="Enter the duration"
+                    <input type="number" name="duration" placeholder="{{ __('admin.enter_duration') }}"
                         value="{{ old('duration', $package->duration) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Duration (Days)
+                        {{ __('admin.duration_label') }}
                     </label>
                 </div>
 
                 <!-- Guest Minimal -->
                 <div class="relative mt-2">
-                    <input type="number" name="guest_min" placeholder="Enter the guest minimal"
+                    <input type="number" name="guest_min" placeholder="{{ __('admin.enter_guest_min') }}"
                         value="{{ old('guest_min', $package->guest_min) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Guest Minimal
+                        {{ __('admin.guest_min') }}
                     </label>
                 </div>
 
                 <!-- Guest Maximal -->
                 <div class="relative mt-2">
-                    <input type="number" name="guest_max" placeholder="Enter the guest maximal"
+                    <input type="number" name="guest_max" placeholder="{{ __('admin.enter_guest_max') }}"
                         value="{{ old('guest_max', $package->guest_max) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Guest Maximal
+                        {{ __('admin.guest_max') }}
                     </label>
                 </div>
 
                 <!-- Tour Gallery -->
                 <div class="mt-3 md:col-span-2">
                     <p class="text-sm text-darkGrey mb-3">
-                        Tour Gallery
+                        {{ __('admin.tour_gallery') }}
                     </p>
                     <label
                         class="flex items-center justify-center w-full
@@ -207,7 +207,7 @@
                    text-sm text-mediumGrey hover:border-darkGreen hover:text-darkGreen gap-2">
                         <input type="file" name="galleries[]" id="galleryInput" multiple class="hidden">
                         <i class="fa-solid fa-image text-xl"></i>
-                        Drop image here or click to upload
+                        {{ __('admin.upload_gallery') }}
                     </label>
 
                     <div id="galleryPreview" class="grid grid-cols-3 md:grid-cols-5 gap-4 mt-4">
@@ -235,7 +235,7 @@
                     class="bg-darkGreen text-white text-sm font-medium
                px-12 md:px-16 py-3 rounded-lg
                hover:bg-darkGreen/90 transition">
-                    Save
+                    {{ __('admin.save') }}
                 </button>
 
         </form>
@@ -245,10 +245,10 @@
             @csrf
             @method('DELETE')
 
-            <button type="button" onclick="confirmDelete('deletePackage', 'Delete Package Tour?')"
+            <button type="button" onclick="confirmDelete('deletePackage', '{{ __('admin.delete_package') }}?')"
                 class="bg-red text-white text-sm font-medium
                     px-8 py-3 rounded-lg hover:bg-red/90 transition">
-                Delete Package
+                {{ __('admin.delete_package') }}
             </button>
         </form>
 

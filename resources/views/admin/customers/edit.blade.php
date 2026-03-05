@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Edit Customer')
+@section('title', __('admin.edit_customer'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('customers.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Edit Customer
+            {{ __('admin.edit_customer') }}
         </h1>
 
         <!-- ERROR VALIDATION -->
@@ -26,6 +26,7 @@
                     @endforeach
                 </ul>
             </div>
+        @endif
 
             <!-- FORM -->
             <form action="{{ route('customers.update', $customer) }}" method="POST" enctype="multipart/form-data"
@@ -57,41 +58,41 @@
 
                     <!-- First Name -->
                     <div class="relative mt-4">
-                        <input type="text" name="first_name" placeholder="Enter your first name"
+                        <input type="text" name="first_name" placeholder="{{ __('admin.enter_first_name') }}"
                             value="{{ old('first_name', $customer->first_name) }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            First Name
+                            {{ __('admin.first_name') }}
                         </label>
                     </div>
 
                     <!-- Last Name -->
                     <div class="relative mt-4">
-                        <input type="text" name="last_name" placeholder="Enter your last name"
+                        <input type="text" name="last_name" placeholder="{{ __('admin.enter_last_name') }}"
                             value="{{ old('last_name', $customer->last_name) }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Last Name
+                            {{ __('admin.last_name') }}
                         </label>
                     </div>
 
                     <!-- Email -->
                     <div class="relative mt-2">
-                        <input type="email" name="email" placeholder="Enter your email"
+                        <input type="email" name="email" placeholder="{{ __('admin.enter_email') }}"
                             value="{{ old('email', $customer->email) }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Email
+                            {{ __('admin.email') }}
                         </label>
                     </div>
 
                     <!-- Phone -->
                     <div class="relative mt-2">
-                        <input type="text" name="phone" placeholder="Enter your phone number"
+                        <input type="text" name="phone" placeholder="{{ __('admin.enter_phone') }}"
                             value="{{ old('phone', $customer->phone) }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Phone Number
+                            {{ __('admin.phone_number') }}
                         </label>
                     </div>
 
@@ -102,7 +103,7 @@
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center
                    focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Date of Birth (Optional)
+                            {{ __('admin.date_of_birth') }}
                         </label>
                     </div>
 
@@ -116,7 +117,7 @@
 
                             <option value="" disabled selected hidden
                                 {{ old('country', $customer->country) ? '' : 'selected' }}>
-                                Select country
+                                {{ __('admin.select_country') }}
                             </option>
 
                             @foreach ($countries as $code => $name)
@@ -132,16 +133,16 @@
                         </span>
 
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Country (Optional)
+                            {{ __('admin.country_optional') }}
                         </label>
                     </div>
 
                     <!-- Password -->
                     <div class="relative mt-2">
-                        <input type="password" name="password" placeholder="Enter your password" id="password"
+                        <input type="password" name="password" placeholder="{{ __('admin.enter_password') }}" id="password"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Password
+                            {{ __('admin.password') }}
                         </label>
                         <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
                             onclick="togglePassword()">
@@ -151,11 +152,11 @@
 
                     <!-- Confirm -->
                     <div class="relative mt-2">
-                        <input type="password" name="password_confirmation" placeholder="Confirm your password"
+                        <input type="password" name="password_confirmation" placeholder="{{ __('admin.confirm_your_password') }}"
                             id="confirmPassword"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Confirm Password
+                            {{ __('admin.confirm_password') }}
                         </label>
                         <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
                             onclick="toggleConfirmPassword()">
@@ -175,10 +176,10 @@
                                     {{ old('role', $customer->role ?? '') == '' ? 'selected' : '' }}>
                                 </option>
                                 <option value="admin" {{ old('role', $customer->role) == 'admin' ? 'selected' : '' }}>
-                                    Admin
+                                    {{ __('admin.admin_role') }}
                                 </option>
                                 <option value="user" {{ old('role', $customer->role) == 'user' ? 'selected' : '' }}>
-                                    Customer
+                                    {{ __('admin.customer_role') }}
                                 </option>
                             </select>
 
@@ -189,7 +190,7 @@
                             <label
                                 class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
                peer-focus:text-darkGreen">
-                                Role
+                                {{ __('admin.role') }}
                             </label>
                         </div>
                     </div>
@@ -202,7 +203,7 @@
                     <button type="submit"
                         class="bg-darkGreen text-white text-sm font-medium 
         px-12 md:px-16 py-3 rounded-lg hover:bg-darkGreen/90 transition">
-                        Save
+                        {{ __('admin.save') }}
                     </button>
 
             </form>
@@ -213,10 +214,10 @@
                 @method('DELETE')
 
                 <button type="button"
-                    onclick="confirmDelete('deleteCustomer', 'Delete Customer?')"
+                    onclick="confirmDelete('deleteCustomer', '{{ __('admin.delete_account') }}?')"
                     class="bg-red text-white text-sm font-medium
                     px-8 py-3 rounded-lg hover:bg-red/90 transition">
-                    Delete Account
+                    {{ __('admin.delete_account') }}
                 </button>
             </form>
 

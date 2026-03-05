@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Add New Customer')
+@section('title', __('admin.account_setting'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('admin.dashboard') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Account Setting
+            {{ __('admin.account_setting') }}
         </h1>
 
         <!-- AVATAR -->
@@ -76,7 +76,7 @@
                 @endif
 
                 <h2 class="font-semibold text-base text-darkGrey mb-8">
-                    Personal Information
+                    {{ __('admin.personal_information') }}
                 </h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -86,7 +86,7 @@
                             class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            First Name
+                            {{ __('admin.first_name') }}
                         </label>
                     </div>
 
@@ -96,7 +96,7 @@
                             class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            Last Name
+                            {{ __('admin.last_name') }}
                         </label>
                     </div>
 
@@ -106,7 +106,7 @@
                             class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            Phone Number
+                            {{ __('admin.phone_number') }}
                         </label>
                     </div>
 
@@ -116,7 +116,7 @@
                             class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            Date of Birth (Optional)
+                            {{ __('admin.date_of_birth') }}
                         </label>
                     </div>
 
@@ -124,7 +124,7 @@
                     <div class="relative">
                         <select name="country"
                             class="peer bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen appearance-none">
-                            <option value="">Select country</option>
+                            <option value="">{{ __('admin.select_country') }}</option>
                             @foreach ($countries as $code => $name)
                                 <option value="{{ $code }}" {{ $admin->country == $code ? 'selected' : '' }}>
                                     {{ $name }}
@@ -134,14 +134,14 @@
                         <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"> <i
                                 class="fa-solid fa-chevron-down text-xs"></i> </span>
                         <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                            Country (Optional)
+                            {{ __('admin.country_optional') }}
                         </label>
                     </div>
                 </div>
 
                 <button type="button" onclick="openConfirmProfile()"
                     class="mt-8 bg-darkGreen text-white px-16 py-3 rounded-lg text-sm font-medium">
-                    Update
+                    {{ __('admin.update') }}
                 </button>
             </div>
 
@@ -149,21 +149,21 @@
             <div id="confirmProfileModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
 
                 <div class="bg-white rounded-xl p-6 w-full max-w-sm">
-                    <h3 class="text-lg font-semibold mb-3 text-darkGreen">Confirm Update</h3>
+                    <h3 class="text-lg font-semibold mb-3 text-darkGreen">{{ __('admin.confirm_update') }}</h3>
 
                     <p class="text-sm mb-6 text-mediumGrey">
-                        Are you sure you want to update your personal information?
+                        {{ __('admin.confirm_update_text') }}
                     </p>
 
                     <div class="flex justify-end gap-3">
                         <button type="button" onclick="closeConfirmProfile()"
                             class="px-4 py-2 rounded-md border border-lightGrey text-mediumGrey hover:bg-lightGrey/40 transition">
-                            Cancel
+                            {{ __('admin.cancel') }}
                         </button>
 
                         <button type="submit"
                             class="px-4 py-2 rounded-md bg-darkGreen text-white hover:bg-darkGreen/90 transition">
-                            Yes, Update
+                            {{ __('admin.yes_update') }}
                         </button>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
             @endif
 
             <h2 class="font-semibold text-base text-darkGrey mb-8">
-                Security
+                {{ __('admin.security') }}
             </h2>
 
             <div class="space-y-6">
@@ -206,17 +206,17 @@
                         class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                     <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                        Email
+                        {{ __('admin.email') }}
                     </label>
                 </div>
 
                 <!-- Password -->
                 <div class="relative">
-                    <input type="password" id="password" name="password"
+                    <input type="password" id="password" name="password" placeholder="{{ __('admin.password') }}"
                         class="bg-white w-full border border-mediumGrey rounded-md px-3 text-sm h-12
                        focus:outline-none focus:border-darkGreen">
                     <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                        Password
+                        {{ __('admin.password') }}
                     </label>
 
                     <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
@@ -228,7 +228,7 @@
 
             <button type="button" onclick="openConfirmSecurity()"
                 class="mt-8 bg-darkGreen text-white px-16 py-3 rounded-lg text-sm font-medium">
-                Change
+                {{ __('admin.change') }}
             </button>
 
             <!-- ===== CONFIRM SECURITY MODAL ===== -->
@@ -236,22 +236,22 @@
 
                 <div class="bg-white rounded-xl p-6 w-full max-w-sm">
                     <h3 class="text-lg font-semibold mb-3 text-darkGreen">
-                        Confirm Change
+                        {{ __('admin.confirm_change') }}
                     </h3>
 
                     <p class="text-sm text-mediumGrey mb-6">
-                        Are you sure you want to change your email or password?
+                        {{ __('admin.confirm_change_text') }}
                     </p>
 
                     <div class="flex justify-end gap-3">
                         <button type="button" onclick="closeConfirmSecurity()"
                             class="px-4 py-2 rounded-md border border-lightGrey text-mediumGrey hover:bg-lightGrey/40 transition">
-                            Cancel
+                            {{ __('admin.cancel') }}
                         </button>
 
                         <button type="submit"
                             class="px-4 py-2 rounded-md bg-darkGreen text-white hover:bg-darkGreen/90 transition">
-                            Yes, Change
+                            {{ __('admin.yes_change') }}
                         </button>
                     </div>
                 </div>

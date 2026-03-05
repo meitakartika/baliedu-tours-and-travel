@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Add New Customer')
+@section('title', __('admin.add_new_user'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('customers.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Add New User
+            {{ __('admin.add_new_user') }}
         </h1>
 
         <!-- ERROR VALIDATION -->
@@ -50,41 +50,41 @@
 
                 <!-- First Name -->
                 <div class="relative mt-4">
-                    <input type="text" name="first_name" placeholder="Enter your first name"
+                    <input type="text" name="first_name" placeholder="{{ __('admin.enter_first_name') }}"
                         value="{{ old('first_name', $customer->first_name) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        First Name
+                        {{ __('admin.first_name') }}
                     </label>
                 </div>
 
                 <!-- Last Name -->
                 <div class="relative mt-4">
-                    <input type="text" name="last_name" placeholder="Enter your last name"
+                    <input type="text" name="last_name" placeholder="{{ __('admin.enter_last_name') }}"
                         value="{{ old('last_name', $customer->last_name) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Last Name
+                        {{ __('admin.last_name') }}
                     </label>
                 </div>
 
                 <!-- Email -->
                 <div class="relative mt-2">
-                    <input type="email" name="email" placeholder="Enter your email"
+                    <input type="email" name="email" placeholder="{{ __('admin.enter_email') }}"
                         value="{{ old('email', $customer->email) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Email
+                        {{ __('admin.email') }}
                     </label>
                 </div>
 
                 <!-- Phone -->
                 <div class="relative mt-2">
-                    <input type="text" name="phone" placeholder="Enter your phone number"
+                    <input type="text" name="phone" placeholder="{{ __('admin.enter_phone') }}"
                         value="{{ old('phone', $customer->phone) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Phone Number
+                        {{ __('admin.phone_number') }}
                     </label>
                 </div>
 
@@ -94,7 +94,7 @@
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center
                    focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Date of Birth (Optional)
+                        {{ __('admin.date_of_birth') }}
                     </label>
                 </div>
 
@@ -106,7 +106,7 @@
                rounded-md px-3 pr-10 text-sm h-12
                focus:outline-none focus:border-darkGreen text-darkGrey">
 
-                        <option value="" disabled selected hidden>Select country</option>
+                        <option value="" disabled selected hidden>{{ __('admin.select_country') }}</option>
 
                         @foreach ($countries as $code => $name)
                             <option value="{{ $code }}"
@@ -122,17 +122,17 @@
                     </span>
 
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Country (Optional)
+                        {{ __('admin.country_optional') }}
                     </label>
 
                 </div>
 
                 <!-- Password -->
                 <div class="relative mt-2">
-                    <input type="password" name="password" placeholder="Enter your password" id="password"
+                    <input type="password" name="password" placeholder="{{ __('admin.enter_password') }}" id="password"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Password
+                        {{ __('admin.password') }}
                     </label>
                     <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
                         onclick="togglePassword()">
@@ -142,11 +142,11 @@
 
                 <!-- Confirm -->
                 <div class="relative mt-2">
-                    <input type="password" name="password_confirmation" placeholder="Confirm your password"
+                    <input type="password" name="password_confirmation" placeholder="{{ __('admin.confirm_your_password') }}"
                         id="confirmPassword"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Confirm Password
+                        {{ __('admin.confirm_password') }}
                     </label>
                     <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
                         onclick="toggleConfirmPassword()">
@@ -164,15 +164,15 @@
                             required>
 
                             <option value="" disabled selected hidden>
-                                Select role
+                                {{ __('admin.select_role') }}
                             </option>
 
                             <option value="admin" {{ old('role', $customer->role) == 'admin' ? 'selected' : '' }}>
-                                Admin
+                                {{ __('admin.admin_role') }}
                             </option>
 
                             <option value="customer" {{ old('role', $customer->role) == 'customer' ? 'selected' : '' }}>
-                                Customer
+                                {{ __('admin.customer_role') }}
                             </option>
 
                         </select>
@@ -184,7 +184,7 @@
                         <label
                             class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
                peer-focus:text-darkGreen">
-                            Role
+                            {{ __('admin.role') }}
                         </label>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
                 class="bg-darkGreen text-white text-sm font-medium
                    px-12 py-3 rounded-lg w-1/2 lg:w-1/3
                    hover:bg-darkGreen/90 transition">
-                Add New
+                {{ __('admin.add_new') }}
             </button>
 
         </form>

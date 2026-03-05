@@ -26,4 +26,32 @@ return [
 
     'footer_description' => 'Baliedu Tours and Travel offers authentic and meaningful Bali travel experiences, inviting travelers to explore the island\'s culture, nature, and local life up close.',
 
+    // ADMIN
+    'dashboard' => 'Dashboard',
+    'customers' => 'Customers',
+
+    'tour_package' => 'Tour Package',
+    'category' => 'Category',
+    'type' => 'Type',
+    'package_tour' => 'Package Tour',
+    'itinerary' => 'Itinerary',
+    'list' => 'List',
+
+    'bookings' => 'Bookings',
+    'testimonials' => 'Testimonials',
+
+    'contact' => 'Contact',
+    'contact_info' => 'Contact Info',
+    'contact_message' => 'Contact Message',
+
+    'search' => 'Search',
+
+    'logout' => 'Logout',
+    'admin' => 'Admin',
+
+    'delete_data' => 'Delete Data?',
+    'delete_warning' => 'This action cannot be undone!',
+    'delete' => 'Delete',
+    'cancel' => 'Cancel',
+    
 ];

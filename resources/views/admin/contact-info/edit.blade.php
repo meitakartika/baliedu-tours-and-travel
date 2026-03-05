@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Edit Contact')
+@section('title', __('admin.edit_contact'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('contact.info.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Edit Contact
+            {{ __('admin.edit_contact') }}
         </h1>
 
         <!-- ERROR VALIDATION -->
@@ -45,7 +45,7 @@
                         required>
 
                         <option value="" disabled selected hidden>
-                            Select contact type
+                            {{ __('admin.select_contact_type') }}
                         </option>
 
                          @foreach ($types as $key => $label)
@@ -64,17 +64,17 @@
                     <label
                         class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
                peer-focus:text-darkGreen">
-                        Type
+                        {{ __('admin.type') }}
                     </label>
                 </div>
 
                 <!-- Label -->
                 <div class="relative mt-4">
-                    <input type="text" name="label" placeholder="Enter contact label"
+                    <input type="text" name="label" placeholder="{{ __('admin.enter_contact_label') }}"
                         value="{{ old('label', $contactInfo->label) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Label (Optional)
+                        {{ __('admin.label') }} (Optional)
                     </label>
                 </div>
 
@@ -83,11 +83,11 @@
             <!-- Value ID -->
             <div class="md:col-span-2">
                 <div class="relative mt-2">
-                    <input type="text" name="value_id" placeholder="Enter Indonesian contact value"
+                    <input type="text" name="value_id" placeholder="{{ __('admin.enter_indonesian_value') }}"
                         value="{{ old('value_id', $contactInfo->value_id) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Value (ID)
+                        {{ __('admin.value_id') }}
                     </label>
                 </div>
             </div>
@@ -95,11 +95,11 @@
             <!-- Value EN -->
             <div class="md:col-span-2">
                 <div class="relative mt-2">
-                    <input type="text" name="value_en" placeholder="Enter English contact value"
+                    <input type="text" name="value_en" placeholder="{{ __('admin.enter_english_value') }}"
                         value="{{ old('value_en', $contactInfo->value_en) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Value (EN)
+                        {{ __('admin.value_en') }}
                     </label>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                 <button type="submit"
                     class="bg-darkGreen text-white text-sm font-medium 
         px-12 md:px-16 py-3 rounded-lg hover:bg-darkGreen/90 transition">
-                    Save
+                    {{ __('admin.save') }}
                 </button>
 
         </form>
@@ -121,10 +121,10 @@
             @csrf
             @method('DELETE')
 
-            <button type="button" onclick="confirmDelete('deleteContact', 'Delete Contact?')"
+            <button type="button" onclick="confirmDelete('deleteContact', '{{ __('admin.delete_contact') }}?')"
                 class="bg-red text-white text-sm font-medium
                     px-8 py-3 rounded-lg hover:bg-red/90 transition">
-                Delete Contact
+                {{ __('admin.delete_contact') }}
             </button>
         </form>
 

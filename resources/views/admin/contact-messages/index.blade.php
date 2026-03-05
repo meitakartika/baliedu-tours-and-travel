@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Contact Messages')
+@section('title', __('admin.contact_messages'))
 
 @section('content')
     <section class="w-full">
@@ -9,7 +9,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('contact.messages.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for users/date/email"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.search_contact_messages') }}"
                     onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
@@ -29,7 +29,7 @@
            px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
 
                     <i class="fa-solid fa-filter"></i>
-                    Filter
+                    {{ __('admin.filter') }}
 
                     @if ($activeFilters > 0)
                         <span
@@ -52,20 +52,20 @@
                         <!-- keep search value -->
                         <input type="hidden" name="search" value="{{ request('search') }}">
 
-                        <label class="text-sm font-semibold">Status</label>
+                        <label class="text-sm font-semibold">{{ __('admin.status') }}</label>
 
                         <div class="mt-2 space-y-2">
 
                             <label class="flex items-center gap-2 text-sm">
                                 <input type="checkbox" name="status[]" value="replied"
                                     {{ in_array('replied', request('status', [])) ? 'checked' : '' }}>
-                                Replied
+                                {{ __('admin.replied') }}
                             </label>
 
                             <label class="flex items-center gap-2 text-sm">
                                 <input type="checkbox" name="status[]" value="not_replied"
                                     {{ in_array('not_replied', request('status', [])) ? 'checked' : '' }}>
-                                Not Replied
+                                {{ __('admin.not_replied') }}
                             </label>
 
                         </div>
@@ -75,13 +75,13 @@
                             <a href="{{ route('contact.messages.index') }}"
                                 class="flex-1 text-center border border-mediumGrey text-darkGrey 
                py-2 rounded-md text-sm hover:bg-mediumGrey/10 transition">
-                                Reset
+                                {{ __('admin.reset') }}
                             </a>
 
                             <button type="submit"
                                 class="flex-1 bg-darkGreen text-white 
                py-2 rounded-md text-sm hover:bg-darkGreen/90 transition">
-                                Apply
+                                {{ __('admin.apply') }}
                             </button>
 
                         </div>
@@ -109,7 +109,7 @@
                                 'status' => request('status'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Name
+                                {{ __('admin.name') }}
 
                                 @if ($sort === 'name')
                                     <i
@@ -131,7 +131,7 @@
                                 'status' => request('status'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Date
+                                {{ __('admin.date') }}
 
                                 @if ($sort === 'date')
                                     <i
@@ -153,7 +153,7 @@
                                 'status' => request('status'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Email
+                                {{ __('admin.email') }}
 
                                 @if ($sort === 'email')
                                     <i
@@ -175,7 +175,7 @@
                                 'status' => request('status'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Status
+                                {{ __('admin.status') }}
 
                                 @if ($sort === 'status')
                                     <i
@@ -233,7 +233,7 @@
           px-4 py-2 rounded-lg
           hover:bg-lightGreen/30 transition text-sm">
                                     <i class="fa-regular fa-pen-to-square"></i>
-                                    Reply
+                                    {{ __('admin.reply') }}
                                 </a>
                             </td>
                         </tr>
@@ -244,9 +244,12 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing {{ $messages->firstItem() }}–{{ $messages->lastItem() }}
-                of {{ $messages->total() }} entries</span>
-
+            <span>{{ __('admin.showing_entries', [
+                'from' => $messages->firstItem(),
+                'to' => $messages->lastItem(),
+                'total' => $messages->total(),
+            ]) }}</span>
+            
             <!-- Pagination -->
             <div class="flex items-center gap-1">
 

@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Add New List')
+@section('title', __('admin.add_new_list'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('package.list.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Add New List
+            {{ __('admin.add_new_list') }}
         </h1>
 
         <!-- ERROR VALIDATION -->
@@ -36,7 +36,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <!-- Category -->
-                <h2 class="font-semibold text-base text-darkGrey mt-4">Tour Package</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4">{{ __('admin.tour_package') }}</h2>
                 <div class="col-span-2">
                     <div class="relative mt-1">
                         <select name="package_id"
@@ -46,7 +46,7 @@
                             required>
 
                             <option value="" disabled selected hidden>
-                                Select the tour package
+                                {{ __('admin.select_tour_package') }}
                             </option>
 
                             @foreach ($packages as $package)
@@ -65,14 +65,14 @@
                         <label
                             class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white
                peer-focus:text-darkGreen">
-                            Tour Package
+                            {{ __('admin.tour_package') }}
                         </label>
                     </div>
                 </div>
 
                 <hr class="border-2 border-darkGreen mt-4 col-span-2">
 
-                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Includes List</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">{{ __('admin.includes_list') }}</h2>
 
                 @php
                     $includes = old('list.includes', [[]]);
@@ -91,20 +91,20 @@
 
                             <div class="relative mt-2">
                                 <textarea name="list[includes][{{ $i }}][content_id]" rows="4"
-                                    placeholder="Enter the indonesian content"
+                                    placeholder="{{ __('admin.enter_indonesian_content') }}"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
         focus:outline-none focus:border-darkGreen">{{ $include['content_id'] ?? '' }}</textarea>
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Content (ID)
+                                    {{ __('admin.content_id') }}
                                 </label>
                             </div>
 
                             <div class="relative mt-2">
-                                <textarea name="list[includes][{{ $i }}][content_en]" rows="4" placeholder="Enter the english content"
+                                <textarea name="list[includes][{{ $i }}][content_en]" rows="4" placeholder="{{ __('admin.enter_english_content') }}"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
         focus:outline-none focus:border-darkGreen">{{ $include['content_en'] ?? '' }}</textarea>
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Content (EN)
+                                    {{ __('admin.content_en') }}
                                 </label>
                             </div>
 
@@ -116,12 +116,12 @@
                 <button type="button" onclick="addItem('includes-wrapper','includes')"
                     class="flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
                     <i class="fa-solid fa-plus"></i>
-                    Add More Content
+                    {{ __('admin.add_more_content') }}
                 </button>
 
                 <hr class="border-darkGreen mt-4 col-span-2">
 
-                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Not Includes List</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">{{ __('admin.not_includes_list') }}</h2>
 
                 @php
                     $notIncludes = old('list.not_includes', [[]]);
@@ -140,21 +140,21 @@
 
                             <div class="relative mt-2">
                                 <textarea name="list[not_includes][{{ $i }}][content_id]" rows="4"
-                                    placeholder="Enter the indonesian content"
+                                    placeholder="{{ __('admin.enter_indonesian_content') }}"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
         focus:outline-none focus:border-darkGreen">{{ $notInclude['content_id'] ?? '' }}</textarea>
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Content (ID)
+                                    {{ __('admin.content_id') }}
                                 </label>
                             </div>
 
                             <div class="relative mt-2">
                                 <textarea name="list[not_includes][{{ $i }}][content_en]" rows="4"
-                                    placeholder="Enter the english content"
+                                    placeholder="{{ __('admin.enter_english_content') }}"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
         focus:outline-none focus:border-darkGreen">{{ $notInclude['content_en'] ?? '' }}</textarea>
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Content (EN)
+                                    {{ __('admin.content_en') }}
                                 </label>
                             </div>
 
@@ -166,12 +166,12 @@
                 <button type="button" onclick="addItem('notIncludes-wrapper','not_includes')"
                     class="flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
                     <i class="fa-solid fa-plus"></i>
-                    Add More Content
+                    {{ __('admin.add_more_content') }}
                 </button>
 
                 <hr class="border-darkGreen mt-4 col-span-2">
 
-                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Must Bring List</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">{{ __('admin.must_bring_list') }}</h2>
 
                 @php
                     $mustBring = old('list.must_bring', [[]]);
@@ -190,21 +190,21 @@
                             
                             <div class="relative mt-2">
                                 <textarea name="list[must_bring][{{ $i }}][content_id]" rows="4"
-                                    placeholder="Enter the indonesian content"
+                                    placeholder="{{ __('admin.enter_indonesian_content') }}"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
         focus:outline-none focus:border-darkGreen">{{ $bring['content_id'] ?? '' }}</textarea>
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Content (ID)
+                                    {{ __('admin.content_id') }}
                                 </label>
                             </div>
 
                             <div class="relative mt-2">
                                 <textarea name="list[must_bring][{{ $i }}][content_en]" rows="4"
-                                    placeholder="Enter the english content"
+                                    placeholder="{{ __('admin.enter_english_content') }}"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
         focus:outline-none focus:border-darkGreen">{{ $bring['content_en'] ?? '' }}</textarea>
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Content (EN)
+                                    {{ __('admin.content_en') }}
                                 </label>
                             </div>
 
@@ -216,7 +216,7 @@
                 <button type="button" onclick="addItem('mustBring-wrapper','must_bring')"
                     class="flex items-center gap-2 text-sm font-medium text-darkGreen hover:text-darkGreen/80">
                     <i class="fa-solid fa-plus"></i>
-                    Add More Content
+                    {{ __('admin.add_more_content') }}
                 </button>
 
                 <hr class="border-darkGreen mt-4 col-span-2">
@@ -227,7 +227,7 @@
                 class="bg-darkGreen text-white text-sm font-medium
                    px-12 py-3 rounded-lg w-1/2 lg:w-1/3
                    hover:bg-darkGreen/90 transition">
-                Add New
+                {{ __('admin.add_new') }}
             </button>
 
         </form>
@@ -254,20 +254,20 @@
 
             <div class="relative mt-2">
                                 <textarea name="list[${type}][${index}][content_id]" rows="4"
-                                    placeholder="Enter the indonesian content"
+                                    placeholder="{{ __('admin.enter_indonesian_content') }}"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
         focus:outline-none focus:border-darkGreen"></textarea>
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Content (ID)
+                                    {{ __('admin.content_id') }}
                                 </label>
                             </div>
 
                             <div class="relative mt-2">
-                                <textarea name="list[${type}][${index}][content_en]" rows="4" placeholder="Enter the english content"
+                                <textarea name="list[${type}][${index}][content_en]" rows="4" placeholder="{{ __('admin.enter_english_content') }}"
                                     class="bg-softGrey w-full border rounded-md px-3 py-3 text-sm resize-none
         focus:outline-none focus:border-darkGreen"></textarea>
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                    Content (EN)
+                                    {{ __('admin.content_en') }}
                                 </label>
                             </div>
 

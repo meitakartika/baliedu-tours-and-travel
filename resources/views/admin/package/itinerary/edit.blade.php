@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Edit Itinerary')
+@section('title', __('admin.edit_itinerary'))
 
 @section('content')
     <section class="w-full">
@@ -9,11 +9,11 @@
         <a href="{{ route('package.itinerary.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Edit Itinerary
+            {{ __('admin.edit_itinerary') }}
         </h1>
 
         @if ($errors->any())
@@ -33,7 +33,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <!-- PACKAGE -->
-                <h2 class="font-semibold text-base text-darkGrey mt-4">Tour Package</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4">{{ __('admin.tour_package') }}</h2>
                 <div class="col-span-2">
                     <div class="relative mt-1">
                         <select name="package_id"
@@ -41,7 +41,7 @@
                         px-3 text-sm h-12 focus:outline-none focus:border-darkGreen text-darkGrey"
                             required>
 
-                            <option value="" disabled hidden>Select the tour package</option>
+                            <option value="" disabled hidden>{{ __('admin.select_tour_package') }}</option>
 
                             @foreach ($packages as $pkg)
                                 <option value="{{ $pkg->id }}"
@@ -57,7 +57,7 @@
                         </span>
 
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                            Tour Package
+                            {{ __('admin.tour_package') }}
                         </label>
                     </div>
                 </div>
@@ -74,13 +74,13 @@
                         <div class="flex items-center justify-between col-span-2 mt-4">
 
                             <h2 class="font-semibold text-base text-darkGrey">
-                                Itinerary Details __INDEX_DISPLAY__
+                                {{ __('admin.itinerary_details') }} __INDEX_DISPLAY__
                             </h2>
 
                             <button type="button"
                                 class="delete-itinerary flex items-center gap-2 text-red text-sm font-medium hover:opacity-70">
                                 <i class="fa-solid fa-trash"></i>
-                                Delete
+                                {{ __('admin.delete') }}
                             </button>
 
                         </div>
@@ -88,38 +88,38 @@
                         <!-- TITLE ID -->
                         <div class="relative mt-1">
                             <input type="text" name="itineraries[__INDEX__][title_id]"
-                                placeholder="Enter the indonesian name"
+                                placeholder="{{ __('admin.enter_indonesian_name') }}"
                                 class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Name (ID)
+                                {{ __('admin.name') }} (ID)
                             </label>
                         </div>
 
                         <!-- TITLE EN -->
                         <div class="relative mt-1">
                             <input type="text" name="itineraries[__INDEX__][title_en]"
-                                placeholder="Enter the english name"
+                                placeholder="{{ __('admin.enter_english_name') }}"
                                 class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Name (EN)
+                                {{ __('admin.name') }} (EN)
                             </label>
                         </div>
 
                         <!-- DAY -->
                         <div class="relative mt-2">
-                            <input type="number" name="itineraries[__INDEX__][day]" placeholder="Enter day number"
+                            <input type="number" name="itineraries[__INDEX__][day]" placeholder="{{ __('admin.enter_day') }}"
                                 class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Day
+                                {{ __('admin.day') }}
                             </label>
                         </div>
 
                         <!-- TIME -->
                         <div class="relative mt-2">
-                            <input type="time" name="itineraries[__INDEX__][time]" placeholder="Select the time"
+                            <input type="time" name="itineraries[__INDEX__][time]" placeholder="{{ __('admin.select_time') }}"
                                 class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Time
+                                {{ __('admin.time') }}
                             </label>
                         </div>
 
@@ -129,7 +129,7 @@
                         <button type="button"
                             class="add-description flex items-center gap-2 text-sm font-medium text-darkGreen">
                             <i class="fa-solid fa-plus"></i>
-                            Add More Description
+                            {{ __('admin.add_more_description') }}
                         </button>
 
                         <hr class="border-darkGreen mt-4 col-span-2">
@@ -147,7 +147,7 @@
                     rounded-xl h-40 cursor-pointer
                     text-sm text-mediumGrey hover:border-darkGreen hover:text-darkGreen gap-2">
                         <i class="fa-solid fa-plus text-xl"></i>
-                        Add More Itinerary Details
+                        {{ __('admin.add_more_itinerary') }}
                     </label>
                 </div>
 
@@ -159,7 +159,7 @@
                 <!-- SAVE -->
                 <button type="submit"
                     class="bg-darkGreen text-white text-sm font-medium px-12 md:px-16 py-3 rounded-lg hover:bg-darkGreen/90 transition">
-                    Save
+                    {{ __('admin.save') }}
                 </button>
         </form>
 
@@ -168,10 +168,10 @@
             @csrf
             @method('DELETE')
 
-            <button type="button" onclick="confirmDelete('deleteItinerary','Delete All Itineraries in this Package?')"
+            <button type="button" onclick="confirmDelete('deleteItinerary','{{ __('admin.delete_all_itinerary') }}?')"
                 class="bg-red text-white text-sm font-medium
                    px-8 py-3 rounded-lg hover:bg-red/90 transition">
-                Delete Itinerary
+                {{ __('admin.delete_itinerary') }}
             </button>
         </form>
 
@@ -261,22 +261,22 @@
     <div class="relative mt-2">
         <textarea
         name="itineraries[${itineraryIdx}][details][${index}][description_id]"
-        rows="4" placeholder="Enter the indonesian description"
+        rows="4" placeholder="{{ __('admin.enter_indonesian_description') }}n"
         class="bg-softGrey w-full border border-mediumGrey  rounded-md px-3 py-3 text-sm resize-none focus:outline-none focus:border-darkGreen">${detail?.description_id ?? ''}</textarea>
 
         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-            Description (ID)
+            {{ __('admin.description') }} (ID)
         </label>
     </div>
 
     <div class="relative mt-2">
         <textarea
         name="itineraries[${itineraryIdx}][details][${index}][description_en]"
-        rows="4" placeholder="Enter the english description"
+        rows="4" placeholder="{{ __('admin.enter_english_description') }}"
         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 py-3 text-sm resize-none focus:outline-none focus:border-darkGreen">${detail?.description_en ?? ''}</textarea>
 
         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-            Description (EN)
+            {{ __('admin.description') }} (EN)
         </label>
     </div>
 

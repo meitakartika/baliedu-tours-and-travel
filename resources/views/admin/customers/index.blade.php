@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Customers')
+@section('title', __('admin.customers'))
 
 @section('content')
     <section class="w-full">
@@ -9,7 +9,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('customers.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for customers"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.search_customers') }}"
                     onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
@@ -19,7 +19,7 @@
                 class="flex items-center gap-2 bg-darkGreen text-white text-sm
           px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition">
                 <i class="fa-solid fa-plus"></i>
-                Add New User
+                {{ __('admin.add_new_user') }}
             </a>
         </div>
 
@@ -39,7 +39,7 @@
                                 'search' => request('search'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Name
+                                {{ __('admin.name') }}
 
                                 @if ($sort === 'first_name')
                                     <i
@@ -60,7 +60,7 @@
                                 'search' => request('search'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Email
+                                {{ __('admin.email') }}
 
                                 @if ($sort === 'email')
                                     <i
@@ -105,7 +105,7 @@
           px-4 py-2 rounded-lg
           hover:bg-lightGreen/30 transition text-sm">
                                     <i class="fa-regular fa-pen-to-square"></i>
-                                    Edit
+                                    {{ __('admin.edit') }}
                                 </a>
                             </td>
                         </tr>
@@ -116,8 +116,11 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing {{ $customers->firstItem() }}–{{ $customers->lastItem() }}
-                of {{ $customers->total() }} entries</span>
+            <span>{{ __('admin.showing_entries', [
+                'from' => $customers->firstItem(),
+                'to' => $customers->lastItem(),
+                'total' => $customers->total(),
+            ]) }}</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">

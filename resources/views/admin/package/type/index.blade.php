@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Package Type')
+@section('title', __('admin.package_type'))
 
 @section('content')
     <section class="w-full">
@@ -9,7 +9,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <!-- Search -->
             <form method="GET" action="{{ route('package.type.index') }}" class="w-full md:max-w-md">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for types"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.search_type') }}"
                     onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
@@ -20,7 +20,7 @@
                     class="flex items-center gap-2 bg-darkGreen text-white text-sm
                    px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition">
                     <i class="fa-solid fa-plus"></i>
-                    Add New Type
+                    {{ __('admin.add_type') }}
                 </a>
 
                 <!-- Filters Button -->
@@ -39,7 +39,7 @@
            px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
 
                         <i class="fa-solid fa-filter"></i>
-                        Filter
+                        {{ __('admin.filter') }}
 
                         @if ($activeFilters > 0)
                             <span
@@ -62,7 +62,7 @@
                             <!-- keep search value -->
                             <input type="hidden" name="search" value="{{ request('search') }}">
 
-                            <label class="text-sm font-semibold">Category</label>
+                            <label class="text-sm font-semibold">{{ __('admin.category') }}</label>
 
                             <div class="mt-2 space-y-2">
 
@@ -81,13 +81,13 @@
                                 <a href="{{ route('package.type.index') }}"
                                     class="flex-1 text-center border border-mediumGrey text-darkGrey 
                py-2 rounded-md text-sm hover:bg-mediumGrey/10 transition">
-                                    Reset
+                                    {{ __('admin.reset') }}
                                 </a>
 
                                 <button type="submit"
                                     class="flex-1 bg-darkGreen text-white 
                py-2 rounded-md text-sm hover:bg-darkGreen/90 transition">
-                                    Apply
+                                    {{ __('admin.apply') }}
                                 </button>
 
                             </div>
@@ -117,7 +117,7 @@
                                 'category' => request('category'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Name
+                                {{ __('admin.name') }}
 
                                 @if ($sort === 'name')
                                     <i
@@ -139,7 +139,7 @@
                                 'category' => request('category'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Category
+                                {{ __('admin.category') }}
 
                                 @if ($sort === 'category')
                                     <i
@@ -161,7 +161,7 @@
                                 'category' => request('category'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Description
+                                {{ __('admin.description') }}
 
                                 @if ($sort === 'description')
                                     <i
@@ -200,7 +200,7 @@
           px-4 py-2 rounded-lg
           hover:bg-lightGreen/30 transition text-sm">
                                     <i class="fa-regular fa-pen-to-square"></i>
-                                    Edit
+                                    {{ __('admin.edit') }}
                                 </a>
                             </td>
                         </tr>
@@ -211,8 +211,11 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing {{ $types->firstItem() }}–{{ $types->lastItem() }}
-                of {{ $types->total() }} entries</span>
+            <span>{{ __('admin.showing_entries', [
+                'from' => $types->firstItem(),
+                'to' => $types->lastItem(),
+                'total' => $types->total(),
+            ]) }}</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">

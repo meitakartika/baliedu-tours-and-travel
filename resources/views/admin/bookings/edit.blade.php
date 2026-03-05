@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'View Booking')
+@section('title', __('admin.view_booking'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('bookings.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            View Booking
+            {{ __('admin.view_booking') }}
         </h1>
 
         <!-- FORM -->
@@ -25,14 +25,14 @@
             <!-- INPUTS -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Booking Details</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">{{ __('admin.booking_details') }}</h2>
                 <!-- Tour -->
                 <div class="relative mt-1">
                     <input type="text" name="tour_package" readonly
                         value="{{ app()->getLocale() == 'id' ? $booking->package->name_id : $booking->package->name_en }}"
                         class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Tour Package
+                        {{ __('admin.tour_package') }}
                     </label>
                 </div>
 
@@ -41,7 +41,7 @@
                     <input type="text" name="guests" readonly value="{{ $booking->guest_count }}"
                         class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Number of Guests
+                        {{ __('admin.number_of_guests') }}
                     </label>
                 </div>
 
@@ -50,7 +50,7 @@
                     <input type="date" name="from" readonly value="{{ $booking->tour_date->format('Y-m-d') }}"
                         class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        From
+                        {{ __('admin.from') }}
                     </label>
                 </div>
 
@@ -62,13 +62,13 @@
                     <input type="date" name="to" readonly value="{{ $toDate->format('Y-m-d') }}"
                         class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        To
+                        {{ __('admin.to') }}
                     </label>
                 </div>
 
                 <hr class="border-darkGreen mt-4 col-span-2">
 
-                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">User Details</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">{{ __('admin.user_details') }}</h2>
                 <!-- USER SECTION -->
                 <div class="col-span-2 flex gap-8 items-center">
 
@@ -93,7 +93,7 @@
                                 value="{{ $booking->user->first_name }} {{ $booking->user->last_name }}"
                                 class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Name
+                                {{ __('admin.name') }}
                             </label>
                         </div>
 
@@ -102,7 +102,7 @@
                             <input type="email" readonly name="email" value="{{ $booking->user->email }}"
                                 class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Email
+                                {{ __('admin.email') }}
                             </label>
                         </div>
 
@@ -111,7 +111,7 @@
                             <input type="text" name="phone" readonly value="{{ $booking->user->phone }}"
                                 class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Phone Number
+                                {{ __('admin.phone_number') }}
                             </label>
                         </div>
 
@@ -120,21 +120,21 @@
 
                 <hr class="border-darkGreen mt-4 col-span-2">
 
-                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Payment</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">{{ __('admin.payment') }}</h2>
                 <!-- TOTAL PRICE -->
                 <div class="relative mt-2 col-span-2">
                     <input type="text" readonly name="total"
                         value="Rp {{ number_format($booking->total_price, 0, ',', '.') }}"
                         class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 flex items-center focus:outline-none" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                        Total Price
+                        {{ __('admin.total_price') }}
                     </label>
                 </div>
 
                 <!-- Payment Proof -->
                 <div class="mt-2">
                     <p class="text-sm text-darkGrey mb-3">
-                        Payment Proof
+                        {{ __('admin.payment_proof') }}
                     </p>
                     <label
                         class="flex items-center justify-center w-full
@@ -147,7 +147,7 @@
                         @else
                             <div class="flex items-center gap-2">
                                 <i class="fa-solid fa-image text-xl"></i>
-                                No payment proof
+                                {{ __('admin.no_payment_proof') }}
                             </div>
                         @endif
                     </label>
@@ -155,7 +155,7 @@
 
                 <hr class="border-2 border-darkGreen mt-4 col-span-2">
 
-                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">Booking Status</h2>
+                <h2 class="font-semibold text-base text-darkGrey mt-4 col-span-2">{{ __('admin.booking_status') }}</h2>
                 <!-- STATUS -->
                 <div class="md:col-span-2">
                     <div class="relative mt-2">
@@ -166,19 +166,19 @@
                             required>
 
                             <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>
-                                Pending
+                                {{ __('admin.pending') }}
                             </option>
 
                             <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>
-                                Confirmed
+                                {{ __('admin.confirmed') }}
                             </option>
 
                             <option value="completed" {{ $booking->status == 'completed' ? 'selected' : '' }}>
-                                Completed
+                                {{ __('admin.completed') }}
                             </option>
 
                             <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>
-                                Cancelled
+                                {{ __('admin.cancelled') }}
                             </option>
 
                         </select>
@@ -190,7 +190,7 @@
                         <label
                             class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey
                peer-focus:text-darkGreen">
-                            Category
+                            {{ __('admin.status') }}
                         </label>
                     </div>
                 </div>
@@ -204,7 +204,7 @@
                     class="bg-darkGreen text-white text-sm font-medium
                px-12 md:px-16 py-3 rounded-lg
                hover:bg-darkGreen/90 transition">
-                    Save
+                     {{ __('admin.save') }}
                 </button>
 
         </form>
@@ -214,10 +214,10 @@
             @csrf
             @method('DELETE')
 
-            <button type="button" onclick="confirmDelete('deleteBooking', 'Delete Booking?')"
+            <button type="button" onclick="confirmDelete('deleteBooking', ' {{ __('admin.delete_booking') }}?')"
                 class="bg-red text-white text-sm font-medium
                     px-8 py-3 rounded-lg hover:bg-red/90 transition">
-                Delete Booking
+                 {{ __('admin.delete_booking') }}
             </button>
         </form>
 

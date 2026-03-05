@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Contact Info')
+@section('title', __('admin.contact_info'))
 
 @section('content')
     <section class="w-full">
@@ -18,7 +18,7 @@
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endif
                 @endforeach
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for contacts"
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.search_contacts') }}"
                     onchange="this.form.submit()"
                     class="w-full rounded-2xl border border-mediumGrey/20 bg-mediumGrey/5 px-5 py-3 text-sm focus:outline-none">
             </form>
@@ -29,7 +29,7 @@
                     class="flex items-center gap-2 bg-darkGreen text-white text-sm
                    px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition">
                     <i class="fa-solid fa-plus"></i>
-                    Add New Contact
+                    {{ __('admin.add_new_contact') }}
                 </a>
 
                 <div x-data="{ open: false }" class="relative">
@@ -47,7 +47,7 @@
            px-5 py-3 rounded-lg font-medium hover:bg-darkGreen/10 transition">
 
                         <i class="fa-solid fa-filter"></i>
-                        Filter
+                        {{ __('admin.filter') }}
 
                         @if ($activeFilters > 0)
                             <span
@@ -70,44 +70,44 @@
                             <!-- keep search value -->
                             <input type="hidden" name="search" value="{{ request('search') }}">
 
-                            <label class="text-sm font-semibold">Type</label>
+                            <label class="text-sm font-semibold">{{ __('admin.type') }}</label>
 
                             <div class="mt-2 space-y-2">
 
                                 <label class="flex items-center gap-2 text-sm">
                                     <input type="checkbox" name="type[]" value="email"
                                         {{ in_array('email', request('type', [])) ? 'checked' : '' }}>
-                                    Email
+                                    {{ __('admin.email') }}
                                 </label>
 
                                 <label class="flex items-center gap-2 text-sm">
                                     <input type="checkbox" name="type[]" value="phone"
                                         {{ in_array('phone', request('type', [])) ? 'checked' : '' }}>
-                                    Phone
+                                    {{ __('admin.phone') }}
                                 </label>
 
                                 <label class="flex items-center gap-2 text-sm">
                                     <input type="checkbox" name="type[]" value="address"
                                         {{ in_array('address', request('type', [])) ? 'checked' : '' }}>
-                                    Address
+                                    {{ __('admin.address') }}
                                 </label>
 
                                 <label class="flex items-center gap-2 text-sm">
                                     <input type="checkbox" name="type[]" value="office_name"
                                         {{ in_array('office_name', request('type', [])) ? 'checked' : '' }}>
-                                    Office Name
+                                    {{ __('admin.office_name') }}
                                 </label>
 
                                 <label class="flex items-center gap-2 text-sm">
                                     <input type="checkbox" name="type[]" value="map_embed"
                                         {{ in_array('map_embed', request('type', [])) ? 'checked' : '' }}>
-                                    Map
+                                    {{ __('admin.map') }}
                                 </label>
 
                                 <label class="flex items-center gap-2 text-sm">
                                     <input type="checkbox" name="type[]" value="social_media"
                                         {{ in_array('social_media', request('type', [])) ? 'checked' : '' }}>
-                                    Social Media
+                                    {{ __('admin.social_media') }}
                                 </label>
 
                             </div>
@@ -117,13 +117,13 @@
                                 <a href="{{ route('contact.info.index') }}"
                                     class="flex-1 text-center border border-mediumGrey text-darkGrey 
                py-2 rounded-md text-sm hover:bg-mediumGrey/10 transition">
-                                    Reset
+                                    {{ __('admin.reset') }}
                                 </a>
 
                                 <button type="submit"
                                     class="flex-1 bg-darkGreen text-white 
                py-2 rounded-md text-sm hover:bg-darkGreen/90 transition">
-                                    Apply
+                                    {{ __('admin.apply') }}
                                 </button>
 
                             </div>
@@ -153,7 +153,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Type
+                                {{ __('admin.type') }}
 
                                 @if ($sort === 'type')
                                     <i
@@ -175,7 +175,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Label
+                                {{ __('admin.label') }}
 
                                 @if ($sort === 'label')
                                     <i
@@ -197,7 +197,7 @@
                                 'type' => request('type'),
                             ]) }}"
                                 class="flex items-center gap-2">
-                                Value
+                                {{ __('admin.value') }}
 
                                 @if ($sort === 'value')
                                     <i
@@ -235,7 +235,7 @@
           px-4 py-2 rounded-lg
           hover:bg-lightGreen/30 transition text-sm">
                                     <i class="fa-regular fa-pen-to-square"></i>
-                                    Edit
+                                    {{ __('admin.edit') }}
                                 </a>
                             </td>
                         </tr>
@@ -246,8 +246,11 @@
 
         <!-- FOOTER -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-darkGrey mt-6">
-            <span>Showing {{ $contactInfos->firstItem() }}–{{ $contactInfos->lastItem() }}
-                of {{ $contactInfos->total() }} entries</span>
+            <span>{{ __('admin.showing_entries', [
+                'from' => $contactInfos->firstItem(),
+                'to' => $contactInfos->lastItem(),
+                'total' => $contactInfos->total(),
+            ]) }}</span>
 
             <!-- Pagination -->
             <div class="flex items-center gap-1">

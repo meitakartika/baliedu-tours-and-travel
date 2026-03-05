@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Reply Message')
+@section('title', __('admin.reply_message'))
 
 @section('content')
     <section class="w-full">
@@ -9,12 +9,12 @@
         <a href="{{ route('contact.messages.index') }}"
             class="inline-flex items-center gap-2 font-medium text-mediumGrey hover:text-darkGreen mb-6">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            {{ __('admin.back') }}
         </a>
 
         <!-- TITLE -->
         <h1 class="text-center text-darkGreen font-semibold text-lg mb-10">
-            Reply Message
+            {{ __('admin.reply_message') }}
         </h1>
 
         <!-- ERROR VALIDATION -->
@@ -62,7 +62,7 @@
                             value="{{ $contactMessage->user->first_name }} {{ $contactMessage->user->last_name }}" readonly
                             class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 cursor-not-allowed" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Name
+                            {{ __('admin.name') }}
                         </label>
                     </div>
 
@@ -71,7 +71,7 @@
                         <input type="email" name="email" value="{{ $contactMessage->user->email }}" readonly
                             class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 cursor-not-allowed" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                            Email
+                            {{ __('admin.email') }}
                         </label>
                     </div>
 
@@ -81,7 +81,7 @@
                             <input type="text" name="phone" value="{{ $contactMessage->user->phone }}" readonly
                                 class="bg-softGrey w-full border border-darkGreen rounded-md px-3 text-sm h-12 cursor-not-allowed" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                                Phone Number
+                                {{ __('admin.phone_number') }}
                             </label>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                 <textarea name="message" rows="7" readonly
                     class="bg-softGrey w-full border border-darkGreen rounded-md px-3 pt-4 text-sm cursor-not-allowed">{{ $contactMessage->message }}</textarea>
                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                    Message
+                    {{ __('admin.message') }}
                 </label>
             </div>
 
@@ -103,11 +103,11 @@
                 $isReplied = !empty($contactMessage->reply_message);
             @endphp
             <div class="relative mt-2">
-                <textarea name="reply_message" rows="7" placeholder="Type your reply message here…"
+                <textarea name="reply_message" rows="7" placeholder="{{ __('admin.type_reply_message') }}"
                     {{ $isReplied ? 'readonly' : '' }}
                     class="bg-softGrey w-full border rounded-md px-3 pt-4 text-sm {{ $isReplied ? 'cursor-not-allowed border-darkGreen' : 'border-mediumGrey focus:outline-none focus:border-darkGreen' }}">{{ $contactMessage->reply_message }}</textarea>
                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
-                    Reply Message
+                    {{ __('admin.reply_message') }}
                 </label>
             </div>
 
@@ -121,7 +121,7 @@
                            px-12 md:px-16 py-3 rounded-lg transition
                            {{ $contactMessage->replied_at ? 'opacity-50 cursor-not-allowed' : 'hover:bg-darkGreen/90' }}">
                     <i class="fa-solid fa-paper-plane"></i>
-                    Send
+                    {{ __('admin.send') }}
                 </button>
         </form>
 
@@ -129,10 +129,10 @@
             @csrf
             @method('DELETE')
 
-            <button type="button" onclick="confirmDelete('deleteMessages', 'Delete Message?')"
+            <button type="button" onclick="confirmDelete('deleteMessages', '{{ __('admin.delete_message') }}?')"
                 class="bg-red text-white text-sm font-medium
                     px-8 py-3 rounded-lg hover:bg-red/90 transition">
-                Delete Message
+                {{ __('admin.delete_message') }}
             </button>
         </form>
         </div>
