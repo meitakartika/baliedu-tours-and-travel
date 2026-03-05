@@ -112,7 +112,7 @@
        {{ request()->is('/') || request()->routeIs('home')
            ? 'text-darkGreen border-b-2 border-darkGreen'
            : 'text-darkGreen hover:text-paleGreen' }}">
-                    Home
+                    {{ __('layout.home') }}
                 </a>
             </li>
 
@@ -124,7 +124,7 @@
                 <a href="#"
                     class="flex items-center gap-2 py-2 pb-1 transition-all
        {{ $isTourActive ? 'text-darkGreen border-b-2 border-darkGreen' : 'hover:text-darkGreen' }}">
-                    Tour Packages
+                    {{ __('layout.tour_packages') }}
                     <i class="fa-solid fa-caret-down"></i>
                 </a>
 
@@ -149,19 +149,18 @@
                     class="pb-1 transition-all
             {{ request()->routeIs('about')
                 ? 'text-darkGreen border-b-2 border-darkGreen'
-                : 'text-darkGreen hover:text-paleGreen' }}">About
-                    Us</a></li>
+                : 'text-darkGreen hover:text-paleGreen' }}">{{ __('layout.about_us') }}</a></li>
             <li><a href="{{ route('testimonials') }}"
                     class="pb-1 transition-all
             {{ request()->routeIs('testimonials')
                 ? 'text-darkGreen border-b-2 border-darkGreen'
-                : 'text-darkGreen hover:text-paleGreen' }}">Testimonials</a>
+                : 'text-darkGreen hover:text-paleGreen' }}">{{ __('layout.testimonials') }}</a>
             </li>
             <li><a href="{{ route('contact') }}"
                     class="pb-1 transition-all
             {{ request()->routeIs('contact')
                 ? 'text-darkGreen border-b-2 border-darkGreen'
-                : 'text-darkGreen hover:text-paleGreen' }}">Contact</a>
+                : 'text-darkGreen hover:text-paleGreen' }}">{{ __('layout.contact') }}</a>
             </li>
         </ul>
 
@@ -176,12 +175,12 @@
             @guest
                 <a href="{{ route('login') }}"
                     class="flex items-center gap-1 text-sm font-medium text-darkGreen px-4 py-2 hover:text-paleGreen">
-                    Login
+                    {{ __('layout.login') }}
                 </a>
 
                 <a href="{{ route('register') }}"
                     class="bg-darkGreen text-white text-sm font-medium px-5 py-2 rounded-md hover:opacity-90">
-                    Sign Up
+                    {{ __('layout.sign_up') }}
                 </a>
             @endguest
 
@@ -208,7 +207,7 @@
                                     ->count();
                             @endphp
                             <a href="{{ route('account') }}"
-                                class="flex items-center gap-3 px-4 py-2 hover:bg-lightGreen/20">Account
+                                class="flex items-center gap-3 px-4 py-2 hover:bg-lightGreen/20">{{ __('layout.account') }}
                                 @if ($pendingCount > 0)
                                     <span
                                         class="inline-flex items-center justify-center
@@ -225,7 +224,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="w-full text-left px-4 py-2 hover:bg-lightGreen/20">
-                                    <i class="fa-solid fa-sign-out-alt fa-flip-horizontal mr-2"></i>Logout</button>
+                                    <i class="fa-solid fa-sign-out-alt fa-flip-horizontal mr-2"></i>{{ __('layout.logout') }}</button>
                             </form>
                         </li>
                     </ul>
@@ -262,13 +261,13 @@
             <!-- FORM -->
             <form action="{{ route('search') }}" method="GET" class="flex items-center gap-4">
 
-                <input type="text" name="location" placeholder="Search tours..."
+                <input type="text" name="location" placeholder="{{ __('layout.search_placeholder') }}"
                     class="flex-1 border rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-darkGreen"
                     autofocus>
 
                 <button type="submit"
                     class="bg-darkGreen text-white text-sm px-5 py-2 rounded-lg hover:bg-darkGreen/90 transition">
-                    Search
+                    {{ __('layout.search_button') }}
                 </button>
 
             </form>
@@ -281,13 +280,13 @@
 <div id="mobileMenu" class="lg:hidden hidden bg-white shadow-md">
     <ul class="flex flex-col text-sm font-medium text-darkGreen divide-y">
         <li><a href="{{ route('home') }}"
-                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Home</a>
+                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">{{ __('layout.home') }}</a>
         </li>
 
         <li>
             <details>
                 <summary class="px-6 py-3 flex justify-between items-center cursor-pointer">
-                    Tour Packages
+                    {{ __('layout.tour_packages') }}
                     <i class="fa-solid fa-caret-down text-base"></i>
                 </summary>
 
@@ -305,13 +304,12 @@
         </li>
 
         <li><a href="{{ route('about') }}"
-                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">About
-                Us</a></li>
+                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">{{ __('layout.about_us') }}</a></li>
         <li><a href="{{ route('testimonials') }}"
-                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Testimonials</a>
+                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">{{ __('layout.testimonials') }}</a>
         </li>
         <li><a href="{{ route('contact') }}"
-                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">Contact</a>
+                class="block px-6 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">{{ __('layout.contact') }}</a>
         </li>
 
         <li>
@@ -348,7 +346,7 @@
                                 @csrf
                                 <button type="submit"
                                     class="block px-8 py-3 transition hover:bg-lightGreen/20 hover:text-darkGreen">
-                                    <i class="fa-solid fa-sign-out-alt fa-flip-horizontal mr-2"></i>Logout</button>
+                                    <i class="fa-solid fa-sign-out-alt fa-flip-horizontal mr-2"></i>{{ __('layout.logout') }}</button>
                             </form>
                         </li>
                     </ul>
@@ -358,9 +356,9 @@
         <li class="px-6 py-6 flex flex-col gap-3">
 
             @guest
-                <a href="{{ route('login') }}" class="py-2 text-center hover:text-paleGreen">Login</a>
+                <a href="{{ route('login') }}" class="py-2 text-center hover:text-paleGreen">{{ __('layout.login') }}</a>
                 <a href="{{ route('register') }}"
-                    class="bg-darkGreen text-white rounded-md py-2 text-center hover:opacity-90">Sign Up</a>
+                    class="bg-darkGreen text-white rounded-md py-2 text-center hover:opacity-90">{{ __('layout.sign_up') }}</a>
             @endguest
         </li>
     </ul>

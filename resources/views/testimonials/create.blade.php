@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Testimonials')
+@section('title', __('testimonials.title'))
 
 @section('content')
 
@@ -18,13 +18,13 @@
                 class="absolute bottom-6 md:bottom-8 left-6 inline-flex items-center gap-3
                   text-white text-sm md:text-base font-medium hover:text-lightGreen transition">
                 <i class="fa-solid fa-arrow-left text-base md:text-lg"></i>
-                Back to Testimonials
+                {{ __('testimonials.back') }}
             </a>
 
             <!-- Title -->
             <div class="h-full flex items-center justify-center">
                 <h1 class="text-white text-3xl md:text-4xl font-semibold">
-                    My <span class="text-lightGreen">Testimonial</span>
+                    {{ __('testimonials.my') }} <span class="text-lightGreen">{{ __('testimonials.testimonial') }}</span>
                 </h1>
             </div>
 
@@ -37,10 +37,10 @@
         <!-- Heading -->
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                Share Your Story
+                {{ __('testimonials.share_title') }}
             </h2>
             <p class="text-darkGrey leading-relaxed">
-                Share your best moments from the tour with us.
+                {{ __('testimonials.share_desc') }}
             </p>
         </div>
 
@@ -67,7 +67,7 @@
 </div>
 
 <label class="inline-flex items-center gap-2 px-5 py-2.5 border border-darkGreen text-darkGreen rounded-lg text-sm font-medium cursor-pointer hover:bg-darkGreen hover:text-white transition">
-    Upload Image
+    {{ __('testimonials.upload_image') }}
     <i class="fa-solid fa-upload"></i>
     <input type="file" id="imagesInput" name="images[]" multiple class="hidden">
 </label>
@@ -80,7 +80,7 @@
                     <input type="text" name="name"value="{{ $user->first_name }} {{ $user->last_name }}" readonly
                         class="bg-white w-full border border-lightGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                        Name
+                        {{ __('testimonials.name') }}
                     </label>
                 </div>
 
@@ -88,7 +88,7 @@
                     <input type="email" name="email" value="{{ $user->email }}" readonly
                         class="bg-white w-full border border-lightGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                        Email
+                        {{ __('testimonials.email') }}
                     </label>
                 </div>
 
@@ -98,8 +98,7 @@
                rounded-md px-3 pr-10 text-sm h-12
                focus:outline-none focus:border-darkGreen text-darkGrey">
 
-                        <option value="" disabled {{ old('country', $user->country ?? '') ? '' : 'selected' }}>Select
-                            country</option>
+                        <option value="" disabled {{ old('country', $user->country ?? '') ? '' : 'selected' }}>{{ __('testimonials.select_country') }}</option>
 
                         @foreach ($countries as $code => $name)
                             <option value="{{ $code }}"
@@ -115,7 +114,7 @@
                     </span>
 
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                        Country
+                        {{ __('testimonials.country') }}
                     </label>
                 </div>
 
@@ -128,13 +127,13 @@
                             class="bg-white w-full border border-lightGrey rounded-md px-3 text-sm h-12
                    focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                            Tour Package
+                            {{ __('testimonials.tour_package') }}
                         </label>
                     </div>
 
                     <div class="relative">
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                            Rating
+                            {{ __('testimonials.rating') }}
                         </label>
 
                         <div
@@ -155,25 +154,24 @@
 
                 <div class="relative">
                     <textarea name="comment" rows="7"
-                        placeholder="Share your experience with us... What did you enjoy most? Would you recommend us to others?"
+                        placeholder="{{ __('testimonials.placeholder_comment') }}"
                         class="bg-white w-full border border-lightGrey rounded-md px-3 pt-4 text-sm focus:outline-none focus:border-darkGreen">{{ old('comment') }}</textarea>
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                        Testimonial
+                        {{ __('testimonials.testimonial') }}
                     </label>
                 </div>
 
                 <div class="flex items-start gap-3 text-sm text-darkGrey relative -top-2">
                     <input type="checkbox" name="agreement" class="mt-1">
                     <p>
-                        I confirm that this review is based on my personal experience
-                        and reflects my own opinion.
+                        {{ __('testimonials.agreement') }}
                     </p>
                 </div>
 
                 <button
                     class="w-full bg-darkGreen text-white py-3 rounded-lg
                            font-medium hover:bg-darkGreen/90 transition">
-                    Submit
+                    {{ __('testimonials.submit') }}
                 </button>
             </div>
         </form>

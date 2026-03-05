@@ -8,7 +8,7 @@
             <a href="{{ route('booking.step1') }}"
                 class="flex items-center gap-2 text-darkGrey text-lg hover:text-mediumGrey mb-10">
                 <i class="fa-solid fa-arrow-left"></i>
-                Back
+                {{ __('booking.back') }}
             </a>
 
             <!-- Stepper -->
@@ -27,7 +27,7 @@
                             1
                         </span>
                         <span class="mt-3 text-sm font-semibold text-darkGreen">
-                            Booking Details
+                            {{ __('booking.step1') }}
                         </span>
                     </div>
 
@@ -38,7 +38,7 @@
                             2
                         </span>
                         <span class="mt-3 text-sm font-semibold text-darkGreen">
-                            Your Details
+                            {{ __('booking.step2') }}
                         </span>
                     </div>
 
@@ -49,7 +49,7 @@
                             3
                         </span>
                         <span class="mt-3 text-sm font-semibold text-mediumGrey/50">
-                            Payment
+                            {{ __('booking.step3') }}
                         </span>
                     </div>
 
@@ -66,7 +66,7 @@
 
                 <!-- When you will visit -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Please check your details</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('booking.check_details') }}</h3>
 
                     <div class="w-full">
                         <!-- Name -->
@@ -75,7 +75,7 @@
                                 value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
                                 class="bg-white w-full border border-mediumGrey/30 rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                                Name
+                                {{ __('booking.name') }}
                             </label>
                         </div>
 
@@ -84,7 +84,7 @@
                             <input type="email" name="email" value="{{ auth()->user()->email }}"
                                 class="bg-white w-full border border-mediumGrey/30 rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                                Email
+                                {{ __('booking.email') }}
                             </label>
                         </div>
 
@@ -93,7 +93,7 @@
                             <input type="text" name="phone" value="{{ auth()->user()->phone }}"
                                 class="bg-white w-full border border-mediumGrey/30 rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                                Phone Number
+                                {{ __('booking.phone') }}
                             </label>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
             <!-- ================= RIGHT ORDER SUMMARY ================= -->
             <div class="border border-mediumGrey/50 rounded-3xl p-8 space-y-6 w-full">
 
-                <h3 class="text-lg font-semibold">Your Orders Overview</h3>
+                <h3 class="text-lg font-semibold">{{ __('booking.overview_title') }}</h3>
 
                 <div class="flex gap-4">
                     <img src="{{ asset('storage/' . $package->image_url) }}"
@@ -122,7 +122,7 @@
                         <div class="flex items-center gap-2 text-sm text-darkGreen">
                             <i class="fa-solid fa-clock"></i>
                             {{ $package->duration }}
-                            {{ $package->duration == 1 ? 'day' : 'days' }}
+                            {{ $package->duration == 1 ? __('booking.day') : __('booking.days') }}
                         </div>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                         <span class="w-6 h-6 rounded-full bg-lightGrey flex items-center justify-center text-mediumGrey">
                             {{ $booking['guests'] }}
                         </span>
-                        Guests
+                        {{ __('booking.guests') }}
                     </div>
                     <span
                         class="font-medium text-darkGrey">Rp{{ number_format($totalPrice, 0, ',', '.') }}</span>
@@ -143,7 +143,7 @@
                 <hr>
 
                 <div class="flex justify-between font-semibold text-darkGrey">
-                    <span>Total Price</span>
+                    <span>{{ __('booking.total_price') }}</span>
                     <span
                         class="text-darkGreen">Rp{{ number_format($totalPrice, 0, ',', '.') }}</span>
                 </div>
@@ -151,7 +151,7 @@
                 <div class="pt-2">
                     <form action="{{ route('booking.step3') }}" method="GET">
                         <button class="w-full bg-darkGreen hover:bg-darkGreen/90 text-white py-3 rounded-full font-medium">
-                            Go to the Next Step
+                            {{ __('booking.next_step') }}
                         </button>
                     </form>
                 </div>
@@ -161,6 +161,3 @@
         </div>
     </section>
 @endsection
-
-@push('scripts')
-@endpush

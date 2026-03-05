@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 
         $adminPhone = ContactInfo::where('type', 'phone')->first();
         $adminEmail = ContactInfo::where('type', 'email')->first();
-        $baliOffice = ContactInfo::where('type', 'address')->where('label', 'Bali Office')->first();
+        $baliOffice = ContactInfo::where('type', 'address')->where('label', 'Footer')->first();
         view()->share([
             'adminPhone' => $adminPhone,
             'adminEmail' => $adminEmail,

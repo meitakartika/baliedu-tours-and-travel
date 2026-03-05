@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Testimonials')
+@section('title', __('testimonials.title'))
 
 @section('content')
 
@@ -12,7 +12,7 @@
 
         <!-- Title -->
         <h1 class="relative z-10 text-white text-3xl md:text-4xl font-semibold">
-            Our <span class="text-lightGreen">Testimonials</span>
+            {{ __('testimonials.hero_title') }} <span class="text-lightGreen">{{ __('testimonials.hero_highlight') }}</span>
         </h1>
     </section>
 
@@ -23,13 +23,13 @@
             <!-- ===== Section Title ===== -->
             <div class="text-center mb-14">
                 <p class="font-semibold text-red tracking-widest mb-6">
-                    TESTIMONIALS
+                    {{ __('testimonials.section_tag') }}
                 </p>
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                    Traveler Testimonials
+                    {{ __('testimonials.section_title') }}
                 </h2>
                 <p class="text-darkGrey leading-relaxed">
-                    Explore the stories and feedback from travelers who have<br>entrusted their journeys to us.
+                    {{ __('testimonials.section_desc_1') }}<br>{{ __('testimonials.section_desc_2') }}
                 </p>
             </div>
 
@@ -45,7 +45,7 @@
                                 class="fas fa-star {{ $i <= round($averageRating) ? 'text-yellow-400' : 'text-mediumGrey/30' }}"></i>
                         @endfor
                     </div>
-                    <p class="text-sm font-medium text-darkGrey mt-3">Average Rating</p>
+                    <p class="text-sm font-medium text-darkGrey mt-3">{{ __('testimonials.average_rating') }}</p>
                 </div>
 
                 <!-- Divider -->
@@ -54,7 +54,7 @@
                 <!-- Total Reviews -->
                 <div class="text-center">
                     <p class="text-3xl md:text-4xl font-semibold text-black/90">{{ $totalReviews }}</p>
-                    <p class="text-sm font-medium text-darkGrey mt-3">Traveler Reviews</p>
+                    <p class="text-sm font-medium text-darkGrey mt-3">{{ __('testimonials.traveler_reviews') }}</p>
                 </div>
             </div>
 
@@ -65,14 +65,14 @@
                 <div class="relative w-full">
                     <label class="flex items-center gap-2 text-sm font-medium text-darkGrey mb-3 ml-1">
                         <i class="fas fa-filter text-darkGrey"></i>
-                        <span>Filter by type of tour</span>
+                        <span>{{ __('testimonials.filter_type') }}</span>
                     </label>
 
                     <div class="relative w-full">
                         <select name="type" onchange="this.form.submit()"
                             class="w-full border border-mediumGrey/30 rounded-full px-5 pr-12 py-3 text-sm
                        focus:outline-none focus:ring-1 focus:ring-darkGreen appearance-none h-12">
-                            <option value="">All Types</option>
+                            <option value="">{{ __('testimonials.all_types') }}</option>
                             @foreach ($types as $type)
                                 <option value="{{ $type->id }}" {{ request('type') == $type->id ? 'selected' : '' }}>
                                     {{ app()->getLocale() === 'id' ? $type->name_id : $type->name_en }}
@@ -89,19 +89,19 @@
                 <div class="relative w-full">
                     <label class="flex items-center gap-2 text-sm font-medium text-darkGrey mb-3 ml-1">
                         <i class="fas fa-sort-amount-down-alt text-darkGrey"></i>
-                        <span>Sort by</span>
+                        <span>{{ __('testimonials.sort_by') }}</span>
                     </label>
 
                     <div class="relative w-full">
                         <select name="sort" onchange="this.form.submit()"
                             class="w-full border border-mediumGrey/30 rounded-full px-5 pr-12 py-3 text-sm
                        focus:outline-none focus:ring-1 focus:ring-darkGreen appearance-none h-12">
-                            <option value="newest" {{ request('sort', 'newest') === 'newest' ? 'selected' : '' }}>Newest
+                            <option value="newest" {{ request('sort', 'newest') === 'newest' ? 'selected' : '' }}>{{ __('testimonials.newest') }}
                             </option>
-                            <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest</option>
-                            <option value="highest" {{ request('sort') === 'highest' ? 'selected' : '' }}>Highest Rated
+                            <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>{{ __('testimonials.oldest') }}</option>
+                            <option value="highest" {{ request('sort') === 'highest' ? 'selected' : '' }}>{{ __('testimonials.highest_rated') }}
                             </option>
-                            <option value="lowest" {{ request('sort') === 'lowest' ? 'selected' : '' }}>Lowest Rated
+                            <option value="lowest" {{ request('sort') === 'lowest' ? 'selected' : '' }}>{{ __('testimonials.lowest_rated') }}
                             </option>
                         </select>
                         <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
@@ -113,7 +113,7 @@
 
             <!-- ===== Reviews List ===== -->
             <h3 class="text-xl font-semibold text-black/90 mt-8 mb-7">
-                All Reviews
+                {{ __('testimonials.all_reviews') }}
             </h3>
 
             <div class="space-y-10">

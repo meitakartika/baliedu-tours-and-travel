@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'My Account')
+@section('title', __('account.title'))
 
 @section('content')
 
@@ -12,7 +12,7 @@
 
         <!-- Title -->
         <h1 class="relative z-10 text-white text-3xl md:text-4xl font-semibold">
-            My <span class="text-lightGreen">Account</span>
+            {{ __('account.my') }} <span class="text-lightGreen">{{ __('account.account') }}</span>
         </h1>
     </section>
 
@@ -78,7 +78,7 @@
                         <a href="?tab=profile"
                             class="flex items-center gap-3 w-full px-6 py-4
                {{ request('tab', 'profile') == 'profile' ? 'bg-darkGreen text-white' : 'text-darkGrey hover:bg-lightGrey' }}">
-                            Profile Information
+                            {{ __('account.profile_information') }}
                         </a>
                     </li>
 
@@ -86,7 +86,7 @@
                         <a href="?tab=booking"
                             class="flex items-center gap-3 w-full px-6 py-4
                {{ request('tab') == 'booking' ? 'bg-darkGreen text-white' : 'text-darkGrey hover:bg-lightGrey' }}">
-                            My Booking
+                            {{ __('account.my_booking') }}
                         </a>
                     </li>
 
@@ -95,7 +95,7 @@
                             class="relative flex items-center w-full px-6 py-4
        {{ request('tab') == 'testimonial' ? 'bg-darkGreen text-white' : 'text-darkGrey hover:bg-lightGrey' }}">
 
-                            <span>My Testimonial</span>
+                            <span>{{ __('account.my_testimonial') }}</span>
 
                             <!-- Badge -->
                             @if ($pendingCount > 0)

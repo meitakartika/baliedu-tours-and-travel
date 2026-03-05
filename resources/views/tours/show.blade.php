@@ -18,7 +18,7 @@
                 class="absolute bottom-6 md:bottom-8 left-6 inline-flex items-center gap-3
                   text-white text-sm md:text-base font-medium hover:text-lightGreen transition">
                 <i class="fa-solid fa-arrow-left text-base md:text-lg"></i>
-                Back to
+                {{ __('tours.back_to') }}
                 {{ app()->getLocale() === 'id' ? $package->type->category->name_id : $package->type->category->name_en }}
             </a>
 
@@ -41,7 +41,7 @@
                     max-h-[760px] overflow-y-auto pr-6">
 
                 <!-- Tour Overview -->
-                <h2 class="text-xl font-semibold mb-4">Tour Overview</h2>
+                <h2 class="text-xl font-semibold mb-4">{{ __('tours.tour_overview') }}</h2>
                 <p class="text-darkGrey leading-relaxed mb-4">
                     {!! nl2br(e(app()->getLocale() === 'id' ? $package->overview_id : $package->overview_en)) !!}
                 </p>
@@ -49,7 +49,7 @@
                 <div class="border-t border-lightGrey my-8"></div>
 
                 <!-- Itinerary -->
-                <h3 class="text-lg font-semibold mb-3">Itinerary</h3>
+                <h3 class="text-lg font-semibold mb-3">{{ __('tours.itinerary') }}</h3>
 
                 @php
                     $grouped = $package->itineraries->groupBy('day');
@@ -60,7 +60,7 @@
                 @foreach ($grouped as $day => $itineraries)
                     <!-- DAY TITLE -->
                     <h4 class="text-base font-semibold text-darkGreen mt-5 mb-4">
-                        Day {{ $day }}
+                        {{ __('tours.day') }} {{ $day }}
                     </h4>
 
                     <div class="relative">
@@ -106,12 +106,12 @@
                 <div class="border-t border-lightGrey my-8"></div>
 
                 <!-- What's Included -->
-                <h3 class="text-lg font-semibold mb-4">What’s Included</h3>
+                <h3 class="text-lg font-semibold mb-4">{{ __('tours.included') }}</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-darkGrey mb-4">
                     @if ($package->includes->isNotEmpty())
                         <div>
-                            <p class="font-medium text-black mb-2">Includes</p>
+                            <p class="font-medium text-black mb-2">{{ __('tours.includes') }}</p>
                             <ul class="list-disc ml-5 space-y-1">
                                 @foreach ($package->includes as $item)
                                     <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
@@ -123,7 +123,7 @@
                     <div class="space-y-6">
                         @if ($package->notIncludes->isNotEmpty())
                             <div>
-                                <p class="font-medium text-black mb-2">Not Includes</p>
+                                <p class="font-medium text-black mb-2">{{ __('tours.not_includes') }}</p>
                                 <ul class="list-disc ml-5 space-y-1">
                                     @foreach ($package->notIncludes as $item)
                                         <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
@@ -134,7 +134,7 @@
 
                         @if ($package->mustBring->isNotEmpty())
                             <div>
-                                <p class="font-medium text-black mb-2">Must Bring</p>
+                                <p class="font-medium text-black mb-2">{{ __('tours.must_bring') }}</p>
                                 <ul class="list-disc ml-5 space-y-1">
                                     @foreach ($package->mustBring as $item)
                                         <li>{{ app()->getLocale() == 'id' ? $item->content_id : $item->content_en }}</li>
@@ -148,88 +148,77 @@
                 <div class="border-t border-lightGrey my-8"></div>
 
                 <!-- Payment -->
-                <h3 class="text-lg font-semibold mb-4">Payment</h3>
+                <h3 class="text-lg font-semibold mb-4">{{ __('tours.payment') }}</h3>
                 <p class="text-darkGrey mb-8">
-                    Reservations will only be confirmed after we receive payment via bank transfer
-                    to the following account:
+                    {{ __('tours.payment_desc') }}
                 </p>
 
                 <!-- Bank Transfer -->
-                <h4 class="font-medium text-black mb-3">Bank Transfer</h4>
+                <h4 class="font-medium text-black mb-3">{{ __('tours.bank_transfer') }}</h4>
 
                 <div class="space-y-2 text-darkGrey mb-8">
 
                     <div class="grid grid-cols-[160px_12px_1fr]">
-                        <span>Bank Name</span>
+                        <span>{{ __('tours.bank_name') }}</span>
                         <span>:</span>
-                        <span>BCA KCP Sanur Raya</span>
+                        <span>{{ __('tours.bank_value') }}</span>
                     </div>
 
                     <div class="grid grid-cols-[160px_12px_1fr]">
-                        <span>Account Number</span>
+                        <span>{{ __('tours.account_number') }}</span>
                         <span>:</span>
-                        <span>6700 66 56 99</span>
+                        <span>{{ __('tours.account_number_value') }}</span>
                     </div>
 
                     <div class="grid grid-cols-[160px_12px_1fr]">
-                        <span>Account Name</span>
+                        <span>{{ __('tours.account_name') }}</span>
                         <span>:</span>
-                        <span>Baliedu Tours and Travel CV</span>
+                        <span>{{ __('tours.account_name_value') }}</span>
                     </div>
 
                     <div class="grid grid-cols-[160px_12px_1fr]">
-                        <span>Address</span>
+                        <span>{{ __('tours.address') }}</span>
                         <span>:</span>
                         <span>
-                            Rukan Golf Arcade, Jalan Bypass I Gusti Ngurah Rai 126,
-                            Sanur Kaja, Denpasar Selatan, Kota Denpasar 80227,
-                            Bali-Indonesia
+                            {{ __('tours.address_value') }}
                         </span>
                     </div>
 
                 </div>
 
                 <!-- Payment Terms -->
-                <h4 class="font-medium text-black mb-3">Payment Terms</h4>
+                <h4 class="font-medium text-black mb-3">{{ __('tours.payment_terms') }}</h4>
                 <ul class="list-disc ml-5 text-darkGrey space-y-2 mb-8">
                     <li>
-                        All bookings can be made through our website or via Baliedu’s WhatsApp contact.
+                        {{ __('tours.payment_term_1') }}
                     </li>
                     <li>
-                        Full payment (100%) is required immediately after making a reservation.
+                        {{ __('tours.payment_term_2') }}
                     </li>
                     <li>
-                        Bank transfer fees are the responsibility of the client.
+                        {{ __('tours.payment_term_3') }}
                     </li>
                 </ul>
 
                 <!-- Cancellation Policy -->
-                <h3 class="font-medium mb-3">Cancellation Policy</h3>
+                <h3 class="font-medium mb-3">{{ __('tours.cancellation_policy') }}</h3>
                 <ul class="list-disc ml-5 text-darkGrey space-y-2 mb-8">
                     <li>
-                        Cancellations made within 15 days prior to arrival will be subject to a
-                        50% charge of the total payment.
+                        {{ __('tours.cancel_1') }}
                     </li>
                     <li>
-                        Cancellations made less than 15 days prior to arrival will be subject to a
-                        100% charge of the total payment.
+                        {{ __('tours.cancel_2') }}
                     </li>
                 </ul>
 
                 <!-- Other Important Terms -->
-                <h3 class="font-medium mb-3">Other Important Terms</h3>
+                <h3 class="font-medium mb-3">{{ __('tours.other_terms') }}</h3>
                 <ul class="list-disc ml-5 text-darkGrey space-y-2">
                     <li>
-                        Our tours do not include travel insurance. If required, guests are advised
-                        to arrange their own insurance.
+                        {{ __('tours.other_term_1') }}
                     </li>
                     <li>
-                        We act as an intermediary travel agent that packages tour programs by
-                        combining transportation, accommodation, restaurants, and other related
-                        components. Therefore, we are not responsible for any delays, schedule
-                        changes, losses, accidents, theft, or other unforeseen circumstances that
-                        may occur, including but not limited to flight delays or schedule changes.
-                        As such, we cannot be held liable for any events beyond our control.
+                        {{ __('tours.other_term_2') }}
                     </li>
                 </ul>
 
@@ -242,10 +231,10 @@
                 class="border-r-4 border-b-4 border-lightGreen rounded-3xl p-8 shadow-lg bg-white
                 h-[760px] flex flex-col justify-center">
 
-                <p class="text-sm text-darkGrey text-center mb-3">Starting from</p>
+                <p class="text-sm text-darkGrey text-center mb-3">{{ __('tours.starting_from') }}</p>
                 <h3 class="text-3xl font-semibold text-darkGreen text-center mb-3">
                     Rp{{ number_format($package->price, 0, ',', '.') }}</h3>
-                <p class="text-sm text-darkGrey text-center mb-10">Per person</p>
+                <p class="text-sm text-darkGrey text-center mb-10">{{ __('tours.per_person') }}</p>
 
                 <!-- Duration & Group Size -->
                 <div class="flex justify-between mb-8 px-6">
@@ -254,9 +243,9 @@
                     <div class="flex items-center gap-4">
                         <i class="fa-solid fa-clock text-black text-lg"></i>
                         <div class="flex flex-col justify-center">
-                            <p class="text-xs text-darkGrey mb-1">Duration</p>
+                            <p class="text-xs text-darkGrey mb-1">{{ __('tours.duration') }}</p>
                             <p class="text-sm text-darkGrey font-medium">
-                                {{ $package->duration }} {{ $package->duration === 1 ? 'Day' : 'Days' }}
+                                {{ $package->duration }} {{ $package->duration === 1 ? __('tours.days') : __('tours.day') }}
                             </p>
                         </div>
                     </div>
@@ -265,9 +254,9 @@
                     <div class="flex items-center gap-4">
                         <i class="fa-solid fa-user-friends text-black text-lg"></i>
                         <div class="flex flex-col justify-center">
-                            <p class="text-xs text-darkGrey mb-1">Group Size</p>
+                            <p class="text-xs text-darkGrey mb-1">{{ __('tours.group_size') }}</p>
                             <p class="text-sm text-darkGrey font-medium">
-                                {{ $package->guest_min }}–{{ $package->guest_max }} guests</p>
+                                {{ $package->guest_min }}–{{ $package->guest_max }} {{ __('tours.guests') }}</p>
                         </div>
                     </div>
 
@@ -276,7 +265,7 @@
                 <hr class="mb-7">
 
                 <!-- BOOKING -->
-                <p class="font-semibold mb-6 text-left">Booking</p>
+                <p class="font-semibold mb-6 text-left">{{ __('tours.booking') }}</p>
 
                 <form action="{{ route('booking.submit') }}" method="POST">
                     @csrf
@@ -286,7 +275,7 @@
 
                     <!-- DATE -->
                     <div class="mb-5">
-                        <label class="block text-sm font-medium mb-1">Date</label>
+                        <label class="block text-sm font-medium mb-1">{{ __('tours.date') }}</label>
                         <div class="relative">
                             <input type="date" name="date" value="{{ old('date') }}"
                                 class="w-full bg-lightGrey rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-darkGreen @error('date') border border-red @enderror">
@@ -298,7 +287,7 @@
 
                     <!-- GUESTS -->
                     <div class="mb-8">
-                        <label class="block text-sm font-medium mb-1">Number of Guests</label>
+                        <label class="block text-sm font-medium mb-1">{{ __('tours.guests_label') }}</label>
                         <div class="relative">
                             <select name="guests"
                                 class="w-full bg-lightGrey rounded-md px-4 py-3 text-sm appearance-none
@@ -306,12 +295,12 @@
            @error('guests') border border-red @enderror">
 
                                 <option value="" disabled selected hidden>
-                                    Select number of guests
+                                    {{ __('tours.select_guests') }}
                                 </option>
 
                                 @for ($i = $package->guest_min; $i <= $package->guest_max; $i++)
                                     <option value="{{ $i }}" {{ old('guests') == $i ? 'selected' : '' }}>
-                                        {{ $i }} {{ $i === 1 ? 'person' : 'people' }}
+                                        {{ $i }} {{ $i === 1 ? __('tours.person') : __('tours.people') }}
                                     </option>
                                 @endfor
                             </select>
@@ -326,12 +315,12 @@
                     @if (Auth::check())
                         <button type="submit"
                             class="w-full block text-center bg-darkGreen text-white py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition mb-4">
-                            BOOK NOW
+                            {{ __('tours.book_now') }}
                         </button>
                     @else
                         <a href="{{ route('login') }}"
                             class="w-full block text-center bg-darkGreen text-white py-3 rounded-lg font-medium hover:bg-darkGreen/90 transition mb-4">
-                            BOOK NOW
+                            {{ __('tours.book_now') }}
                         </a>
                     @endif
 
@@ -351,14 +340,14 @@
               border border-darkGreen text-darkGreen text-sm py-3 rounded-lg font-medium
               hover:bg-darkGreen/10 transition mb-8">
                             <i class="fa-brands fa-whatsapp"></i>
-                            Chat Admin
+                            {{ __('tours.chat_admin') }}
                         </a>
                     @endif
 
                     <hr class="mb-7">
 
                     <p class="text-xs text-center text-darkGrey">
-                        Click the button above to make a booking.
+                        {{ __('tours.booking_note') }}
                     </p>
                 </form>
             </div>
@@ -370,7 +359,7 @@
     <section class="max-w-7xl mx-auto px-6 pb-20">
 
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-semibold">Tour Gallery</h2>
+            <h2 class="text-xl font-semibold">{{ __('tours.gallery') }}</h2>
 
             <div class="flex gap-2">
                 <button id="prevBtn"
@@ -439,7 +428,7 @@
 
                 @empty
                     <div class="min-w-full flex items-center justify-center h-60">
-                        <p class="text-mediumGrey text-sm">No gallery available.</p>
+                        <p class="text-mediumGrey text-sm">{{ __('tours.no_gallery') }}</p>
                     </div>
                 @endforelse
 
@@ -450,7 +439,7 @@
     <!-- ================= REVIEW ================= -->
     <section class="max-w-7xl mx-auto px-6 pb-20">
 
-        <h2 class="text-2xl font-semibold mb-6">Tour Review</h2>
+        <h2 class="text-2xl font-semibold mb-6">{{ __('tours.review') }}</h2>
 
         <!-- Rating summary -->
         <div class="flex flex-col lg:flex-row gap-6 lg:gap-12 mb-8">
@@ -459,7 +448,7 @@
             <div class="flex flex-col">
                 <div class="flex items-center gap-3">
                     <span class="text-2xl font-medium">{{ $package->rating_avg }}</span>
-                    <span class="text-sm text-mediumGrey">{{ $package->reviews->count() }} reviews</span>
+                    <span class="text-sm text-mediumGrey">{{ $package->reviews->count() }} {{ __('tours.reviews') }}</span>
                 </div>
 
                 <div class="flex gap-1 text-yellow-400 mt-2">
@@ -506,7 +495,7 @@
                     <a href="{{ route('tours.show', ['package' => $package->id, 'filter' => 'photo']) }}"
                         class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm
         {{ request('filter') === 'photo' ? 'bg-darkGreen text-white' : 'bg-lightGrey' }}">
-                        <i class="fa-solid fa-camera text-darkGrey"></i> Photo
+                        <i class="fa-solid fa-camera text-darkGrey"></i> {{ __('tours.photo') }}
                         ({{ $photoCount }})
                     </a>
                 @endif
@@ -597,7 +586,7 @@
 
                 @empty
                     <div class="min-w-full flex items-center justify-center h-60">
-                        <p class="text-mediumGrey text-sm">No review available.</p>
+                        <p class="text-mediumGrey text-sm">{{ __('tours.no_review') }}</p>
                     </div>
                 @endforelse
             </div>
@@ -608,7 +597,7 @@
             <div class="flex justify-center mt-10">
                 <button id="load-more" data-url="{{ $reviews->nextPageUrl() }}"
                     class="text-darkGreen font-medium flex items-center gap-3 mx-auto hover:text-darkGreen/80">
-                    View More Reviews
+                    {{ __('tours.view_more_reviews') }}
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
             </div>
@@ -620,7 +609,7 @@
 
     <section class="max-w-7xl mx-auto px-6 pb-20">
 
-        <h2 class="text-2xl font-semibold mb-6">Similar Experiences</h2>
+        <h2 class="text-2xl font-semibold mb-6">{{ __('tours.similar') }}</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
@@ -678,7 +667,7 @@
                             </div>
 
                             <span class="font-medium ml-1">{{ $rating }}</span>
-                            <span class="text-darkGrey">({{ $item->reviews_count }} reviews)</span>
+                            <span class="text-darkGrey">({{ $item->reviews_count }} {{ __('tours.reviews') }})</span>
                         </div>
 
                         {{-- DEBUG SCORE (hapus nanti) --}}
@@ -695,13 +684,13 @@
                             <div class="flex items-center gap-2">
                                 <i class="fas fa-clock"></i>
                                 <span>
-                                    {{ $item->duration }} {{ $item->duration > 1 ? 'days' : 'day' }}
+                                    {{ $item->duration }} {{ $item->duration > 1 ? __('tours.days') : __('tours.day') }}
                                 </span>
                             </div>
 
                             <div class="flex items-center gap-2">
                                 <i class="fas fa-user-friends"></i>
-                                <span>{{ $item->guest_min }}–{{ $item->guest_max }} guests</span>
+                                <span>{{ $item->guest_min }}–{{ $item->guest_max }} {{ __('tours.guests') }}</span>
                             </div>
                         </div>
 
@@ -710,7 +699,7 @@
                         <!-- Price -->
                         <div class="flex items-center justify-between mt-auto">
                             <div class="flex flex-col justify-center">
-                                <p class="text-xs text-darkGrey mb-1">Starting from</p>
+                                <p class="text-xs text-darkGrey mb-1">{{ __('tours.starting_from') }}</p>
                                 <p class="font-semibold">
                                     Rp{{ number_format($item->price, 0, ',', '.') }}
                                 </p>
@@ -718,7 +707,7 @@
 
                             <a href="{{ route('tours.show', $item->id) }}"
                                 class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center hover:bg-darkGreen/90 transition">
-                                Read More
+                                {{ __('tours.read_more') }}
                                 <i class="fas fa-angle-double-right text-xs"></i>
                             </a>
                         </div>
@@ -729,7 +718,7 @@
 
             @empty
                 <div class="min-w-full flex items-center justify-center h-60">
-                    <p class="text-mediumGrey text-sm">No similar package found.</p>
+                    <p class="text-mediumGrey text-sm">{{ __('tours.no_similar') }}</p>
                 </div>
             @endforelse
 

@@ -1,27 +1,32 @@
 @extends('layout.authentication')
 
-@section('title','Privacy Policy')
+@section('title', __('legal.privacy_title'))
 
 @section('content')
 
 <div class="max-w-4xl mx-auto py-16 px-6">
-    <h1 class="text-3xl font-semibold mb-6 text-darkGreen">Privacy Policy</h1>
+    <h1 class="text-3xl font-semibold mb-6 text-darkGreen">
+        {{ __('legal.privacy_title') }}
+    </h1>
 
     <p class="mb-4">
-        Baliedu Tours and Travel values your privacy. This policy explains
-        how we collect and use your personal information.
+        {{ __('legal.privacy_intro') }}
     </p>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Information We Collect</h2>
+    <h2 class="text-xl font-semibold mt-6 mb-2">
+        {{ __('legal.info_collect_title') }}
+    </h2>
+
     <p class="mb-4">
-        We may collect personal information such as name, email address,
-        and booking details when you use our services.
+        {{ __('legal.info_collect_desc') }}
     </p>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">How We Use Information</h2>
+    <h2 class="text-xl font-semibold mt-6 mb-2">
+        {{ __('legal.info_use_title') }}
+    </h2>
+
     <p class="mb-4">
-        Your information is used to process bookings, improve our services,
-        and communicate with you.
+        {{ __('legal.info_use_desc') }}
     </p>
 
 </div>

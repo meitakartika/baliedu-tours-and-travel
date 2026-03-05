@@ -1,4 +1,4 @@
-<h2 class="text-lg font-semibold mb-6">My Testimonial</h2>
+<h2 class="text-lg font-semibold mb-6">{{ __('account.my_testimonial') }}</h2>
 
 <!-- TABS -->
 <div class="flex w-full bg-softGrey rounded-xl mb-8 overflow-hidden">
@@ -11,7 +11,7 @@
            text-sm font-medium
            bg-white text-darkGreen
            py-3 px-4 transition">
-        <span>Pending Testimonial</span>
+        <span>{{ __('account.pending') }}</span>
 
         @if ($pendingCount > 0)
             <span
@@ -36,7 +36,7 @@
            text-sm font-medium
            bg-softGrey text-mediumGrey
            py-3 px-4 transition">
-        My Testimonial
+        {{ __('account.my_testimonial') }}
     </button>
 </div>
 
@@ -51,7 +51,7 @@
                     class="w-24 h-20 md:w-28 md:h-20 rounded-xl object-cover">
 
                 <div>
-                    <h3 class="font-semibold text-darkGrey">
+                    <h3 class="font-semibold text-darkGrey text-sm">
                         {{ app()->getLocale() === 'id' ? $booking->package->name_id : $booking->package->name_en }}</h3>
 
                     <p class="text-sm text-darkGreen flex items-center gap-2 mt-1">
@@ -67,7 +67,7 @@
                   hover:opacity-90
                   w-full md:w-auto
                   text-center mt-2 md:mt-0">
-                Review
+                {{ __('account.review') }}
             </a>
         </div>
 
@@ -76,10 +76,10 @@
         <div class="col-span-12 flex flex-col items-center justify-center py-20 text-center">
             <img src="{{ asset('images/empty.png') }}" alt="Empty Booking" class="w-48 mb-8">
             <h3 class="text-lg font-semibold text-darkGrey mb-2">
-                Belum ada Testimonial
+                {{ __('account.empty_pending_title') }}
             </h3>
             <p class="text-sm text-mediumGrey max-w-md">
-                Kamu belum melakukan pemesanan paket wisata. Yuk pilih tour terlebih dahulu.
+                {{ __('account.empty_pending_desc') }}
             </p>
         </div>
     @endforelse
@@ -99,7 +99,7 @@
                     class="w-24 h-20 md:w-28 md:h-20 rounded-xl object-cover">
 
                 <div>
-                    <h3 class="font-semibold text-darkGrey">
+                    <h3 class="font-semibold text-darkGrey text-sm">
                         {{ app()->getLocale() === 'id' ? $review->booking->package->name_id : $review->booking->package->name_en }}
                     </h3>
                     <p class="text-sm text-darkGreen flex items-center gap-2 mt-1">
@@ -120,7 +120,7 @@
                 <button onclick='openReviewModal(@json($review->load('package', 'user')))'
                     class="flex items-center gap-1 text-sm text-darkGreen hover:text-darkGreen/60">
                     <i class="fa-regular fa-eye"></i>
-                    View
+                    {{ __('account.view') }}
                 </button>
 
                 <!-- REVIEW MODAL -->
@@ -146,7 +146,7 @@
                     <button type="button" onclick="openDeleteModal(this)"
                         class="flex items-center gap-1 text-sm text-red hover:text-red/60">
                         <i class="fa-regular fa-trash-can"></i>
-                        Delete
+                        {{ __('account.delete') }}
                     </button>
                 </form>
 
@@ -157,28 +157,28 @@
     <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-xl">
 
         <h2 class="text-lg font-semibold text-darkGrey mb-3">
-            Delete Testimonial
+            {{ __('account.delete_title') }}
         </h2>
 
         <p class="text-sm text-mediumGrey">
-            Are you sure you want to delete this testimonial?  
+            {{ __('account.delete_desc_1') }}
         </p>
 
         <p class="text-sm text-mediumGrey mb-6">
-            This action cannot be undone.
+            {{ __('account.delete_desc_2') }}
         </p>
 
         <div class="flex justify-end gap-3">
             <!-- Cancel -->
             <button onclick="closeDeleteModal()"
                 class="px-4 py-2 rounded-lg border border-mediumGrey hover:bg-lightGrey">
-                Cancel
+                {{ __('account.cancel') }}
             </button>
 
             <!-- Yes Delete -->
             <button onclick="submitDelete()"
                 class="px-4 py-2 rounded-lg bg-red text-white hover:bg-red/90">
-                Yes, Delete
+                {{ __('account.yes_delete') }}
             </button>
         </div>
     </div>
@@ -193,10 +193,10 @@
         <div class="col-span-12 flex flex-col items-center justify-center py-20 text-center">
             <img src="{{ asset('images/empty.png') }}" alt="Empty Review" class="w-48 mb-8">
             <h3 class="text-lg font-semibold text-darkGrey mb-2">
-                No Testimonials Yet
+                {{ __('account.empty_my_title') }}
             </h3>
             <p class="text-sm text-mediumGrey max-w-md">
-                You haven't written any reviews.
+                {{ __('account.empty_my_desc') }}
             </p>
         </div>
 

@@ -16,15 +16,13 @@
                 <img src="/images/logo-footer.png" alt="Baliedu" class="h-10 mb-6">
 
                 <p class="text-sm leading-relaxed text-white/90">
-                    Baliedu Tours and Travel offers authentic and meaningful Bali travel
-                    experiences, inviting travelers to explore the island's culture,
-                    nature, and local life up close.
+                    {{ __('layout.footer_description') }}
                 </p>
             </div>
 
             <!-- Column 2 -->
             <div class="lg:ml-10">
-                <h4 class="font-semibold mt-2 mb-6">Tour Packages</h4>
+                <h4 class="font-semibold mt-2 mb-6">{{ __('layout.tour_packages_footer') }}</h4>
                 <ul class="space-y-3 text-sm text-white/90">
                     @foreach ($categories as $category)
                         <li>
@@ -38,7 +36,7 @@
 
             <!-- Column 3 -->
             <div>
-                <h4 class="font-semibold mt-2 mb-6">Contact Info</h4>
+                <h4 class="font-semibold mt-2 mb-6">{{ __('layout.contact_info') }}</h4>
                 <ul class="space-y-4 text-sm text-white/90">
                     @if ($baliOffice)
                         <li class="flex items-start gap-3">
@@ -67,7 +65,7 @@
 
             <!-- Column 4 -->
             <div class="lg:ml-10">
-                <h4 class="font-semibold mt-2 mb-6">Follow Us</h4>
+                <h4 class="font-semibold mt-2 mb-6">{{ __('layout.follow_us') }}</h4>
 
                 <div class="grid grid-cols-3 gap-3 text-lg max-w-[120px]">
                     @foreach ($socialMedias as $sm)

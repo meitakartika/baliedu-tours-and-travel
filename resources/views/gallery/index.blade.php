@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Gallery')
+@section('title', __('gallery.title'))
 
 @section('content')
 
@@ -18,13 +18,13 @@
                 class="absolute bottom-6 md:bottom-8 left-6 inline-flex items-center gap-3
                   text-white text-sm md:text-base font-medium hover:text-lightGreen transition">
                 <i class="fa-solid fa-arrow-left text-base md:text-lg"></i>
-                Back to Home
+                {{ __('gallery.back_home') }}
             </a>
 
             <!-- Title -->
             <div class="h-full flex items-center justify-center">
                 <h1 class="text-white text-3xl md:text-4xl font-semibold">
-                    Tours <span class="text-lightGreen">Gallery</span>
+                    {{ __('gallery.hero_title_1') }} <span class="text-lightGreen">{{ __('gallery.hero_title_2') }}</span>
                 </h1>
             </div>
 
@@ -37,10 +37,10 @@
         <!-- Heading -->
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                Gallery
+                {{ __('gallery.heading') }}
             </h2>
             <p class="text-darkGrey leading-relaxed">
-                Explore a collection of photos from various tour activities<br>and experiences with Baliedu.
+                {{ __('gallery.desc_1') }}<br>{{ __('gallery.desc_2') }}
             </p>
         </div>
 
@@ -49,7 +49,7 @@
             @foreach ($galleries as $gallery)
                 <div class="rounded-lg overflow-hidden">
                     <img src="{{ asset('storage/' . $gallery->image_url) }}" loading="lazy"
-                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="Tour Gallery">
+                        class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="{{ __('gallery.heading') }}">
                 </div>
             @endforeach
         </div>
@@ -60,6 +60,3 @@
     </section>
 
 @endsection
-
-@push('scripts')
-@endpush

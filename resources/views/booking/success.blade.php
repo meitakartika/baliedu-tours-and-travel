@@ -12,13 +12,12 @@
 
         <!-- TITLE -->
         <h1 class="text-2xl font-semibold text-darkGrey mb-3">
-            Your Order is complete!
+            {{ __('booking.order_complete_title') }}
         </h1>
 
         <!-- DESCRIPTION -->
         <p class="text-mediumGrey text-sm leading-relaxed mb-8">
-            You will be receiving a confirmation email with order details
-            and you can check the booking process in account page.
+            {{ __('booking.order_complete_desc') }}
         </p>
 
         <!-- BUTTON -->
@@ -27,7 +26,7 @@
                   border border-darkGreen text-darkGreen
                   rounded-md font-medium text-sm
                   hover:bg-darkGreen hover:text-white transition">
-            Go to the Home Page
+            {{ __('booking.go_home') }}
         </a>
 
     </div>

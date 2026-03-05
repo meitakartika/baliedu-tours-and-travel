@@ -27,7 +27,7 @@
             <!-- ===== SEARCH BAR ===== -->
             <form method="GET" action="{{ route('tours.category', $category->id) }}" class="mb-8 relative">
 
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari paket wisata..."
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('tours.search_placeholder') }}"
                     class="w-full rounded-full border border-mediumGrey/30
                    py-4 pl-6 pr-12 text-sm
                    focus:outline-none focus:ring-1 focus:ring-darkGreen" />
@@ -44,14 +44,14 @@
                 <div class="relative w-full">
                     <label class="flex items-center gap-2 text-sm font-medium text-darkGrey mb-3 ml-1">
                         <i class="fas fa-filter text-darkGrey"></i>
-                        <span>Filter by type of tour</span>
+                        <span>{{ __('tours.filter_type') }}</span>
                     </label>
 
                     <div class="relative w-full">
                         <select name="type" onchange="this.form.submit()"
                             class="w-full border border-mediumGrey/30 rounded-full px-5 pr-12 py-3 text-sm
                        focus:outline-none focus:ring-1 focus:ring-darkGreen appearance-none h-12">
-                            <option value="">All Types</option>
+                            <option value="">{{ __('tours.all_types') }}</option>
                             @foreach ($types as $type)
                                 <option value="{{ $type->id }}" {{ request('type') == $type->id ? 'selected' : '' }}>
                                     {{ app()->getLocale() === 'id' ? $type->name_id : $type->name_en }}
@@ -68,19 +68,19 @@
                 <div class="relative w-full">
                     <label class="flex items-center gap-2 text-sm font-medium text-darkGrey mb-3 ml-1">
                         <i class="fas fa-sort-amount-down-alt text-darkGrey"></i>
-                        <span>Sort by</span>
+                        <span>{{ __('tours.sort_by') }}</span>
                     </label>
 
                     <div class="relative w-full">
                         <select name="sort" onchange="this.form.submit()"
                             class="w-full border border-mediumGrey/30 rounded-full px-5 pr-12 py-3 text-sm
                        focus:outline-none focus:ring-1 focus:ring-darkGreen appearance-none h-12">
-                            <option value="newest" {{ request('sort', 'newest') === 'newest' ? 'selected' : '' }}>Newest
+                            <option value="newest" {{ request('sort', 'newest') === 'newest' ? 'selected' : '' }}>{{ __('tours.newest') }}
                             </option>
-                            <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest</option>
-                            <option value="highest" {{ request('sort') === 'highest' ? 'selected' : '' }}>Highest Rated
+                            <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>{{ __('tours.oldest') }}</option>
+                            <option value="highest" {{ request('sort') === 'highest' ? 'selected' : '' }}>{{ __('tours.highest') }}
                             </option>
-                            <option value="lowest" {{ request('sort') === 'lowest' ? 'selected' : '' }}>Lowest Rated
+                            <option value="lowest" {{ request('sort') === 'lowest' ? 'selected' : '' }}>{{ __('tours.lowest') }}
                             </option>
                         </select>
                         <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
@@ -144,7 +144,7 @@
                                 </div>
 
                                 <span class="font-medium ml-1">{{ $rating }}</span>
-                                <span class="text-darkGrey">({{ $package->reviews_count }} reviews)</span>
+                                <span class="text-darkGrey">({{ $package->reviews_count }} {{ __('tours.reviews') }})</span>
                             </div>
 
                             <p class="tour-overview text-sm text-darkGrey mb-4 line-clamp-2">
@@ -156,13 +156,13 @@
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-clock"></i>
                                     <span>
-                                        {{ $package->duration }} {{ $package->duration > 1 ? 'days' : 'day' }}
+                                        {{ $package->duration }} {{ $package->duration > 1 ? __('tours.days') : __('tours.day') }}
                                     </span>
                                 </div>
 
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-user-friends"></i>
-                                    <span>{{ $package->guest_min }}–{{ $package->guest_max }} guests</span>
+                                    <span>{{ $package->guest_min }}–{{ $package->guest_max }} {{ __('tours.guests') }}</span>
                                 </div>
                             </div>
 
@@ -171,7 +171,7 @@
                             <!-- Price -->
                             <div class="flex items-center justify-between mt-auto">
                                 <div class="flex flex-col justify-center">
-                                    <p class="text-xs text-darkGrey mb-1">Starting from</p>
+                                    <p class="text-xs text-darkGrey mb-1">{{ __('tours.starting_from') }}</p>
                                     <p class="font-semibold">
                                         Rp{{ number_format($package->price, 0, ',', '.') }}
                                     </p>
@@ -179,7 +179,7 @@
 
                                 <a href="{{ route('tours.show', ['package' => $package->id]) }}"
                                     class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center hover:bg-darkGreen/90 transition">
-                                    Read More
+                                    {{ __('tours.read_more') }}
                                     <i class="fas fa-angle-double-right text-xs"></i>
                                 </a>
                             </div>
@@ -192,11 +192,11 @@
                         <img src="{{ asset('images/empty.png') }}" alt="Empty Tour" class="w-48 md:w-32 mb-8">
 
                         <h3 class="text-lg font-semibold text-darkGrey mb-2">
-                            Tidak ada paket wisata
+                            {{ __('tours.empty_title') }}
                         </h3>
 
                         <p class="text-sm text-mediumGrey max-w-md">
-                            Coba kata kunci lain atau kembali lagi nanti.
+                            {{ __('tours.empty_desc') }}
                         </p>
 
                     </div>

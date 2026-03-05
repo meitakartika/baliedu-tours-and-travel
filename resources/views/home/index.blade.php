@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Home')
+@section('title', __('home.title'))
 
 <style>
     @keyframes blobFloat {
@@ -42,9 +42,9 @@
                     <h1
                         class="text-3xl md:text-4xl lg:text-5xl font-bold
                    leading-relaxed md:leading-snug lg:leading-normal">
-                        No matter where you’re<br>
-                        going to, we’ll take you<br>
-                        there
+                        {{ __('home.hero_title_1') }}<br>
+                        {{ __('home.hero_title_2') }}<br>
+                        {{ __('home.hero_title_3') }}
                     </h1>
                 </div>
             </div>
@@ -59,8 +59,8 @@
                 <div class="flex items-center gap-5 px-4 lg:border-r lg:border-white">
                     <i class="fa-solid fa-location-dot text-white text-2xl"></i>
                     <div>
-                        <p class="text-white text-sm font-medium">Location</p>
-                        <input type="text" name="location" placeholder="Search keywords"
+                        <p class="text-white text-sm font-medium">{{ __('home.location') }}</p>
+                        <input type="text" name="location" placeholder="{{ __('home.location_placeholder') }}"
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -69,8 +69,8 @@
                 <div class="flex items-center gap-5 px-4 lg:pl-12 lg:border-r md:border-white"> <i
                         class="fa-solid fa-clock text-white text-2xl"></i>
                     <div>
-                        <p class="text-white text-sm font-medium">Duration</p> <input type="number"
-                            name="duration" placeholder="Pick a duration"
+                        <p class="text-white text-sm font-medium">{{ __('home.duration') }}</p> <input type="number"
+                            name="duration" placeholder="{{ __('home.duration_placeholder') }}"
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -79,8 +79,8 @@
                 <div class="flex items-center gap-5 px-4 lg:pl-12">
                     <i class="fa-solid fa-user-group text-white text-xl"></i>
                     <div>
-                        <p class="text-white text-sm font-medium">Guests</p>
-                        <input type="number" name="guests" placeholder="How many guests?"
+                        <p class="text-white text-sm font-medium">{{ __('home.guests') }}</p>
+                        <input type="number" name="guests" placeholder="{{ __('home.guests_placeholder') }}"
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -104,16 +104,15 @@
             <!-- Heading -->
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <p class="text-red font-semibold tracking-widest mb-6">
-                    CATEGORY
+                    {{ __('home.category_label') }}
                 </p>
 
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                    We Offer Best Services
+                    {{ __('home.category_title') }}
                 </h2>
 
                 <p class="text-darkGrey leading-relaxed">
-                    Enjoy a wide selection of our best tours for a more comfortable
-                    and memorable Bali travel experience.
+                    {{ __('home.category_desc') }}
                 </p>
             </div>
 
@@ -125,20 +124,20 @@
 
                 @foreach ($categories as $index => $category)
                     <div class="relative h-[380px] rounded-2xl overflow-hidden group">
-                        <img src="/images/category-{{ $index + 1 }}.png" alt="{{ $category->name_en }}"
+                        <img src="/images/category-{{ $index + 1 }}.png" alt="{{ app()->getLocale() == 'id' ? $category->name_id : $category->name_en }}"
                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500">
 
                         <div class="relative z-10 p-6 pb-8 h-full flex flex-col justify-end text-white">
                             <h3 class="text-xl font-semibold mb-2">
-                                {{ $category->name_en }}
+                                {{ app()->getLocale() == 'id' ? $category->name_id : $category->name_en }}
                             </h3>
                             <p class="text-sm text-white/90 mb-4">
-                                {{ $category->description_en }}
+                                {{ app()->getLocale() == 'id' ? $category->description_id : $category->description_en }}
                             </p>
 
                             <a href="{{ route('tours.category', $category->id) }}"
                                 class="flex items-center gap-2 text-lightGreen font-medium hover:text-lightGreen/80 transition">
-                                See Activities
+                                {{ __('home.see_activities') }}
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -160,16 +159,15 @@
 
                     <!-- TEXT CONTENT -->
                     <p class="text-red font-semibold tracking-widest mb-6">
-                        STATISTICS
+                        {{ __('home.statistics_label') }}
                     </p>
 
                     <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                        What We’ve Achieved
+                        {{ __('home.statistics_title') }}
                     </h2>
 
                     <p class="text-darkGrey leading-relaxed max-w-lg">
-                        Each number tells a story of journeys and the trust of travelers
-                        who choose Baliedu as their partner in exploring Bali.
+                        {{ __('home.statistics_desc') }}
                     </p>
 
                     <!-- DECORATIVE ICONS -->
@@ -218,20 +216,20 @@
 
                         <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                             <i class="fa-solid fa-chart-line text-darkGreen text-3xl mb-4"></i>
-                            <h3 class="text-3xl font-bold text-darkGreen">10+</h3>
-                            <p class="text-sm text-darkGrey mt-2">Years Experience</p>
+                            <h3 class="text-3xl font-bold text-darkGreen">{{ __('home.number_1') }}</h3>
+                            <p class="text-sm text-darkGrey mt-2">{{ __('home.years_experience') }}</p>
                         </div>
 
                         <div class="bg-white rounded-2xl shadow-lg p-6 text-center sm:translate-y-16">
                             <i class="fa-solid fa-map text-darkGreen text-3xl mb-4"></i>
-                            <h3 class="text-3xl font-bold text-darkGreen">50+</h3>
-                            <p class="text-sm text-darkGrey mt-2">Amazing Tours</p>
+                            <h3 class="text-3xl font-bold text-darkGreen">{{ __('home.number_2') }}</h3>
+                            <p class="text-sm text-darkGrey mt-2">{{ __('home.amazing_tours') }}</p>
                         </div>
 
                         <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                             <i class="fa-solid fa-star text-darkGreen text-3xl mb-4"></i>
-                            <h3 class="text-3xl font-bold text-darkGreen">500+</h3>
-                            <p class="text-sm text-darkGrey mt-2">Happy Customer</p>
+                            <h3 class="text-3xl font-bold text-darkGreen">{{ __('home.number_3') }}</h3>
+                            <p class="text-sm text-darkGrey mt-2">{{ __('home.happy_customer') }}</p>
                         </div>
 
                     </div>
@@ -255,7 +253,7 @@
                         class="w-[300px] md:w-[350px] h-[520px] 
             rounded-full overflow-hidden 
             border-8 border-white shadow-xl">
-                        <img src="/images/discover-main.png" alt="Bali Temple" class="w-full h-full object-cover">
+                        <img src="/images/discover-main.png" alt="Bali" class="w-full h-full object-cover">
                     </div>
 
                     <!-- SMALL OVAL IMAGE -->
@@ -267,11 +265,11 @@
          w-[200px] h-[300px]
          rounded-full overflow-hidden
          border-8 border-white shadow-lg">
-                        <img src="/images/discover-small.png" alt="Bali Nature" class="w-full h-full object-cover">
+                        <img src="/images/discover-small.png" alt="Bali" class="w-full h-full object-cover">
                     </div>
 
                     <!-- 3D ILLUSTRATION -->
-                    <img src="/images/illustration-travel.png" alt="Travel Illustration"
+                    <img src="/images/illustration-travel.png" alt="Travel"
                         class="absolute top-32 right-1/2 translate-x-24
          md:translate-x-40
           lg:translate-x-72
@@ -283,27 +281,22 @@
                 <div class="max-w-xl">
 
                     <p class="text-red font-semibold tracking-widest mb-6">
-                        GET TO KNOW US
+                        {{ __('home.discover_label') }}
                     </p>
 
                     <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                        Discover Baliedu
+                        {{ __('home.discover_title') }}
                     </h2>
 
                     <p class="text-darkGrey leading-relaxed mb-10">
-                        Baliedu Tours and Travel is a local travel agency in Bali offering
-                        educational, authentic, and meaningful tours. We provide experiences
-                        that bring travelers closer to Bali’s culture, nature, and local life,
-                        delivered through comfortable, friendly, and reliable tour services.
-                        Each journey is carefully crafted to create meaningful experiences
-                        and unforgettable memories.
+                        {{ __('home.discover_desc') }}
                     </p>
 
                     <a href="#"
                         class="inline-flex items-center gap-3 bg-darkGreen
                           text-white px-8 py-4 rounded-lg font-medium
                           hover:bg-darkGreen/90 transition">
-                        Learn More About Us
+                        {{ __('home.learn_more') }}
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
 
@@ -326,12 +319,12 @@
             <!-- LEFT CONTENT -->
             <div class="text-white">
                 <p class="text-lightGreen font-semibold tracking-widest mb-6">
-                    TESTIMONIALS
+                    {{ __('home.testimonial_label') }}
                 </p>
 
                 <h2 class="text-3xl md:text-4xl font-semibold leading-tight mb-12">
-                    <span class="block">What Our Travelers</span>
-                    <span class="block mt-3 md:mt-4">are Saying</span>
+                    <span class="block">{{ __('home.testimonial_title_1') }}</span>
+                    <span class="block mt-3 md:mt-4">{{ __('home.testimonial_title_2') }}</span>
                 </h2>
 
                 <div class="flex gap-16">
@@ -341,16 +334,16 @@
                             <span>★</span>
                         </p>
                         <p class="text-sm opacity-90 mt-2">
-                            100+ reviews on website
+                            {{ __('home.reviews_text') }}
                         </p>
                     </div>
 
                     <div>
                         <p class="text-3xl font-semibold">
-                            500+
+                            {{ __('home.number_3') }}
                         </p>
                         <p class="text-sm opacity-90 mt-2">
-                            Happy travelers
+                            {{ __('home.happy_travelers') }}
                         </p>
                     </div>
                 </div>
@@ -424,15 +417,15 @@
 
                 <div class="max-w-xl">
                     <p class="text-red font-semibold tracking-widest mb-6">
-                        GALLERY
+                        {{ __('home.gallery_label') }}
                     </p>
 
                     <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                        Our Tour Gallery
+                        {{ __('home.gallery_title') }}
                     </h2>
 
                     <p class="text-darkGrey leading-relaxed">
-                        Authentic photos from Baliedu Tours and Travel experiences.
+                        {{ __('home.gallery_desc') }}
                     </p>
                 </div>
 
@@ -442,7 +435,7 @@
                    bg-darkGreen text-white
                    px-8 py-4 rounded-lg font-medium
                    hover:bg-darkGreen/90 transition">
-                        View All Image
+                        {{ __('home.view_all') }}
                     </a>
                 </div>
             </div>
@@ -452,7 +445,7 @@
                 @foreach ($galleries as $gallery)
                     <div class="rounded-lg overflow-hidden">
                         <img src="{{ asset('storage/' . $gallery->image_url) }}"
-                            class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="Tour Gallery">
+                            class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="{{ __('home.gallery_title') }}">
                     </div>
                 @endforeach
             </div>
@@ -472,9 +465,9 @@
 
             <!-- TITLE -->
             <div class="text-center mb-16">
-                <p class="text-red font-semibold tracking-widest mb-6">FAQ</p>
+                <p class="text-red font-semibold tracking-widest mb-6">{{ __('home.faq_label') }}</p>
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen">
-                    Frequently Asked Questions
+                    {{ __('home.faq_title') }}
                 </h2>
             </div>
 

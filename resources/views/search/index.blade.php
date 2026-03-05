@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Testimonials')
+@section('title', __('search.title'))
 
 @section('content')
 
@@ -14,7 +14,7 @@
 
             <!-- Title -->
             <h1 class="text-lightGreen text-3xl md:text-4xl font-semibold mb-2 md:mb-10">
-                Search <span class="text-white">Tours</span>
+                {{ __('search.hero_title_1') }} <span class="text-white">{{ __('search.hero_title_2') }} </span>
             </h1>
 
             <!-- Search Box -->
@@ -27,9 +27,9 @@
                 <div class="flex items-center gap-5 px-4 lg:border-r lg:border-white">
                     <i class="fa-solid fa-location-dot text-white text-2xl"></i>
                     <div>
-                        <p class="text-white text-sm font-medium">Location</p>
+                        <p class="text-white text-sm font-medium">{{ __('search.location') }} </p>
                         <input type="text" name="location" value="{{ request('location') }}"
-                            placeholder="Search keywords"
+                            placeholder="{{ __('search.location_placeholder') }} "
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -38,8 +38,9 @@
                 <div class="flex items-center gap-5 px-4 lg:pl-12 lg:border-r md:border-white"> <i
                         class="fa-solid fa-clock text-white text-2xl"></i>
                     <div>
-                        <p class="text-white text-sm font-medium">Duration</p> <input type="number" name="duration"
-                            value="{{ request('duration') }}" placeholder="Pick a duration"
+                        <p class="text-white text-sm font-medium">{{ __('search.duration') }} </p> <input type="number"
+                            name="duration" value="{{ request('duration') }}"
+                            placeholder="{{ __('search.duration_placeholder') }} "
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -48,8 +49,9 @@
                 <div class="flex items-center gap-5 px-4 lg:pl-12">
                     <i class="fa-solid fa-user-group text-white text-xl"></i>
                     <div>
-                        <p class="text-white text-sm font-medium">Guests</p>
-                        <input type="number" name="guests" value="{{ request('guests') }}" placeholder="How many guests?"
+                        <p class="text-white text-sm font-medium">{{ __('search.guests') }} </p>
+                        <input type="number" name="guests" value="{{ request('guests') }}"
+                            placeholder="{{ __('search.guests_placeholder') }} "
                             class="mt-1 bg-transparent text-white placeholder-white/80 text-sm outline-none w-full">
                     </div>
                 </div>
@@ -73,7 +75,7 @@
             <!-- SECTION TITLE -->
             <div class="mb-10">
                 <h2 class="text-xl md:text-2xl font-semibold text-black">
-                    Search Results
+                    {{ __('search.results_title') }}
                 </h2>
             </div>
 
@@ -130,7 +132,8 @@
                                 </div>
 
                                 <span class="font-medium ml-1">{{ $rating }}</span>
-                                <span class="text-darkGrey">({{ $package->reviews_count }} reviews)</span>
+                                <span class="text-darkGrey">({{ $package->reviews_count }} {{ __('search.reviews') }}
+                                    )</span>
                             </div>
 
                             <p class="tour-overview text-sm text-darkGrey mb-4 line-clamp-2">
@@ -141,12 +144,16 @@
                             <div class="flex items-center justify-between text-xs font-medium text-darkGreen mb-5">
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-clock"></i>
-                                    <span>{{ $package->duration }} day</span>
+                                    <span>
+                                        {{ $package->duration }}
+                                        {{ $package->duration > 1 ? __('search.day_2') : __('search.day_1') }}
+                                    </span>
                                 </div>
 
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-user-friends"></i>
-                                    <span>{{ $package->guest_min }}–{{ $package->guest_max }} guests</span>
+                                    <span>{{ $package->guest_min }}–{{ $package->guest_max }}
+                                        {{ __('search.guests_label') }} </span>
                                 </div>
                             </div>
 
@@ -155,7 +162,7 @@
                             <!-- Price -->
                             <div class="flex items-center justify-between mt-auto">
                                 <div class="flex flex-col justify-center">
-                                    <p class="text-xs text-darkGrey mb-1">Starting from</p>
+                                    <p class="text-xs text-darkGrey mb-1">{{ __('search.starting_from') }}</p>
                                     <p class="font-semibold">
                                         Rp{{ number_format($package->price, 0, ',', '.') }}
                                     </p>
@@ -163,7 +170,7 @@
 
                                 <a href="{{ route('tours.show', ['package' => $package->id]) }}"
                                     class="bg-darkGreen text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 self-center hover:bg-darkGreen/90 transition">
-                                    Read More
+                                    {{ __('search.read_more') }}
                                     <i class="fas fa-angle-double-right text-xs"></i>
                                 </a>
                             </div>
@@ -176,11 +183,11 @@
                         <img src="{{ asset('images/empty.png') }}" alt="Empty Tour" class="w-48 md:w-32 mb-8">
 
                         <h3 class="text-lg font-semibold text-darkGrey mb-2">
-                            Tidak ada paket wisata
+                            {{ __('search.empty_title') }}
                         </h3>
 
                         <p class="text-sm text-mediumGrey max-w-md">
-                            Coba kata kunci lain atau kembali lagi nanti.
+                            {{ __('search.empty_desc') }}
                         </p>
 
                     </div>
@@ -195,21 +202,21 @@
 
 @push('scripts')
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".tour-title").forEach(function(title) {
-        const overview = title.closest(".p-6").querySelector(".tour-overview");
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".tour-title").forEach(function(title) {
+                const overview = title.closest(".p-6").querySelector(".tour-overview");
 
-        if (!overview) return;
+                if (!overview) return;
 
-        // kalau tinggi judul lebih kecil dari 2 baris
-        const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
-        const isOneLine = title.offsetHeight <= lineHeight * 1.5;
+                // kalau tinggi judul lebih kecil dari 2 baris
+                const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
+                const isOneLine = title.offsetHeight <= lineHeight * 1.5;
 
-        if (isOneLine) {
-            overview.classList.remove("line-clamp-2");
-            overview.classList.add("line-clamp-3");
-        }
-    });
-});
-</script>
+                if (isOneLine) {
+                    overview.classList.remove("line-clamp-2");
+                    overview.classList.add("line-clamp-3");
+                }
+            });
+        });
+    </script>
 @endpush

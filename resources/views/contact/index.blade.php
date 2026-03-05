@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Contact Us')
+@section('title', __('contact.title'))
 
 <style>
     input::placeholder,
@@ -19,7 +19,7 @@
 
         <!-- Title -->
         <h1 class="relative z-10 text-white text-3xl md:text-4xl font-semibold">
-            Contact <span class="text-lightGreen">Us</span>
+            {{ __('contact.hero_title_1') }} <span class="text-lightGreen">{{ __('contact.hero_title_2') }}</span>
         </h1>
     </section>
 
@@ -31,18 +31,18 @@
             <!-- LEFT : CONTACT INFO -->
             <div>
                 <p class="text-red font-semibold tracking-widest mb-6">
-                    CONTACT
+                    {{ __('contact.label_contact') }}
                 </p>
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                    Get In Touch
+                    {{ __('contact.heading') }}
                 </h2>
                 <p class="text-darkGrey leading-relaxed mb-10">
-                    Contact us easily and quickly for a comfortable and responsive communication experience.
+                    {{ __('contact.description') }}
                 </p>
 
                 <!-- PHONE -->
                 <div class="mb-8">
-                    <p class="font-medium text-darkGrey mb-3">Phone:</p>
+                    <p class="font-medium text-darkGrey mb-3">{{ __('contact.phone') }}:</p>
 
                     <div class="flex flex-wrap gap-8">
                         @foreach ($phones as $phone)
@@ -53,13 +53,13 @@
                                     </span>
                                 @endif
 
-                                <a href="tel:{{ $phone->value_id }}"
+                                <a href="tel:{{ app()->getLocale() == 'id' ? $phone->value_id : $phone->value_en }}"
                                     class="border border-darkGreen rounded-lg px-6 py-3
                           flex items-center gap-3
                           hover:bg-darkGreen/10 transition">
                                     <i class="fa-solid fa-phone text-darkGreen text-sm"></i>
                                     <span class="text-sm font-medium text-darkGrey">
-                                        {{ $phone->value_id }}
+                                        {{ app()->getLocale() == 'id' ? $phone->value_id : $phone->value_en }}
                                     </span>
                                 </a>
                             </div>
@@ -69,7 +69,7 @@
 
                 <!-- EMAIL -->
                 <div>
-                    <p class="font-medium text-darkGrey mb-3">Email:</p>
+                    <p class="font-medium text-darkGrey mb-3">{{ __('contact.email') }}:</p>
 
                     <ul class="space-y-4">
                         @foreach ($emails as $email)
@@ -80,12 +80,12 @@
                                     </span>
                                 @endif
 
-                                <a href="mailto:{{ $email->value_id }}"
+                                <a href="mailto:{{ app()->getLocale() == 'id' ? $email->value_id : $email->value_en }}"
                                     class="flex items-center gap-3
                           text-sm text-darkGrey font-medium
                           hover:text-darkGreen transition">
                                     <i class="fa-solid fa-envelope text-darkGreen text-sm"></i>
-                                    {{ $email->value_id }}
+                                    {{ app()->getLocale() == 'id' ? $email->value_id : $email->value_en }}
                                 </a>
                             </li>
                         @endforeach
@@ -112,7 +112,7 @@
                     </p>
                 @endif
 
-                <h3 class="text-xl font-semibold mb-8">Send Us a Message</h3>
+                <h3 class="text-xl font-semibold mb-8">{{ __('contact.send_message') }}</h3>
 
                 <form action="{{ route('contact.messages.store') }}" method="POST">
                     @csrf
@@ -123,40 +123,40 @@
                             @auth
 value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
         readonly @endauth
-                            placeholder="Enter your name"
+                            placeholder="{{ __('contact.placeholder_name') }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">Name</label>
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.name') }}</label>
                     </div>
 
                     <!-- EMAIL -->
                     <div class="relative mb-7">
                         <input type="email" name="email" value="{{ auth()->user()->email ?? '' }}"
-                            @auth readonly @endauth placeholder="Enter your email"
+                            @auth readonly @endauth placeholder="{{ __('contact.placeholder_email') }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">Email</label>
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.email_label') }}</label>
                     </div>
 
                     <!-- PHONE -->
                     <div class="relative mb-7">
                         <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}"
-                            @auth readonly @endauth placeholder="Enter your phone number"
+                            @auth readonly @endauth placeholder="{{ __('contact.placeholder_phone') }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">Phone Number</label>
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.phone_number') }}</label>
                     </div>
 
                     <!-- MESSAGE -->
                     <div class="relative mb-6">
-                        <textarea name="message" rows="7" placeholder="Tell us about your inquiry..."
+                        <textarea name="message" rows="7" placeholder="{{ __('contact.placeholder_message') }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 pt-4 text-sm focus:outline-none focus:border-darkGreen"
                             required></textarea>
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">Message</label>
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.message') }}</label>
                     </div>
 
                     <!-- BUTTON -->
                     @guest
                         <a href="{{ route('login') }}"
                             class="w-full bg-darkGreen text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2 hover:bg-darkGreen/90 transition">
-                            Send Message
+                            {{ __('contact.send_button') }}
                             <i class="fa-solid fa-paper-plane text-sm"></i>
                         </a>
                     @endguest
@@ -164,7 +164,7 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
                     @auth
                         <button type="submit"
                             class="w-full bg-darkGreen text-white rounded-lg py-3 font-medium flex items-center justify-center gap-2 hover:bg-darkGreen/90 transition">
-                            Send Message
+                            {{ __('contact.send_button') }}
                             <i class="fa-solid fa-paper-plane text-sm"></i>
                         </button>
                     @endauth
@@ -176,7 +176,7 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
 
         <!-- ADDRESS -->
         <div class="mt-8">
-            <p class="font-medium text-darkGrey mb-3">Address:</p>
+            <p class="font-medium text-darkGrey mb-3">{{ __('contact.address') }}:</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 @foreach ($offices as $office)
@@ -188,18 +188,18 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
 
                     <div>
                         <p class="text-sm font-semibold mb-3">
-                            {{ $officeName?->value_id }}
+                            {{ app()->getLocale() == 'id' ? $officeName?->value_id : $officeName?->value_en }}
                         </p>
 
                         <div class="flex items-start gap-3 mb-6">
                             <i class="fa-solid fa-location-dot text-darkGreen text-base mt-1"></i>
                             <p class="text-sm text-darkGrey font-medium leading-relaxed">
-                                {{ $address?->value_id }}
+                                {{ app()->getLocale() == 'id' ? $address?->value_id : $address?->value_en }}
                             </p>
                         </div>
 
                         @if ($map)
-                            <iframe class="w-full h-[260px] rounded-sm" src="{{ $map->value_id }}" loading="lazy"
+                            <iframe class="w-full h-[260px] rounded-sm" src="{{ app()->getLocale() == 'id' ? $map->value_id : $map->value_en }}" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
                         @endif
@@ -210,6 +210,3 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
     </section>
 
 @endsection
-
-@push('scripts')
-@endpush

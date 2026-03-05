@@ -35,7 +35,7 @@
                 <a href="{{ url()->previous() }}"
                     class="flex items-center gap-3 text-mediumGrey mt-6 mb-6 font-medium hover:text-mediumGrey/80 transition">
                     <i class="fa-solid fa-arrow-left text-lg"></i>
-                    <span>Back</span>
+                    <span>{{ __('auth.back') }}</span>
                 </a>
 
                 {{-- Logo --}}
@@ -44,9 +44,9 @@
                 </div>
 
                 {{-- Title --}}
-                <h1 class="text-3xl font-semibold mb-4">Sign Up</h1>
+                <h1 class="text-3xl font-semibold mb-4">{{ __('auth.signup_title') }}</h1>
                 <p class=" text-sm text-mediumGrey mb-8">
-                    Create an account to get started.
+                    {{ __('auth.signup_desc') }}
                 </p>
 
                 {{-- Form --}}
@@ -60,12 +60,12 @@
                         <div>
                             <div class="relative">
                                 <input type="text" name="first_name" value="{{ old('first_name') }}"
-                                    placeholder="Enter your first name" required
+                                    placeholder="{{ __('auth.enter_first_name') }}" required
                                     class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm
                        focus:outline-none focus:border-darkGreen" />
 
                                 <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                    First Name
+                                    {{ __('auth.first_name') }}
                                 </label>
                             </div>
 
@@ -78,12 +78,12 @@
                         <div>
                             <div class="relative">
                                 <input type="text" name="last_name" value="{{ old('last_name') }}"
-                                    placeholder="Enter your last name" required
+                                    placeholder="{{ __('auth.enter_last_name') }}" required
                                     class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm
                        focus:outline-none focus:border-darkGreen" />
 
                                 <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                    Last Name
+                                    {{ __('auth.last_name') }}
                                 </label>
                             </div>
 
@@ -100,11 +100,11 @@
                         {{-- Email --}}
                         <div>
                             <div class="relative">
-                                <input type="email" name="email" placeholder="Enter your email"
+                                <input type="email" name="email" placeholder="{{ __('auth.enter_email') }}"
                                     value="{{ old('email') }}" required
                                     class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
                                 <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                    Email
+                                    {{ __('auth.email') }}
                                 </label>
                             </div>
                             @error('email')
@@ -115,11 +115,11 @@
                         {{-- Phone --}}
                         <div>
                             <div class="relative">
-                                <input type="text" name="phone" id="phone" placeholder="Enter your phone number"
+                                <input type="text" name="phone" id="phone" placeholder="{{ __('auth.enter_phone') }}"
                                     value="{{ old('phone') }}" required
                                     class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
                                 <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                    Phone Number
+                                    {{ __('auth.phone') }}
                                 </label>
                             </div>
                             {{-- BACKEND ERROR --}}
@@ -128,7 +128,7 @@
                             @else
                                 {{-- FRONTEND ERROR --}}
                                 <p id="phoneError" class="text-red text-sm mt-1 hidden">
-                                    Invalid phone number format
+                                    {{ __('auth.invalid_phone') }}
                                 </p>
                             @enderror
                         </div>
@@ -137,10 +137,10 @@
                     {{-- Password --}}
                     <div class="mb-6">
                         <div class="relative">
-                            <input type="password" name="password" id="password" placeholder="Enter your password" required
+                            <input type="password" name="password" id="password" placeholder="{{ __('auth.enter_password') }}" required
                                 class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                Password
+                                {{ __('auth.password') }}
                             </label>
                             <button type="button" onclick="togglePassword()"
                                 class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey">
@@ -156,11 +156,11 @@
                     <div class="mb-5">
                         <div class="relative">
                             <input type="password" name="password_confirmation" id="confirmPassword" required
-                                placeholder="Confirm your password"
+                                placeholder="{{ __('auth.confirm_your_password') }}"
                                 class="w-full border border-mediumGrey rounded-md px-3 h-12 text-sm focus:outline-none focus:border-darkGreen" />
 
                             <label class="absolute left-2 -top-2 px-1 bg-white text-sm text-darkGrey">
-                                Confirm Password
+                                {{ __('auth.confirm_password') }}
                             </label>
 
                             <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-mediumGrey"
@@ -174,7 +174,7 @@
                         @else
                             {{-- FRONTEND ERROR --}}
                             <p id="passwordMatchError" class="text-red text-sm mt-1 hidden">
-                                Passwords do not match
+                                {{ __('auth.password_not_match') }}
                             </p>
                         @enderror
                     </div>
@@ -184,10 +184,10 @@
                         <div class="flex items-start gap-2">
                             <input type="checkbox" name="terms" class="mt-1" required>
                             <p class="text-sm">
-                                I agree to all the
-                                <a href="{{ route('terms') }}" target="_blank" class="text-darkGreen font-medium">Terms</a>
-                                and
-                                <a href="{{ route('privacy') }}" target="_blank" class="text-darkGreen font-medium">Privacy Policies</a>
+                                {{ __('auth.agree_terms') }}
+                                <a href="{{ route('terms') }}" target="_blank" class="text-darkGreen font-medium">{{ __('auth.terms') }}</a>
+                                {{ __('auth.and') }}
+                                <a href="{{ route('privacy') }}" target="_blank" class="text-darkGreen font-medium">{{ __('auth.privacy') }}</a>
                             </p>
                         </div>
 
@@ -201,14 +201,14 @@
                     {{-- Button --}}
                     <button type="submit"
                         class="w-full bg-darkGreen text-white py-3 rounded-md font-semibold hover:bg-darkGreen/95 transition">
-                        Sign Up
+                        {{ __('auth.signup_button') }}
                     </button>
 
                     <p class="text-center text-sm mt-4 mb-6 md:mb-0">
-                        Have an account?
+                        {{ __('auth.have_account') }}
                         <a href="{{ route('login') }}"
                             class="text-darkGreen font-medium underline hover:text-darkGreen/80 transition">
-                            Login
+                            {{ __('auth.login') }}
                         </a>
                     </p>
                 </form>

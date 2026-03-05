@@ -8,7 +8,7 @@
             <a href="{{ route('tours.show', $package->id) }}"
                 class="flex items-center gap-2 text-darkGrey text-lg hover:text-mediumGrey mb-10">
                 <i class="fa-solid fa-arrow-left"></i>
-                Back
+                {{ __('booking.back') }}
             </a>
 
             <!-- Stepper -->
@@ -25,7 +25,7 @@
                             1
                         </span>
                         <span class="mt-3 text-sm font-semibold text-darkGreen">
-                            Booking Details
+                            {{ __('booking.step1') }}
                         </span>
                     </div>
 
@@ -36,7 +36,7 @@
                             2
                         </span>
                         <span class="mt-3 text-sm font-semibold text-mediumGrey/50">
-                            Your Details
+                            {{ __('booking.step2') }}
                         </span>
                     </div>
 
@@ -47,7 +47,7 @@
                             3
                         </span>
                         <span class="mt-3 text-sm font-semibold text-mediumGrey/50">
-                            Payment
+                            {{ __('booking.step3') }}
                         </span>
                     </div>
 
@@ -64,7 +64,7 @@
 
                 <!-- When you will visit -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">When you will visit?</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('booking.visit_question') }}</h3>
 
                     <div class="w-full">
                         <!-- From -->
@@ -74,7 +74,7 @@
                p-3 text-sm h-12
                focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                                From
+                                {{ __('booking.from') }}
                             </label>
                         </div>
 
@@ -83,7 +83,7 @@
                             <input type="date" id="toDate" value="{{ $toDate->format('Y-m-d') }}" readonly
                                 class="bg-white w-full border border-mediumGrey/30 rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                             <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                                To
+                                {{ __('booking.to') }}
                             </label>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
 
                 <!-- Number of Guests -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Number of Guests</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('booking.guest_title') }}</h3>
 
                     <div class="flex items-center justify-between border border-mediumGrey/30 rounded-lg px-4 py-3 w-full">
 
@@ -134,7 +134,7 @@
             <!-- ================= RIGHT ORDER SUMMARY ================= -->
             <div class="border border-mediumGrey/50 rounded-3xl p-8 space-y-6 w-full">
 
-                <h3 class="text-lg font-semibold">Your Orders Overview</h3>
+                <h3 class="text-lg font-semibold">{{ __('booking.overview_title') }}</h3>
 
                 <!-- PACKAGE INFO -->
                 <div class="flex gap-4">
@@ -155,7 +155,7 @@
                         <div class="flex items-center gap-2 text-sm text-darkGreen">
                             <i class="fa-solid fa-clock"></i>
                             {{ $package->duration }}
-                            {{ $package->duration == 1 ? 'day' : 'days' }}
+                            {{ $package->duration == 1 ? __('booking.day') : __('booking.days') }}
                         </div>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
                             class="w-6 h-6 rounded-full bg-lightGrey flex items-center justify-center text-mediumGrey">
                             {{ $guests }}
                         </span>
-                        Guests
+                        {{ __('booking.guests') }}
                     </div>
                     <span id="overviewSubtotal" class="font-medium text-darkGrey">
                         Rp{{ number_format($package->price * $guests, 0, ',', '.') }}
@@ -178,7 +178,7 @@
                 <hr>
 
                 <div class="flex justify-between font-semibold text-darkGrey">
-                    <span>Total Price</span>
+                    <span>{{ __('booking.total_price') }}</span>
                     <span id="overviewTotal" class="text-darkGreen">
                         Rp{{ number_format($package->price * $guests, 0, ',', '.') }}
                     </span>
@@ -191,7 +191,7 @@
                         <input type="hidden" name="guests" id="inputGuests" value="{{ $guests }}">
                         <button type="submit"
                             class="w-full bg-darkGreen hover:bg-darkGreen/90 text-white py-3 rounded-full font-medium">
-                            Go to the Next Step
+                            {{ __('booking.next_step') }}
                         </button>
                     </form>
                 </div>

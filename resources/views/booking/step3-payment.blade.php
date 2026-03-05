@@ -8,7 +8,7 @@
             <a href="{{ route('booking.step2') }}"
                 class="flex items-center gap-2 text-darkGrey text-lg hover:text-mediumGrey mb-10">
                 <i class="fa-solid fa-arrow-left"></i>
-                Back
+                {{ __('booking.back') }}
             </a>
 
             <!-- Stepper -->
@@ -26,7 +26,7 @@
                             1
                         </span>
                         <span class="mt-3 text-sm font-semibold text-darkGreen">
-                            Booking Details
+                            {{ __('booking.step1') }}
                         </span>
                     </div>
 
@@ -37,7 +37,7 @@
                             2
                         </span>
                         <span class="mt-3 text-sm font-semibold text-darkGreen">
-                            Your Details
+                            {{ __('booking.step2') }}
                         </span>
                     </div>
 
@@ -48,7 +48,7 @@
                             3
                         </span>
                         <span class="mt-3 text-sm font-semibold text-darkGreen">
-                            Payment
+                            {{ __('booking.step3') }}
                         </span>
                     </div>
 
@@ -69,20 +69,18 @@
 
                     <!-- PAYMENT TERMS -->
                     <div class="bg-white rounded-2xl shadow-lg p-6 space-y-4">
-                        <h3 class="font-semibold text-darkGrey">Payment Terms</h3>
+                        <h3 class="font-semibold text-darkGrey">{{ __('booking.payment_terms') }}</h3>
 
                         <ul class="list-disc list-outside pl-5 text-sm text-darkGrey space-y-2">
-                            <li>Full payment (100%) is required immediately after placing your order.</li>
-                            <li>Bank transfer fees are the responsibility of the client.</li>
-                            <li>Please upload your proof of payment on this page. Your reservation will be processed once
-                                the
-                                payment is successfully verified.</li>
+                            <li>{{ __('booking.payment_term_1') }}</li>
+                            <li>{{ __('booking.payment_term_2') }}</li>
+                            <li>{{ __('booking.payment_term_3') }}</li>
                         </ul>
                     </div>
 
                     <!-- BANK TRANSFER -->
                     <div class="border border-mediumGrey/50 rounded-2xl p-6">
-                        <h3 class="font-semibold text-darkGrey mb-6">Bank Transfer</h3>
+                        <h3 class="font-semibold text-darkGrey mb-6">{{ __('booking.bank_transfer') }}</h3>
 
                         <div class="space-y-6">
                             <!-- Bank Name -->
@@ -90,7 +88,7 @@
                                 <input type="text" value="BCA KCP Sanur Raya" readonly
                                     class="bg-white w-full border border-mediumGrey/30 rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-xs bg-white">
-                                    Bank Name
+                                    {{ __('booking.bank_name') }}
                                 </label>
                             </div>
 
@@ -99,7 +97,7 @@
                                 <input type="text" id="accountNumber" value="6700 66 56 99" readonly
                                     class="bg-white w-full border border-mediumGrey/30 rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-xs bg-white">
-                                    Account Number
+                                    {{ __('booking.account_number') }}
                                 </label>
                                 <i id="copyBtn"
                                     class="fa-solid fa-copy absolute right-3 top-1/2 -translate-y-1/2 text-darkGreen cursor-pointer"></i>
@@ -110,7 +108,7 @@
                                 <input type="text" value="Baliedu Tours and Travel CV" readonly
                                     class="bg-white w-full border border-mediumGrey/30 rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                                 <label class="absolute left-2 -top-2 px-1 text-darkGrey text-xs bg-white">
-                                    Account Name
+                                    {{ __('booking.account_name') }}
                                 </label>
                             </div>
                         </div>
@@ -118,13 +116,13 @@
                         <button type="button" onclick="openModal()"
                             class="flex items-center gap-2 text-sm text-darkGreen font-medium mt-4">
                             <i class="fa-solid fa-circle-question"></i>
-                            How to Pay
+                            {{ __('booking.how_to_pay') }}
                         </button>
                     </div>
 
                     <!-- UPLOAD PAYMENT PROOF -->
                     <div>
-                        <h3 class="font-semibold text-darkGrey mb-5">Upload Payment Proof</h3>
+                        <h3 class="font-semibold text-darkGrey mb-5">{{ __('booking.upload_payment') }}</h3>
 
                         <div id="previewBox"
                             class="w-40 h-32 md:w-60 md:h-36 bg-lightGrey rounded-xl 
@@ -137,7 +135,7 @@
 
                         <button type="button" id="uploadBtn"
                             class="inline-flex items-center gap-2 border border-darkGreen text-darkGreen px-4 py-2 mt-7 rounded-md text-sm font-medium hover:bg-darkGreen hover:text-white transition">
-                            Upload
+                            {{ __('booking.upload') }}
                             <i class="fa-solid fa-upload"></i>
                         </button>
                     </div>
@@ -147,7 +145,7 @@
                 <!-- ================= RIGHT ORDER SUMMARY ================= -->
                 <div class="border border-mediumGrey/50 rounded-3xl p-8 space-y-6 w-full">
 
-                    <h3 class="text-lg font-semibold">Your Orders Overview</h3>
+                    <h3 class="text-lg font-semibold">{{ __('booking.overview_title') }}</h3>
 
                     <div class="flex gap-4">
                         <img src="{{ asset('storage/' . $package->image_url) }}"
@@ -164,7 +162,7 @@
 
                             <div class="flex items-center gap-2 text-sm text-darkGreen">
                                 <i class="fa-solid fa-clock"></i>
-                                {{ $package->duration }} {{ $package->duration == 1 ? 'day' : 'days' }}
+                                {{ $package->duration }} {{ $package->duration == 1 ? __('booking.day') : __('booking.days') }}
                             </div>
                         </div>
                     </div>
@@ -177,7 +175,7 @@
                                 class="w-6 h-6 rounded-full bg-lightGrey flex items-center justify-center text-mediumGrey">
                                 {{ $guests }}
                             </span>
-                            Guests
+                            {{ __('booking.guests') }}
                         </div>
                         <span class="font-medium text-darkGrey">Rp{{ number_format($totalPrice, 0, ',', '.') }}</span>
                     </div>
@@ -185,7 +183,7 @@
                     <hr>
 
                     <div class="flex justify-between font-semibold text-darkGrey">
-                        <span>Total Price</span>
+                        <span>{{ __('booking.total_price') }}</span>
                         <span class="text-darkGreen">Rp{{ number_format($totalPrice, 0, ',', '.') }}</span>
                     </div>
 
@@ -199,7 +197,7 @@
                     <div class="pt-2">
                         <button type="button" onclick="openConfirmModal()"
                             class="w-full bg-darkGreen hover:bg-darkGreen/90 text-white py-3 rounded-full font-medium">
-                            Confirm & Send Booking
+                            {{ __('booking.confirm_send_booking') }}
                         </button>
                     </div>
 
@@ -212,27 +210,27 @@
                 <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-xl">
 
                     <h2 class="text-lg font-semibold text-darkGrey mb-3">
-                        Confirm Booking
+                        {{ __('booking.confirm_booking_title') }}
                     </h2>
 
                     <p class="text-sm text-mediumGrey">
-                        Are you sure you want to confirm this booking?
+                        {{ __('booking.confirm_booking_text1') }}
                     </p>
                         <p class="text-sm text-mediumGrey mb-6">
-                        Please make sure your payment proof is correct.
+                        {{ __('booking.confirm_booking_text2') }}
                     </p>
 
                     <div class="flex justify-end gap-3">
                         <!-- Cancel -->
                         <button onclick="closeConfirmModal()"
                             class="px-4 py-2 rounded-lg border border-mediumGrey hover:bg-lightGrey">
-                            Cancel
+                            {{ __('booking.cancel') }}
                         </button>
 
                         <!-- Yes Submit -->
                         <button onclick="submitBooking()"
                             class="px-4 py-2 rounded-lg bg-darkGreen text-white hover:bg-darkGreen/90">
-                            Yes, Confirm
+                            {{ __('booking.yes_confirm') }}
                         </button>
                     </div>
                 </div>
@@ -246,7 +244,7 @@
 
                     <!-- HEADER -->
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-darkGreen/80">Cara Pembayaran via Transfer Bank</h2>
+                        <h2 class="text-xl font-semibold text-darkGreen/80">{{ __('booking.payment_method_title') }}</h2>
                         <button onclick="closeModal()">
                             <i class="fa-solid fa-x text-mediumGrey"></i>
                         </button>
@@ -257,21 +255,17 @@
 
                     <!-- ISI LANGKAH -->
                     <ol class="list-decimal pl-6 space-y-2 text-darkGrey leading-relaxed">
-                        <li>Buka layanan perbankan Anda (ATM, mobile banking, atau internet banking) dari bank mana pun.
-                        </li>
-                        <li>Pilih menu Transfer.</li>
-                        <li>Pilih transfer ke bank tujuan: <b>BCA (Bank Central Asia)</b>.</li>
-                        <li>Masukkan nomor rekening tujuan: <b>6700 66 56 99</b>.</li>
-                        <li>Masukkan jumlah pembayaran sesuai total tagihan booking Anda.</li>
-                        <li>Periksa kembali detail penerima, pastikan nama yang muncul adalah <b>Baliedu Tours and Travel
-                                CV</b>.</li>
-                        <li>Jika semua data sudah benar, konfirmasikan dan selesaikan transaksi.</li>
-                        <li>Simpan bukti transfer (struk atau screenshot) lalu unggah sebagai bukti pembayaran pada halaman
-                            booking.</li>
+                        <li>{{ __('booking.payment_step_1') }}</li>
+                        <li>{{ __('booking.payment_step_2') }}</li>
+                        <li>{{ __('booking.payment_step_3') }} <b>{{ __('booking.payment_step_9') }}</b>.</li>
+                        <li>{{ __('booking.payment_step_4') }} <b>{{ __('booking.payment_step_10') }}</b>.</li>
+                        <li>{{ __('booking.payment_step_5') }}</li>
+                        <li>{{ __('booking.payment_step_6') }} <b>{{ __('booking.payment_step_11') }}</b>.</li>
+                        <li>{{ __('booking.payment_step_7') }}</li>
+                        <li>{{ __('booking.payment_step_8') }}</li>
                     </ol>
                     <p class="mt-4 text-sm text-darkGrey">
-                        <b>Catatan:</b> Jika Anda transfer dari bank lain (bukan BCA), mungkin akan dikenakan biaya
-                        administrasi antar bank sesuai kebijakan bank pengirim.
+                        <b>{{ __('booking.note') }}</b> {{ __('booking.payment_note') }}
                     </p>
                 </div>
             </div>
@@ -289,9 +283,9 @@
             const text = accountInput.value;
 
             navigator.clipboard.writeText(text).then(() => {
-                alert('Account number copied!');
+                alert('{{ __('booking.copied') }}');
             }).catch(() => {
-                alert('Failed to copy');
+                alert('{{ __('booking.copy_failed') }}');
             });
         });
 

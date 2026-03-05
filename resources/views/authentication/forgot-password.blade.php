@@ -35,7 +35,7 @@
                 <a href="{{ url()->previous() }}"
                     class="flex items-center gap-3 text-mediumGrey mt-6 mb-8 font-medium hover:text-mediumGrey/80 transition">
                     <i class="fa-solid fa-arrow-left text-lg"></i>
-                    <span>Back</span>
+                    <span>{{ __('auth.back') }}</span>
                 </a>
 
                 {{-- Logo --}}
@@ -44,9 +44,9 @@
                 </div>
 
                 {{-- Title --}}
-                <h1 class="text-3xl font-semibold mb-4">Forgot Your Password?</h1>
+                <h1 class="text-3xl font-semibold mb-4">{{ __('auth.forgot_title') }}</h1>
                 <p class=" text-sm text-mediumGrey mb-8">
-                    Don’t worry! Enter your email to reset your password.
+                    {{ __('auth.forgot_desc') }}
                 </p>
 
                 {{-- Form --}}
@@ -58,16 +58,16 @@
                     @enderror
 
                     <div class="mb-8 relative">
-                        <input type="email" name="email" placeholder="Enter your email"
+                        <input type="email" name="email" placeholder="{{ __('auth.enter_email') }}"
                             class="w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" value="{{ old('email') }}" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-white">
-                            Email
+                            {{ __('auth.email') }}
                         </label>
                     </div>
 
                     <button type="submit"
                         class="w-full bg-darkGreen text-white py-3 mt-4 mb-6 md:mb-0 rounded-md font-semibold hover:bg-darkGreen/95 transition">
-                        Send Reset Link
+                        {{ __('auth.send_reset_link') }}
                     </button>
                 </form>
 

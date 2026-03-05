@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'About Us')
+@section('title', __('about.title'))
 
 @section('content')
 
@@ -12,7 +12,7 @@
 
         <!-- Title -->
         <h1 class="relative z-10 text-white text-3xl md:text-4xl font-semibold">
-            About <span class="text-lightGreen">Us</span>
+            {{ __('about.hero_title_1') }} <span class="text-lightGreen">{{ __('about.hero_title_2') }}</span>
         </h1>
     </section>
 
@@ -22,29 +22,29 @@
 
             <!-- LEFT IMAGE -->
             <div>
-                <img src="/images/about-image.png" alt="About Baliedu" class="rounded-3xl w-full object-cover">
+                <img src="/images/about-image.png" alt="{{ __('about.about_baliedu') }}" class="rounded-3xl w-full object-cover">
 
                 <!-- STATS -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mt-12 px-2 md:px-4 lg:px-8">
 
                     <div>
-                        <h3 class="text-2xl font-bold text-darkGreen">10+</h3>
-                        <p class="text-sm text-darkGrey mt-1">Years <br> Experience</p>
+                        <h3 class="text-2xl font-bold text-darkGreen">{{ __('about.stats_1') }}</h3>
+                        <p class="text-sm text-darkGrey mt-1">{{ __('about.years') }} <br>{{ __('about.experience') }}</p>
                     </div>
 
                     <div>
-                        <h3 class="text-2xl font-bold text-darkGreen">50+</h3>
-                        <p class="text-sm text-darkGrey mt-1">Amazing <br> Tours</p>
+                        <h3 class="text-2xl font-bold text-darkGreen">{{ __('about.stats_2') }}</h3>
+                        <p class="text-sm text-darkGrey mt-1">{{ __('about.amazing') }} <br>{{ __('about.tours') }}</p>
                     </div>
 
                     <div>
-                        <h3 class="text-2xl font-bold text-darkGreen">500+</h3>
-                        <p class="text-sm text-darkGrey mt-1">Happy <br> Customer</p>
+                        <h3 class="text-2xl font-bold text-darkGreen">{{ __('about.stats_3') }}</h3>
+                        <p class="text-sm text-darkGrey mt-1">{{ __('about.happy') }} <br>{{ __('about.customer') }}</p>
                     </div>
 
                     <div>
-                        <h3 class="text-2xl font-bold text-darkGreen">10+</h3>
-                        <p class="text-sm text-darkGrey mt-1">Professional <br> Guides</p>
+                        <h3 class="text-2xl font-bold text-darkGreen">{{ __('about.stats_1') }}</h3>
+                        <p class="text-sm text-darkGrey mt-1">{{ __('about.professional') }} <br>{{ __('about.guides') }}</p>
                     </div>
 
                 </div>
@@ -55,34 +55,24 @@
             <div>
 
                 <p class="text-red font-semibold tracking-widest mb-6">
-                    WHO WE ARE?
+                    {{ __('about.who_we_are') }}
                 </p>
 
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                    About Baliedu
+                    {{ __('about.about_baliedu') }}
                 </h2>
 
                 <div class="space-y-4 text-darkGrey leading-relaxed">
                     <p>
-                        Baliedu is a trusted local travel agency specializing in guiding
-                        and serving students and travelers who wish to explore Indonesia
-                        through immersive educational tourism programs.
-                        We provide high-quality information and a wide range of carefully
-                        curated special-interest tours, ensuring that every journey is not
-                        only memorable but also truly meaningful.
+                        {{ __('about.about_p1') }}
                     </p>
 
                     <p>
-                        Embracing the concept of authentic experiences, Baliedu consistently
-                        prioritizes active participation from local communities while offering
-                        travelers deeper and more meaningful interactions.
-                        We believe that tourism should benefit all parties involved.
-                        That is why responsible tourism is the core principle behind every journey we design.
+                        {{ __('about.about_p2') }}
                     </p>
 
                     <p>
-                        With Baliedu, every step of your journey becomes an opportunity to
-                        learn, appreciate culture, and build a closer connection with Indonesia.
+                        {{ __('about.about_p3') }}
                     </p>
                 </div>
 
@@ -97,16 +87,15 @@
             <!-- HEADING -->
             <div class="text-center max-w-2xl mx-auto mb-20">
                 <p class="text-white font-semibold tracking-widest mb-6">
-                    OUR SERVICES
+                    {{ __('about.our_services') }}
                 </p>
 
                 <h2 class="text-3xl md:text-4xl font-semibold text-paleGreen mb-4">
-                    Explore Our Services
+                    {{ __('about.explore_services') }}
                 </h2>
 
                 <p class="text-white/90 leading-relaxed">
-                    Baliedu offers travel services designed to meet your travel needs
-                    in a comfortable and meaningful way.
+                    {{ __('about.services_desc') }}
                 </p>
             </div>
 
@@ -135,12 +124,11 @@
                     </div>
 
                     <h3 class="text-lg font-semibold text-darkGrey mb-3">
-                        Cultural Education & Workshops
+                        {{ __('about.service_1_title') }}
                     </h3>
 
                     <p class="text-darkGrey leading-relaxed">
-                        Authentic cultural experiences through hands-on activities
-                        with local communities and experts.
+                        {{ __('about.service_1_desc') }}
                     </p>
 
                     <span class="absolute inset-0 border border-lightGreen/20 rounded-2xl pointer-events-none"></span>
@@ -169,12 +157,11 @@
                     </div>
 
                     <h3 class="text-lg font-semibold text-darkGrey mb-3">
-                        Educational Partnerships & MoU
+                        {{ __('about.service_2_title') }}
                     </h3>
 
                     <p class="text-darkGrey leading-relaxed">
-                        Facilitating collaboration and formal agreements between schools,
-                        universities, and institutions across regions or countries.
+                        {{ __('about.service_2_desc') }}
                     </p>
 
                     <span class="absolute inset-0 border border-lightGreen/20 rounded-2xl pointer-events-none"></span>
@@ -202,12 +189,11 @@
                     </div>
 
                     <h3 class="text-lg font-semibold text-darkGrey mb-3">
-                        Inter-School Competitions
+                        {{ __('about.service_3_title') }}
                     </h3>
 
                     <p class="text-darkGrey leading-relaxed">
-                        Organizing inter-school friendly competitions focused on
-                        cultural and skill-based themes.
+                        {{ __('about.service_3_desc') }}
                     </p>
 
                     <span class="absolute inset-0 border border-lightGreen/20 rounded-2xl pointer-events-none"></span>
@@ -236,12 +222,11 @@
                     </div>
 
                     <h3 class="text-lg font-semibold text-darkGrey mb-3">
-                        Environmental Education & Action
+                        {{ __('about.service_4_title') }}
                     </h3>
 
                     <p class="text-darkGrey leading-relaxed">
-                        Interactive programs that raise environmental awareness and
-                        encourage active participation in community conservation efforts.
+                        {{ __('about.service_4_desc') }}
                     </p>
 
                     <span class="absolute inset-0 border border-lightGreen/20 rounded-2xl pointer-events-none"></span>
@@ -269,12 +254,11 @@
                     </div>
 
                     <h3 class="text-lg font-semibold text-darkGrey mb-3">
-                        Opportunity to Become Volunteer
+                        {{ __('about.service_5_title') }}
                     </h3>
 
                     <p class="text-darkGrey leading-relaxed">
-                        Volunteer experiences to support communities or groups in need
-                        through hands-on activities and collaborative programs.
+                        {{ __('about.service_5_desc') }}
                     </p>
 
                     <span class="absolute inset-0 border border-lightGreen/20 rounded-2xl pointer-events-none"></span>
@@ -303,12 +287,11 @@
                     </div>
 
                     <h3 class="text-lg font-semibold text-darkGrey mb-3">
-                        Cultural Collaboration
+                        {{ __('about.service_6_title') }}
                     </h3>
 
                     <p class="text-darkGrey leading-relaxed">
-                        Connecting cultural practitioners across regions and countries,
-                        enabling interaction, learning, and shared cultural experiences.
+                        {{ __('about.service_6_desc') }}
                     </p>
 
                     <span class="absolute inset-0 border border-lightGreen/20 rounded-2xl pointer-events-none"></span>
@@ -327,11 +310,11 @@
             <div>
 
                 <p class="text-red font-semibold tracking-widest mb-6">
-                    WHY CHOOSE BALIEDU?
+                    {{ __('about.why_choose') }}
                 </p>
 
                 <h2 class="text-4xl font-semibold text-darkGreen mb-12">
-                    Our Core Values
+                    {{ __('about.core_values') }}
                 </h2>
 
                 <!-- VALUES LIST -->
@@ -344,11 +327,10 @@
                         </div>
                         <div>
                             <h4 class="font-semibold text-darkGrey mb-1">
-                                Fun Learning Experiences
+                                {{ __('about.value_1_title') }}
                             </h4>
                             <p class="text-darkGrey leading-relaxed">
-                                Activities are designed to be both fun and educational,
-                                aligned with school programs.
+                                {{ __('about.value_1_desc') }}
                             </p>
                         </div>
                     </div>
@@ -359,11 +341,10 @@
                         </div>
                         <div>
                             <h4 class="font-semibold text-darkGrey mb-1">
-                                Authentic Culture and Nature
+                                {{ __('about.value_2_title') }}
                             </h4>
                             <p class="text-darkGrey leading-relaxed">
-                                Participants are invited to experience local cultural
-                                activities firsthand while enjoying the beauty of nature.
+                                {{ __('about.value_2_desc') }}
                             </p>
                         </div>
                     </div>
@@ -374,11 +355,10 @@
                         </div>
                         <div>
                             <h4 class="font-semibold text-darkGrey mb-1">
-                                Empowering Local Communities
+                                {{ __('about.value_3_title') }}
                             </h4>
                             <p class="text-darkGrey leading-relaxed">
-                                Every journey aims to contribute by creating sustainable
-                                economic opportunities for local communities.
+                                {{ __('about.value_3_desc') }}
                             </p>
                         </div>
                     </div>
@@ -389,11 +369,10 @@
                         </div>
                         <div>
                             <h4 class="font-semibold text-darkGrey mb-1">
-                                Professional Team
+                                {{ __('about.value_4_title') }}
                             </h4>
                             <p class="text-darkGrey leading-relaxed">
-                                Every activity is supported by our expert team, offering
-                                programs designed to fit each school or group.
+                                {{ __('about.value_4_desc') }}
                             </p>
                         </div>
                     </div>
@@ -404,11 +383,10 @@
                         </div>
                         <div>
                             <h4 class="font-semibold text-darkGrey mb-1">
-                                Safety and Comfort Guaranteed
+                                {{ __('about.value_5_title') }}
                             </h4>
                             <p class="text-darkGrey leading-relaxed">
-                                Participant safety and comfort are always our top priority,
-                                ensuring a pleasant experience.
+                                {{ __('about.value_5_desc') }}
                             </p>
                         </div>
                     </div>
@@ -464,15 +442,15 @@
 
             <div class="text-center max-w-3xl mx-auto mb-20">
                 <p class="text-red font-semibold tracking-widest mb-6">
-                    OUR VISION & MISSION
+                    {{ __('about.vision_mission') }}
                 </p>
 
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                    Our Commitment to You
+                    {{ __('about.commitment') }}
                 </h2>
 
                 <p class="text-darkGrey leading-relaxed">
-                    Baliedu’s vision and mission in creating more meaningful travel experiences.
+                    {{ __('about.vision_mission_desc') }}
                 </p>
             </div>
 
@@ -495,13 +473,11 @@
                     </div>
 
                     <h3 class="text-xl font-semibold text-darkGrey mb-4">
-                        Vision
+                        {{ __('about.vision') }}
                     </h3>
 
                     <p class="text-darkGrey leading-relaxed">
-                        To become a leading provider of educational travel that inspires
-                        experiential learning and creates a positive impact on communities
-                        and the environment.
+                        {{ __('about.vision_desc') }}
                     </p>
                 </div>
 
@@ -513,14 +489,13 @@
                         class="bg-white rounded-2xl pr-4 pl-8 pt-4 pb-6 border-r-2 border-b-2 border-lightGreen
                 h-full flex flex-col">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="font-semibold text-darkGrey mt-2">Mission 1</h4>
+                            <h4 class="font-semibold text-darkGrey mt-2">{{ __('about.mission') }} 1</h4>
                             <div class="w-8 h-8 rounded-full bg-darkGreen flex items-center justify-center">
                                 <i class="fa-solid fa-graduation-cap text-white text-sm"></i>
                             </div>
                         </div>
                         <p class="text-darkGrey leading-relaxed text-sm">
-                            Providing engaging educational travel experiences relevant
-                            to school programs.
+                            {{ __('about.mission_1') }}
                         </p>
                     </div>
 
@@ -529,14 +504,13 @@
                         class="bg-white rounded-2xl pr-4 pl-8 pt-4 pb-6 border-r-2 border-b-2 border-lightGreen
                 h-full flex flex-col">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="font-semibold text-darkGrey mt-2">Mission 2</h4>
+                            <h4 class="font-semibold text-darkGrey mt-2">{{ __('about.mission') }} 2</h4>
                             <div class="w-8 h-8 rounded-full bg-darkGreen flex items-center justify-center">
                                 <i class="fa-solid fa-leaf text-white text-sm"></i>
                             </div>
                         </div>
                         <p class="text-darkGrey leading-relaxed text-sm">
-                            Offering travel experiences that combine knowledge,
-                            culture, and nature conservation.
+                            {{ __('about.mission_2') }}
                         </p>
                     </div>
 
@@ -545,14 +519,13 @@
                         class="bg-white rounded-2xl pr-4 pl-8 pt-4 pb-6 border-r-2 border-b-2 border-lightGreen
                 h-full flex flex-col">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="font-semibold text-darkGrey mt-2">Mission 3</h4>
+                            <h4 class="font-semibold text-darkGrey mt-2">{{ __('about.mission') }} 3</h4>
                             <div class="w-8 h-8 rounded-full bg-darkGreen flex items-center justify-center">
                                 <i class="fa-solid fa-coins text-white text-sm"></i>
                             </div>
                         </div>
                         <p class="text-darkGrey leading-relaxed text-sm">
-                            Empowering local communities through sustainable
-                            economic opportunities.
+                            {{ __('about.mission_3') }}
                         </p>
                     </div>
 
@@ -561,14 +534,13 @@
                         class="bg-white rounded-2xl pr-4 pl-8 pt-4 pb-6 border-r-2 border-b-2 border-lightGreen
                 h-full flex flex-col">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="font-semibold text-darkGrey mt-2">Mission 4</h4>
+                            <h4 class="font-semibold text-darkGrey mt-2">{{ __('about.mission') }} 4</h4>
                             <div class="w-8 h-8 rounded-full bg-darkGreen flex items-center justify-center">
                                 <i class="fa-solid fa-handshake text-white text-sm"></i>
                             </div>
                         </div>
                         <p class="text-darkGrey leading-relaxed text-sm">
-                            Building strategic partnerships with schools,
-                            educational institutions, and communities.
+                            {{ __('about.mission_4') }}
                         </p>
                     </div>
 
@@ -577,14 +549,13 @@
                         class="bg-white rounded-2xl pr-4 pl-8 pt-4 pb-6 border-r-2 border-b-2 border-lightGreen
                 h-full flex flex-col">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="font-semibold text-darkGrey mt-2">Mission 5</h4>
+                            <h4 class="font-semibold text-darkGrey mt-2">{{ __('about.mission') }} 5</h4>
                             <div class="w-8 h-8 rounded-full bg-darkGreen flex items-center justify-center">
                                 <i class="fa-solid fa-users text-white text-sm"></i>
                             </div>
                         </div>
                         <p class="text-darkGrey leading-relaxed text-sm">
-                            Maintaining service quality through a professional
-                            team and specially designed tours.
+                            {{ __('about.mission_5') }}
                         </p>
                     </div>
 
@@ -593,14 +564,13 @@
                         class="bg-white rounded-2xl pr-4 pl-8 pt-4 pb-6 border-r-2 border-b-2 border-lightGreen
                 h-full flex flex-col">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="font-semibold text-darkGrey mt-2">Mission 6</h4>
+                            <h4 class="font-semibold text-darkGrey mt-2">{{ __('about.mission') }} 6</h4>
                             <div class="w-8 h-8 rounded-full bg-darkGreen flex items-center justify-center">
                                 <i class="fa-solid fa-shield-halved text-white text-sm"></i>
                             </div>
                         </div>
                         <p class="text-darkGrey leading-relaxed text-sm">
-                            Prioritizing participant comfort and safety
-                            with well-maintained security standards.
+                            {{ __('about.mission_6') }}
                         </p>
                     </div>
 
@@ -610,6 +580,3 @@
     </section>
 
 @endsection
-
-@push('scripts')
-@endpush
