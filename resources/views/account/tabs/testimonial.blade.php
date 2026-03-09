@@ -11,7 +11,7 @@
            text-sm font-medium
            bg-white text-darkGreen
            py-3 px-4 transition">
-        <span>{{ __('account.pending') }}</span>
+        <span>{{ __('account.pending_testimonial') }}</span>
 
         @if ($pendingCount > 0)
             <span

@@ -39,7 +39,7 @@ return [
     // DISCOVER
     'discover_label' => 'TENTANG KAMI',
     'discover_title' => 'Kenali Baliedu',
-    'discover_desc' => 'Baliedu Tours and Travel adalah agen perjalanan lokal di Bali yang menawarkan tur edukatif, autentik, dan bermakna.',
+    'discover_desc' => 'Baliedu Tours and Travel adalah agen perjalanan lokal di Bali yang menawarkan tur edukatif, otentik, dan bermakna. Kami menyediakan pengalaman yang membawa wisatawan lebih dekat dengan budaya, alam, dan kehidupan lokal Bali, disampaikan melalui layanan tur yang nyaman, ramah, dan dapat diandalkan. Setiap perjalanan disusun dengan cermat untuk menciptakan pengalaman yang bermakna dan kenangan yang tak terlupakan.',
     'learn_more' => 'Pelajari Lebih Lanjut',
 
     // TESTIMONIAL

@@ -317,7 +317,7 @@
                         {{ __('home.discover_desc') }}
                     </p>
 
-                    <a href="#"
+                    <a href="{{ route('about') }}"
                         class="inline-flex items-center gap-3 bg-darkGreen
                           text-white px-8 py-4 rounded-lg font-medium
                           hover:bg-darkGreen/90 transition">

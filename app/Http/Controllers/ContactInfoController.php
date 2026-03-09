@@ -164,11 +164,15 @@ class ContactInfoController extends Controller
     {
         $phones = ContactInfo::where('type', 'phone')->get();
         $emails = ContactInfo::where('type', 'email')->get();
+
         $offices = ContactInfo::whereIn('type', [
             'office_name',
             'address',
             'map_embed',
-        ])->get()->groupBy('label');
+        ])
+            ->where('label', '!=', 'footer')
+            ->get()
+            ->groupBy('label');
 
         return view('contact.index', compact('phones', 'emails', 'offices'));
     }
