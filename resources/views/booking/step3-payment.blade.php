@@ -131,10 +131,14 @@
                             <img id="previewImage" class="hidden w-full h-full object-cover" />
                         </div>
 
+                        <p class="text-xs text-mediumGrey mt-2">
+                            {{ __('booking.payment_proof_note') }}
+                        </p>
+
                         <input type="file" name="payment_proof" id="paymentInput" accept="image/*" class="hidden">
 
                         <button type="button" id="uploadBtn"
-                            class="inline-flex items-center gap-2 border border-darkGreen text-darkGreen px-4 py-2 mt-7 rounded-md text-sm font-medium hover:bg-darkGreen hover:text-white transition">
+                            class="inline-flex items-center gap-2 border border-darkGreen text-darkGreen px-4 py-2 mt-5 rounded-md text-sm font-medium hover:bg-darkGreen hover:text-white transition">
                             {{ __('booking.upload') }}
                             <i class="fa-solid fa-upload"></i>
                         </button>
@@ -162,7 +166,8 @@
 
                             <div class="flex items-center gap-2 text-sm text-darkGreen">
                                 <i class="fa-solid fa-clock"></i>
-                                {{ $package->duration }} {{ $package->duration == 1 ? __('booking.day') : __('booking.days') }}
+                                {{ $package->duration }}
+                                {{ $package->duration == 1 ? __('booking.day') : __('booking.days') }}
                             </div>
                         </div>
                     </div>
@@ -216,7 +221,7 @@
                     <p class="text-sm text-mediumGrey">
                         {{ __('booking.confirm_booking_text1') }}
                     </p>
-                        <p class="text-sm text-mediumGrey mb-6">
+                    <p class="text-sm text-mediumGrey mb-6">
                         {{ __('booking.confirm_booking_text2') }}
                     </p>
 

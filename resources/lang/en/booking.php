@@ -47,6 +47,7 @@ return [
 
     'upload_payment' => 'Upload Payment Proof',
     'upload' => 'Upload',
+    'payment_proof_note' => '* Format: JPG, JPEG, PNG • Maximum file size: 2MB',
 
     // confirm booking button
     'confirm_send_booking' => 'Confirm & Send Booking',

@@ -47,6 +47,7 @@ return [
 
     'upload_payment' => 'Unggah Bukti Pembayaran',
     'upload' => 'Unggah',
+    'payment_proof_note' => '* Format: JPG, JPEG, PNG • Maksimal ukuran: 2MB',
 
     // confirm booking button
     'confirm_send_booking' => 'Konfirmasi & Kirim Pemesanan',
