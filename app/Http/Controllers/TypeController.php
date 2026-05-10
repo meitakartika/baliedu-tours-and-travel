@@ -8,39 +8,34 @@ use App\Models\Category;
 
 class TypeController extends Controller
 {
-    /**
-     * Tampilkan daftar tipe
-     */
     public function index(Request $request)
     {
         $search = $request->search;
         $sort = $request->get('sort');
         $direction = $request->get('direction', 'asc');
 
-        // =========================
-        // VALIDASI SORT & DIRECTION
-        // =========================
+        // daftar kolom yang boleh di sort
         $allowedSorts = ['name', 'description', 'category'];
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'asc';
         }
 
-        // Tentukan kolom berdasarkan locale
         $nameColumn = app()->getLocale() == 'id' ? 'name_id' : 'name_en';
         $descColumn = app()->getLocale() == 'id' ? 'description_id' : 'description_en';
         $categoryNameColumn = app()->getLocale() == 'id' ? 'categories.name_id' : 'categories.name_en';
 
         $query = Type::with('category');
 
-        // =========================
         // SEARCH
-        // =========================
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name_id', 'like', "%{$search}%")
@@ -54,16 +49,12 @@ class TypeController extends Controller
             });
         }
 
-        // =========================
         // FILTER CATEGORY
-        // =========================
         if ($request->filled('category')) {
             $query->whereIn('category_id', $request->category);
         }
 
-        // =========================
         // SORTING
-        // =========================
         if ($sort === 'name') {
             $query->orderBy($nameColumn, $direction);
         } elseif ($sort === 'description') {
@@ -77,17 +68,14 @@ class TypeController extends Controller
         }
 
         $types = $query
-        ->paginate(10)
-        ->withQueryString();
+            ->paginate(10)
+            ->withQueryString();
 
         $categories = Category::all();
 
         return view('admin.package.type.index', compact('types', 'categories', 'sort', 'direction'));
     }
 
-    /**
-     * Tampilkan form tambah tipe
-     */
     public function create()
     {
         $type = new Type();
@@ -96,9 +84,6 @@ class TypeController extends Controller
         return view('admin.package.type.create', compact('type', 'categories'));
     }
 
-    /**
-     * Simpan tipe baru
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -116,18 +101,12 @@ class TypeController extends Controller
             ->with('success', 'Type berhasil ditambahkan.');
     }
 
-    /**
-     * Tampilkan form edit tipe
-     */
     public function edit(Type $type)
     {
         $categories = Category::all();
         return view('admin.package.type.edit', compact('type', 'categories'));
     }
 
-    /**
-     * Update tipe
-     */
     public function update(Request $request, Type $type)
     {
         $validated = $request->validate([
@@ -145,9 +124,6 @@ class TypeController extends Controller
             ->with('success', 'Type berhasil diupdate.');
     }
 
-    /**
-     * Hapus tipe
-     */
     public function destroy(Type $type)
     {
         $type->delete();

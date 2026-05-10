@@ -11,9 +11,8 @@ class ContactInfo extends Model
 
     protected $table = 'contacts_info';
 
-    // Kolom yang boleh diisi mass assignment
     protected $fillable = [
-        'type',   // phone, email, address, map_embed, office_name
+        'type',          // phone, email, address, map_embed, office_name
         'label',
         'value_id',      // isi konten bahasa Indonesia
         'value_en',      // isi konten bahasa Inggris

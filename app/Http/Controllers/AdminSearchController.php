@@ -8,9 +8,7 @@ use App\Models\Category;
 use App\Models\ContactInfo;
 use App\Models\ContactMessage;
 use App\Models\User;
-use App\Models\Itinerary;
 use App\Models\Package;
-use App\Models\PackageList;
 use App\Models\PackageReview;
 use App\Models\Type;
 

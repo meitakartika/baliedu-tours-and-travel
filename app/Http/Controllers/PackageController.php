@@ -11,20 +11,13 @@ use Illuminate\Support\Facades\Storage;
 
 class PackageController extends Controller
 {
-    /**
-     * List semua package + gallery
-     */
     public function index(Request $request)
     {
         $search = $request->search;
         $sort = $request->get('sort');
         $direction = $request->get('direction', 'asc');
 
-        /*
-    =====================
-    VALIDASI SORT
-    =====================
-    */
+        // daftar kolom yang boleh di sort
         $allowedSorts = [
             'name',
             'category',
@@ -33,18 +26,20 @@ class PackageController extends Controller
             'duration',
             'guests'
         ];
-
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'asc';
         }
 
-        // Locale column
+        // Locale
         $nameColumn = app()->getLocale() == 'id' ? 'name_id' : 'name_en';
         $categoryNameColumn = app()->getLocale() == 'id'
             ? 'categories.name_id'
@@ -55,11 +50,7 @@ class PackageController extends Controller
 
         $query = Package::query()->with(['category', 'type']);
 
-        /*
-    =====================
-    SEARCH
-    =====================
-    */
+        // SEARCH
         if ($search) {
             $query->where(function ($q) use ($search) {
 
@@ -78,29 +69,17 @@ class PackageController extends Controller
             });
         }
 
-        /*
-    =====================
-    FILTER CATEGORY
-    =====================
-    */
+        // FILTER CATEGORY
         if ($request->category) {
             $query->whereIn('category_id', $request->category);
         }
 
-        /*
-    =====================
-    FILTER TYPE
-    =====================
-    */
+        // FILTER TYPE
         if ($request->type) {
             $query->whereIn('type_id', $request->type);
         }
 
-        /*
-    =====================
-    SORTING
-    =====================
-    */
+        // SORTING
         if ($sort === 'name') {
             $query->orderBy($nameColumn, $direction);
         } elseif ($sort === 'price') {
@@ -146,9 +125,6 @@ class PackageController extends Controller
         return view('admin.package.tour.create', compact('package', 'categories', 'types'));
     }
 
-    /**
-     * Simpan package + gambar utama + gallery
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -204,12 +180,9 @@ class PackageController extends Controller
         return view('admin.package.tour.edit', compact('package', 'categories', 'types'));
     }
 
-    /**
-     * Update package + gambar utama + gallery
-     */
     public function update(Request $request, Package $package)
     {
-        $removedIds = $request->input('removed_galleries', []);
+        $removedIds = $request->input('removed_galleries', []); // mengambil array ID gallery yang ingin dihapus
 
         $validated = $request->validate([
             'category_id'         => 'required|exists:categories,id',
@@ -231,7 +204,7 @@ class PackageController extends Controller
 
         DB::transaction(function () use ($request, $validated, $package, $removedIds) {
 
-            $data = collect($validated)->except([
+            $data = collect($validated)->except([ // mengambil hanya data yang memang milik tabel packages
                 'galleries',
                 'removed_galleries'
             ])->toArray();
@@ -275,17 +248,12 @@ class PackageController extends Controller
             ->with('success', 'Package updated successfully!');
     }
 
-    /**
-     * Hapus package + galleries
-     */
     public function destroy(Package $package)
     {
         DB::transaction(function () use ($package) {
             // Hapus semua gallery
             foreach ($package->galleries as $gallery) {
-
                 Storage::disk('public')->delete($gallery->image_url);
-
                 $gallery->delete();
             }
 

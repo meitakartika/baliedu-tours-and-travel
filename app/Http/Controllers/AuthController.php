@@ -30,16 +30,16 @@ class AuthController extends Controller
         ]);
 
         if (Auth::guard('web')->attempt($credentials)) {
-    $request->session()->regenerate();
+            $request->session()->regenerate();
 
-    $user = Auth::user();
+            $user = Auth::user();
 
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
 
-    return redirect()->route('home');
-}
+            return redirect()->route('home');
+        }
 
         return back()->withErrors([
             'email' => 'Email atau password salah',

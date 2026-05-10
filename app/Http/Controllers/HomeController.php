@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Category;
 use App\Models\PackageGallery;
 
@@ -10,8 +11,8 @@ class HomeController extends Controller
     {
         $categories = Category::all();
         $galleries = PackageGallery::latest()
-        ->take(8)
-        ->get();
+            ->take(8)
+            ->get();
 
         return view('home.index', compact('categories', 'galleries'));
     }

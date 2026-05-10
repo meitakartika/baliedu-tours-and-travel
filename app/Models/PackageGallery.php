@@ -14,9 +14,7 @@ class PackageGallery extends Model
         'image_url',
     ];
 
-    /**
-     * Relasi ke package
-     */
+    // Relasi ke package
     public function package()
     {
         return $this->belongsTo(Package::class);

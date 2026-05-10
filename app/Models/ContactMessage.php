@@ -9,7 +9,6 @@ class ContactMessage extends Model
 {
     use HasFactory;
 
-    // Kolom yang bisa diisi mass assignment
     protected $fillable = [
         'user_id',
         'message',

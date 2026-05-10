@@ -11,28 +11,25 @@ class PackageReviewController extends Controller
     {
         $search = $request->search;
         $ratings = $request->rating;
-
         $sort = $request->get('sort');
         $direction = $request->get('direction', 'asc');
 
-        /*
-    ==========================
-    VALIDASI SORT
-    ==========================
-    */
+        // daftar kolom yang boleh di sort
         $allowedSorts = [
             'name',
             'package',
             'rating',
             'date'
         ];
-
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'asc';
         }
@@ -46,11 +43,7 @@ class PackageReviewController extends Controller
             ->leftJoin('packages', 'package_reviews.package_id', '=', 'packages.id')
             ->select('package_reviews.*');
 
-        /*
-    ==========================
-    SEARCH
-    ==========================
-    */
+        // SEARCH
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('users.first_name', 'like', "%{$search}%")
@@ -60,20 +53,12 @@ class PackageReviewController extends Controller
             });
         }
 
-        /*
-    ==========================
-    FILTER RATING
-    ==========================
-    */
+        // FILTER RATING
         if ($ratings) {
             $query->whereIn('package_reviews.rating', $ratings);
         }
 
-        /*
-    ==========================
-    SORTING
-    ==========================
-    */
+        // SORTING
         if ($sort === 'name') {
             $query->orderBy('users.first_name', $direction);
         } elseif ($sort === 'package') {
@@ -104,9 +89,9 @@ class PackageReviewController extends Controller
 
     public function update(Request $request, PackageReview $testimonial)
     {
-        $images = json_decode($request->images, true) ?? [];
+        $images = json_decode($request->images, true) ?? []; // Ambil images dari request, mengubah JSON menjadi array PHP
 
-        // Hapus file yang dihapus dari storage
+        // Hapus file yang dihapus admin
         $oldImages = $testimonial->images ?? [];
         $removedImages = array_diff($oldImages, $images);
         foreach ($removedImages as $img) {

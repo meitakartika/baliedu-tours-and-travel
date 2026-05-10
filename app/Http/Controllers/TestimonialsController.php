@@ -21,31 +21,29 @@ class TestimonialsController extends Controller
             'user:id,first_name,last_name,profile_image'
         ])
 
+            // FILTER TYPE
             ->when($request->filled('type'), function ($q) use ($request) {
                 $q->whereHas('package', function ($q2) use ($request) {
                     $q2->where('type_id', $request->type);
                 });
             })
 
-            // SORT
+            // SORTING
             ->when(
                 $request->sort === 'highest',
                 fn($q) =>
                 $q->orderByDesc('rating')
             )
-
             ->when(
                 $request->sort === 'lowest',
                 fn($q) =>
                 $q->orderBy('rating')
             )
-
             ->when(
                 $request->sort === 'oldest',
                 fn($q) =>
                 $q->oldest()
             )
-
             ->when(
                 ! $request->filled('sort') || $request->sort === 'newest',
                 fn($q) => $q->latest()
@@ -55,7 +53,7 @@ class TestimonialsController extends Controller
             ->withQueryString();
 
 
-        // ⭐ summary langsung DB
+        // summary
         $averageRating = PackageReview::avg('rating');
         $totalReviews = PackageReview::count();
 
@@ -96,6 +94,7 @@ class TestimonialsController extends Controller
 
     public function store(Request $request, Booking $booking)
     {
+        // SECURITY CHECK
         if ($booking->user_id !== Auth::id()) {
             abort(403);
         }
@@ -108,12 +107,12 @@ class TestimonialsController extends Controller
             'agreement' => 'accepted',
         ]);
 
-        $imagePaths = [];
-if ($request->hasFile('images')) {
-    foreach ($request->file('images') as $file) {
-        $imagePaths[] = $file->store('review_images', 'public');
-    }
-}
+        $imagePaths = []; // menyimpan path gambar
+        if ($request->hasFile('images')) { // cek apakah ada upload gambar
+            foreach ($request->file('images') as $file) { // loop semua gambar
+                $imagePaths[] = $file->store('review_images', 'public');
+            }
+        }
 
         PackageReview::create([
             'user_id' => Auth::id(),
@@ -130,23 +129,22 @@ if ($request->hasFile('images')) {
     }
 
     public function destroy(PackageReview $review)
-{
-    // SECURITY — pastikan cuma pemilik review yang bisa hapus
-    if ($review->user_id !== Auth::id()) {
-        abort(403);
-    }
-
-    // Hapus gambar jika ada
-    if (!empty($review->images)) {
-        foreach ($review->images as $img) {
-            Storage::disk('public')->delete($img);
+    {
+        // SECURITY — pastikan cuma pemilik review yang bisa hapus
+        if ($review->user_id !== Auth::id()) {
+            abort(403);
         }
+
+        // Hapus gambar jika ada
+        if (!empty($review->images)) { // cek apakah ada gambar
+            foreach ($review->images as $img) { // loop semua gambar
+                Storage::disk('public')->delete($img);
+            }
+        }
+
+        // Delete review
+        $review->delete();
+
+        return back()->with('success', 'Testimonial deleted successfully.');
     }
-
-    // Delete review
-    $review->delete();
-
-    return back()->with('success', 'Testimonial deleted successfully.');
-}
-
 }

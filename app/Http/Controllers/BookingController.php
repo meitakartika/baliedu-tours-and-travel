@@ -10,19 +10,19 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+    /*
+    ==========================
+    ADMIN
+    ==========================
+    */
     public function index(Request $request)
     {
         $search = $request->search;
         $statusFilter = $request->status;
-
         $sort = $request->get('sort');
         $direction = $request->get('direction', 'asc');
 
-        /*
-    ==========================
-    VALIDASI SORT
-    ==========================
-    */
+        // daftar kolom yang boleh di sort
         $allowedSorts = [
             'id',
             'name',
@@ -33,12 +33,15 @@ class BookingController extends Controller
             'status'
         ];
 
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'asc';
         }
@@ -52,11 +55,7 @@ class BookingController extends Controller
             ->leftJoin('packages', 'bookings.package_id', '=', 'packages.id')
             ->select('bookings.*');
 
-        /*
-    ==========================
-    SEARCH
-    ==========================
-    */
+        // SEARCH
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('users.first_name', 'like', "%{$search}%")
@@ -66,20 +65,12 @@ class BookingController extends Controller
             });
         }
 
-        /*
-    ==========================
-    FILTER STATUS
-    ==========================
-    */
+        // FILTER STATUS
         if ($statusFilter) {
             $query->whereIn('bookings.status', $statusFilter);
         }
 
-        /*
-    ==========================
-    SORTING
-    ==========================
-    */
+        // SORTING
         if ($sort === 'id') {
             $query->orderBy('bookings.id', $direction);
         } elseif ($sort === 'name') {
@@ -139,7 +130,12 @@ class BookingController extends Controller
             ->with('success', 'Booking berhasil dihapus.');
     }
 
-    public function booking(Request $request)
+    /*
+    ==========================
+    USER
+    ==========================
+    */
+    public function booking(Request $request) // method pertama saat user submit form booking awal
     {
         $request->validate([
             'date'       => 'required|date',
@@ -147,7 +143,7 @@ class BookingController extends Controller
             'package_id' => 'required|exists:packages,id',
         ]);
 
-        session([
+        session([                                           // simpan ke session
             'booking.date'       => $request->date,
             'booking.guests'     => (int) $request->guests,
             'booking.package_id' => $request->package_id,
@@ -162,8 +158,8 @@ class BookingController extends Controller
             return redirect()->route('home');
         }
 
-        $booking = session('booking');
-        $package = Package::findOrFail($booking['package_id']);
+        $booking = session('booking'); // ambil data booking dari session
+        $package = Package::findOrFail($booking['package_id']); // ambil data paket
 
         $fromDate = Carbon::parse($booking['date']);
         $toDate = $fromDate->copy()->addDays($package->duration - 1);
@@ -177,20 +173,20 @@ class BookingController extends Controller
         ));
     }
 
-    public function storeStep1(Request $request)
+    public function storeStep1(Request $request) // menyimpan ulang data step1 setelah user edit tanggal/guest
     {
         $request->validate([
             'date'   => 'required|date',
             'guests' => 'required|integer|min:1',
         ]);
 
-        $booking = session('booking');
+        $booking = session('booking'); // ambil session lama
 
-        session([
+        session([                       // update session baru
             'booking' => [
                 'package_id' => $booking['package_id'], // tetap paket awal
-                'date'       => $request->date,         // tanggal baru
-                'guests'     => (int) $request->guests, // guest baru
+                'date'       => $request->date,
+                'guests'     => (int) $request->guests,
             ]
         ]);
 
@@ -235,7 +231,7 @@ class BookingController extends Controller
         ));
     }
 
-    public function storeBooking(Request $request)
+    public function storeBooking(Request $request) // proses final simpan booking ke database
     {
         $request->validate([
             'payment_proof' => 'required|image|mimes:jpg,jpeg,png|max:2048',
@@ -246,7 +242,6 @@ class BookingController extends Controller
             return redirect()->route('booking.step1');
         }
 
-        // price
         $package = Package::findOrFail($booking['package_id']);
         $totalPrice = $package->price * $booking['guests'];
 

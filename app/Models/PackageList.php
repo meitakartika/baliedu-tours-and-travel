@@ -18,12 +18,9 @@ class PackageList extends Model
         'content_en',
     ];
 
-    /**
-     * Relasi ke Package
-     */
+    // Relasi ke Package
     public function package()
     {
         return $this->belongsTo(Package::class);
     }
-
-    }
+}

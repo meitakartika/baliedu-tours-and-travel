@@ -15,20 +15,24 @@ class CustomerController extends Controller
         $sort = $request->get('sort', 'created_at'); // default
         $direction = $request->get('direction', 'desc'); // default
 
+        // daftar kolom yang boleh di sort
         $allowedSorts = ['first_name', 'last_name', 'email', 'created_at'];
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = 'created_at';
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'desc';
         }
 
+        // SEARCH
         $customers = User::customer()
             ->when($search, function ($query) use ($search) {
-
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
                         ->orWhere('last_name', 'like', "%{$search}%")
@@ -83,13 +87,12 @@ class CustomerController extends Controller
         return view('admin.customers.edit', compact('customer', 'countries'));
     }
 
-
     public function update(Request $request, User $customer)
     {
         $validated = $request->validate([
             'first_name'     => 'required|string|max:100',
             'last_name'      => 'required|string|max:100',
-            'email'          => 'required|email|unique:users,email,' . $customer->id,
+            'email'          => 'required|email|unique:users,email,' . $customer->id, // cek email duplicate ke user lain, jangan cek ke dirinya sendiri
             'password'       => 'nullable|min:8|confirmed',
             'phone'          => ['required', 'regex:/^\+?[0-9]{8,15}$/'],
             'date_of_birth'  => 'nullable|date',
@@ -100,13 +103,13 @@ class CustomerController extends Controller
         if ($request->filled('password')) {
             $validated['password'] = Hash::make($request->password);
         } else {
-            unset($validated['password']);
+            unset($validated['password']); // kalau tidak diisi hapus password dari array validated
         }
 
         if ($request->hasFile('profile_image')) {
 
             if ($customer->profile_image) {
-                Storage::disk('public')->delete($customer->profile_image);
+                Storage::disk('public')->delete($customer->profile_image); // hapus gambar lama
             }
 
             $validated['profile_image'] = $request

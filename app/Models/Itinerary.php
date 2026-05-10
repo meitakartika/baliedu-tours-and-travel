@@ -17,17 +17,13 @@ class Itinerary extends Model
         'title_en',
     ];
 
-    /**
-     * Relasi ke Package
-     */
+    // Relasi ke Package
     public function package()
     {
         return $this->belongsTo(Package::class);
     }
 
-    /**
-     * Relasi ke detail itinerary (sub-item)
-     */
+    // Relasi ke detail itinerary
     public function details()
     {
         return $this->hasMany(ItineraryDetail::class);

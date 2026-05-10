@@ -12,82 +12,81 @@ use Illuminate\Support\Facades\Storage;
 class AccountController extends Controller
 {
     public function index()
-{
-     $user = Auth::user();
-$tab = request('tab', 'profile');
+    {
+        $user = Auth::user();
+        $tab = request('tab', 'profile');
 
-    $bookings = collect();
-    $pendingReviews = collect();
-    $myReviews = collect();
+        $bookings = collect();
+        $pendingReviews = collect();
+        $myReviews = collect();
 
-    // LOAD BOOKINGS hanya kalau buka tab booking
-    if ($tab === 'booking') {
+        // LOAD BOOKINGS hanya kalau buka tab booking
+        if ($tab === 'booking') {
 
-        $bookings = Booking::with('package')
-            ->where('user_id', $user->id)
-            ->latest()
-            ->get()
-            ->map(function ($booking) {
-                $booking->tour_date_formatted =
-                    \Carbon\Carbon::parse($booking->tour_date)
+            $bookings = Booking::with('package')
+                ->where('user_id', $user->id)
+                ->latest()
+                ->get()
+                ->map(function ($booking) {
+                    $booking->tour_date_formatted =
+                        \Carbon\Carbon::parse($booking->tour_date)
                         ->format('d M Y');
 
-                return $booking;
-            });
-    }
+                    return $booking;
+                });
+        }
 
-   // LOAD TESTIMONIAL hanya kalau tab testimonial
-    if ($tab === 'testimonial') {
+        // LOAD TESTIMONIAL hanya kalau tab testimonial
+        if ($tab === 'testimonial') {
 
-        $pendingReviews = Booking::with('package')
-            ->where('user_id', $user->id)
+            $pendingReviews = Booking::with('package')
+                ->where('user_id', $user->id)
+                ->where('status', 'completed')
+                ->whereDoesntHave('review')
+                ->latest()
+                ->get();
+
+            $myReviews = PackageReview::with(['booking.package'])
+                ->where('user_id', $user->id)
+                ->latest()
+                ->get();
+        }
+
+        // BADGE COUNT
+        $pendingCount = Booking::where('user_id', $user->id)
             ->where('status', 'completed')
             ->whereDoesntHave('review')
-            ->latest()
-            ->get();
+            ->count();
 
-        $myReviews = PackageReview::with(['booking.package'])
-        ->where('user_id', $user->id)
-        ->latest()
-        ->get();
+        return view('account.index', compact(
+            'user',
+            'bookings',
+            'pendingReviews',
+            'myReviews',
+            'pendingCount'
+        ))->with('countries', config('countries'));
     }
 
-    // BADGE COUNT
-    $pendingCount = Booking::where('user_id', $user->id)
-        ->where('status', 'completed')
-        ->whereDoesntHave('review')
-        ->count();
-
-    return view('account.index', compact(
-        'user',
-        'bookings',
-        'pendingReviews',
-        'myReviews',
-        'pendingCount'
-    ))->with('countries', config('countries'));
-}
-
     public function updateProfile(Request $request)
-{
+    {
+        $user = Auth::user();
 
-    $user = Auth::user();
+        $validated = $request->validateWithBag('profile', [
+            'first_name'    => 'required|string|max:100',
+            'last_name'     => 'required|string|max:100',
+            'phone'         => ['required', 'regex:/^\+?[0-9]{8,15}$/'],
+            'date_of_birth' => 'nullable|date',
+            'country'       => 'nullable|string|max:100',
+        ]);
 
-    $validated = $request->validateWithBag('profile', [
-        'first_name'    => 'required|string|max:100',
-        'last_name'     => 'required|string|max:100',
-        'phone'         => ['required', 'regex:/^\+?[0-9]{8,15}$/'],
-        'date_of_birth' => 'nullable|date',
-        'country'       => 'nullable|string|max:100',
-    ]);
+        $user->update($validated);
 
-    $user->update($validated);
-
-    return back()->with('success_profile', 'Profile updated successfully');
-}
+        return back()->with('success_profile', 'Profile updated successfully');
+    }
 
     public function updateSecurity(Request $request)
     {
-        $validated = $request->validateWithBag('security', [
+        $request->validateWithBag('security', [
             'email'    => 'required|email|unique:users,email,' . Auth::id(),
             'password' => 'nullable|min:8',
         ]);
@@ -105,28 +104,30 @@ $tab = request('tab', 'profile');
     }
 
     public function updateProfileImage(Request $request)
-{
-    $request->validate([
-        'profile_image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-    ]);
+    {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
 
-    $user = Auth::user();
+        $user = Auth::user();
 
-    // hapus gambar lama
-    if ($user->profile_image &&
-        Storage::disk('public')->exists($user->profile_image)) {
+        // hapus gambar lama
+        if (
+            $user->profile_image &&
+            Storage::disk('public')->exists($user->profile_image)
+        ) {
 
-        Storage::disk('public')->delete($user->profile_image);
+            Storage::disk('public')->delete($user->profile_image);
+        }
+
+        // simpan baru
+        $path = $request->file('profile_image')
+            ->store('profile_images', 'public');
+
+        $user->update([
+            'profile_image' => $path
+        ]);
+
+        return back()->with('success', 'Profile image updated!');
     }
-
-    // simpan baru
-    $path = $request->file('profile_image')
-        ->store('profile_images', 'public');
-
-    $user->update([
-        'profile_image' => $path
-    ]);
-
-    return back()->with('success','Profile image updated!');
-}
 }

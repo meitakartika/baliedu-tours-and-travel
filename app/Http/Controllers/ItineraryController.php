@@ -9,25 +9,23 @@ use Illuminate\Support\Facades\DB;
 
 class ItineraryController extends Controller
 {
-    // Menampilkan semua itinerary
     public function index(Request $request)
     {
         $search = $request->search;
         $sort = $request->get('sort');
         $direction = $request->get('direction', 'asc');
 
-        /*
-    =====================
-    VALIDASI
-    =====================
-    */
+        // daftar kolom yang boleh di sort
         $allowedSorts = ['name', 'itineraries'];
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'asc';
         }
@@ -38,11 +36,7 @@ class ItineraryController extends Controller
 
         $query = Package::withCount('itineraries');
 
-        /*
-    =====================
-    SEARCH
-    =====================
-    */
+        // SEARCH
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name_en', 'like', "%{$search}%")
@@ -50,11 +44,7 @@ class ItineraryController extends Controller
             });
         }
 
-        /*
-    =====================
-    SORTING
-    =====================
-    */
+        // SORTING
         if ($sort === 'name') {
             $query->orderBy($nameColumn, $direction);
         } elseif ($sort === 'itineraries') {
@@ -81,7 +71,7 @@ class ItineraryController extends Controller
         return view('admin.package.itinerary.create', compact('packages'));
     }
 
-    // Membuat itinerary beserta details
+    // Menyimpan itinerary beserta details
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -98,10 +88,10 @@ class ItineraryController extends Controller
             'itineraries.*.details.*.description_en' => 'required|string',
         ]);
 
-        // Gunakan return DB::transaction untuk menyimpan $itinerary
+        // Gunakan return DB::transaction untuk menyimpan $itinerary (kalau semua berhasil → commit, kalau ada error → rollback)
         DB::transaction(function () use ($validated) {
 
-            foreach ($validated['itineraries'] as $itineraryData) {
+            foreach ($validated['itineraries'] as $itineraryData) { // loop itinerary
 
                 $itinerary = Itinerary::create([
                     'package_id' => $validated['package_id'],
@@ -113,14 +103,13 @@ class ItineraryController extends Controller
 
                 if (!empty($itineraryData['details'])) {
 
-                    foreach ($itineraryData['details'] as $detail) {
+                    foreach ($itineraryData['details'] as $detail) { // loop detail
                         $itinerary->details()->create($detail);
                     }
                 }
             }
         });
 
-        // Sekarang $itinerary sudah tersedia di luar
         return redirect()
             ->route('package.itinerary.index')
             ->with('success', 'Itinerary created successfully!');
@@ -152,11 +141,11 @@ class ItineraryController extends Controller
 
         DB::transaction(function () use ($validated, $packageId) {
 
-            $existingItineraryIds = [];
+            $existingItineraryIds = []; // untuk menyimpan ID itinerary yang masih ada
 
-            foreach ($validated['itineraries'] as $itineraryData) {
+            foreach ($validated['itineraries'] as $itineraryData) { // loop itinerary
 
-                // UPDATE atau CREATE
+                // update kalau data ditemukan, create kalau tidak ada
                 $itinerary = Itinerary::updateOrCreate(
                     ['id' => $itineraryData['id'] ?? null],
                     [
@@ -168,33 +157,33 @@ class ItineraryController extends Controller
                     ]
                 );
 
-                $existingItineraryIds[] = $itinerary->id;
+                $existingItineraryIds[] = $itinerary->id; // menyimpan id itinerary yang masih ada
 
                 // DETAILS
-                $existingDetailIds = [];
+                $existingDetailIds = []; // menyimpan detail yang masih ada
 
                 if (!empty($itineraryData['details'])) {
 
-                    foreach ($itineraryData['details'] as $detail) {
+                    foreach ($itineraryData['details'] as $detail) { // looping detail
 
-                        $detailModel = $itinerary->details()->updateOrCreate(
+                        $detailModel = $itinerary->details()->updateOrCreate( // update kalau ada id, create kalau baru
                             ['id' => $detail['id'] ?? null],
                             $detail
                         );
 
-                        $existingDetailIds[] = $detailModel->id;
+                        $existingDetailIds[] = $detailModel->id; // menyimpan detail yang masih ada
                     }
                 }
 
-                // DELETE detail yg dihapus admin
+                // Hapus detail yg dihapus admin
                 $itinerary->details()
-                    ->whereNotIn('id', $existingDetailIds)
+                    ->whereNotIn('id', $existingDetailIds) // id-nya tidak ada dalam daftar detail aktif
                     ->delete();
             }
 
-            // DELETE itinerary yg dihapus admin
+            // Hapus itinerary yg dihapus admin
             Itinerary::where('package_id', $packageId)
-                ->whereNotIn('id', $existingItineraryIds)
+                ->whereNotIn('id', $existingItineraryIds) // // id-nya tidak ada dalam daftar itinerary aktif
                 ->delete();
         });
 
@@ -210,9 +199,9 @@ class ItineraryController extends Controller
 
             $itineraries = Itinerary::where('package_id', $packageId)->get();
 
-            foreach ($itineraries as $itinerary) {
-                $itinerary->details()->delete();
-                $itinerary->delete();
+            foreach ($itineraries as $itinerary) { // loop itinerary (hapus satu-satu)
+                $itinerary->details()->delete(); // hapus detail dulu
+                $itinerary->delete(); // hapus itinerary
             }
         });
 

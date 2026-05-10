@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Category;
 use App\Models\ContactInfo;
 
-class AppServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider // menjalankan konfigurasi atau logic global aplikasi Laravel
 {
     /**
      * Register any application services.
@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(): void //  // mengirim data ke semua Blade view
     {
         view()->share('categories', Category::all());
 

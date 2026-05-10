@@ -9,7 +9,6 @@ class Package extends Model
 {
     use HasFactory;
 
-    // Mass assignable
     protected $fillable = [
         'category_id',
         'type_id',
@@ -24,75 +23,64 @@ class Package extends Model
         'image_url',
     ];
 
-    /**
-     * Relasi ke kategori
-     */
+    // Relasi ke kategori
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    /**
-     * Relasi ke tipe
-     */
+    // Relasi ke tipe
     public function type()
     {
         return $this->belongsTo(Type::class);
     }
 
-    /**
-     * Relasi ke itineraries
-     */
+    // Relasi ke itineraries
     public function itineraries()
     {
         return $this->hasMany(Itinerary::class);
     }
 
-    /**
-     * Relasi ke galeri paket
-     */
+    // Relasi ke galeri
     public function galleries()
     {
         return $this->hasMany(PackageGallery::class);
     }
 
-    /**
-     * Relasi ke review
-     */
+    // Relasi ke review
     public function reviews()
     {
         return $this->hasMany(PackageReview::class);
     }
 
-    /**
-     * Relasi ke booking
-     */
+    // Relasi ke booking
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
 
+    // Relasi ke list
     public function packageLists()
-{
-    return $this->hasMany(PackageList::class);
-}
+    {
+        return $this->hasMany(PackageList::class);
+    }
 
-public function includes()
-{
-    return $this->hasMany(PackageList::class)
-        ->where('type', 'includes');
-}
+    // Type List
+    public function includes()
+    {
+        return $this->hasMany(PackageList::class)
+            ->where('type', 'includes');
+    }
 
-public function notIncludes()
-{
-    return $this->hasMany(PackageList::class)
-        ->where('type', 'not_includes');
-}
+    public function notIncludes()
+    {
+        return $this->hasMany(PackageList::class)
+            ->where('type', 'not_includes');
+    }
 
-public function mustBring()
-{
-    return $this->hasMany(PackageList::class)
-        ->where('type', 'must_bring');
-}
-
+    public function mustBring()
+    {
+        return $this->hasMany(PackageList::class)
+            ->where('type', 'must_bring');
+    }
 }

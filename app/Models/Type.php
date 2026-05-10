@@ -11,9 +11,9 @@ class Type extends Model
 
     protected $fillable = [
         'category_id',
-        'name_id', 
+        'name_id',
         'name_en',
-        'description_id', 
+        'description_id',
         'description_en',
     ];
 
@@ -23,10 +23,9 @@ class Type extends Model
         return $this->belongsTo(Category::class);
     }
 
-    // Relasi ke paket
+    // Relasi ke package
     public function packages()
-{
-    return $this->hasMany(Package::class);
-}
-
+    {
+        return $this->hasMany(Package::class);
+    }
 }

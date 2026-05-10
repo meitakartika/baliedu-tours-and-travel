@@ -20,28 +20,24 @@ class PackageReview extends Model
     ];
 
     protected $casts = [
-    'images' => 'array',
-];
+        'images' => 'array',
+    ];
 
-    /**
-     * Relasi ke paket
-     */
+    // Relasi ke package
     public function package()
     {
         return $this->belongsTo(Package::class);
     }
 
-    /**
-     * Relasi ke user
-     */
+    // Relasi ke user
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Relasi ke booking
     public function booking()
-{
-    return $this->belongsTo(Booking::class);
-}
-
+    {
+        return $this->belongsTo(Booking::class);
+    }
 }

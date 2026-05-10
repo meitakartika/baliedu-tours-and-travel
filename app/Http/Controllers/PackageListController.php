@@ -8,33 +8,28 @@ use App\Models\Package;
 
 class PackageListController extends Controller
 {
-    /**
-     * List semua item package list untuk sebuah package
-     */
     public function index(Request $request)
     {
         $search = $request->search;
         $sort = $request->get('sort');
         $direction = $request->get('direction', 'asc');
 
-        /*
-    ==========================
-    VALIDASI SORT
-    ==========================
-    */
+        // daftar kolom yang boleh di sort
         $allowedSorts = [
             'name',
             'includes',
             'not_includes',
             'must_bring'
         ];
-
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'asc';
         }
@@ -43,6 +38,7 @@ class PackageListController extends Controller
             ? 'name_id'
             : 'name_en';
 
+        // menghitung jumlah package list berdasarkan type
         $query = Package::withCount([
             'packageLists as includes_count' =>
             fn($q) => $q->where('type', 'includes'),
@@ -54,11 +50,7 @@ class PackageListController extends Controller
             fn($q) => $q->where('type', 'must_bring'),
         ]);
 
-        /*
-    ==========================
-    SEARCH
-    ==========================
-    */
+        // SEARCH
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name_en', 'like', "%{$search}%")
@@ -66,11 +58,7 @@ class PackageListController extends Controller
             });
         }
 
-        /*
-    ==========================
-    SORTING
-    ==========================
-    */
+        // SORTING
         if ($sort === 'name') {
             $query->orderBy($nameColumn, $direction);
         } elseif ($sort === 'includes') {
@@ -101,9 +89,6 @@ class PackageListController extends Controller
         return view('admin.package.list.create', compact('packages'));
     }
 
-    /**
-     * Buat item package list baru
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -119,12 +104,11 @@ class PackageListController extends Controller
             'list.must_bring.*.content_en' => 'required|string',
         ]);
 
-        foreach ($request->list as $type => $items) {
+        foreach ($request->list as $type => $items) { // loop semua tipe list
 
-            foreach ($items as $item) {
+            foreach ($items as $item) { // loop setiap item dalam type tersebut
 
                 if (!empty($item['content_id']) || !empty($item['content_en'])) {
-
                     PackageList::create([
                         'package_id' => $request->package_id,
                         'type'       => $type,
@@ -151,10 +135,6 @@ class PackageListController extends Controller
         return view('admin.package.list.edit', compact('package', 'packages', 'lists'));
     }
 
-
-    /**
-     * Update item package list
-     */
     public function update(Request $request, $id)
     {
         $package = Package::findOrFail($id);
@@ -172,17 +152,16 @@ class PackageListController extends Controller
             'list.must_bring.*.content_en' => 'required|string',
         ]);
 
-        $existingIds = [];
+        $existingIds = []; // menyimpan semua ID list yang masih dipakai
 
-        foreach ($request->list as $type => $items) {
+        foreach ($request->list as $type => $items) { // // loop semua tipe list
 
-            foreach ($items as $item) {
+            foreach ($items as $item) { // // loop setiap item dalam type tersebut
 
-                // UPDATE
-                if (!empty($item['id'])) {
+                if (!empty($item['id'])) { // apakah item sudah punya id
 
+                    // UPDATE
                     $list = PackageList::find($item['id']);
-
                     if ($list) {
                         $list->update([
                             'content_id' => $item['content_id'],
@@ -193,7 +172,6 @@ class PackageListController extends Controller
                         $existingIds[] = $list->id;
                     }
                 } else {
-
                     // CREATE
                     $new = PackageList::create([
                         'package_id' => $package->id,
@@ -207,7 +185,7 @@ class PackageListController extends Controller
             }
         }
 
-        // DELETE yang tidak dikirim
+        // Delete data yang dihapus admin
         PackageList::where('package_id', $package->id)
             ->whereNotIn('id', $existingIds)
             ->delete();
@@ -217,9 +195,6 @@ class PackageListController extends Controller
             ->with('success', 'List updated successfully!');
     }
 
-    /**
-     * Hapus item package list
-     */
     public function destroy($id)
     {
         PackageList::where('package_id', $id)->delete();

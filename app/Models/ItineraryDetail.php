@@ -15,9 +15,7 @@ class ItineraryDetail extends Model
         'description_en',
     ];
 
-    /**
-     * Relasi ke itinerary utama
-     */
+    // Relasi ke itinerary
     public function itinerary()
     {
         return $this->belongsTo(Itinerary::class);

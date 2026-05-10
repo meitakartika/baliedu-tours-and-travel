@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class ContactInfoController extends Controller
 {
-    /**
-     * Tampilkan semua contact info
-     */
     public function index(Request $request)
     {
         $search     = $request->search;
@@ -17,34 +14,28 @@ class ContactInfoController extends Controller
         $sort       = $request->get('sort');
         $direction  = $request->get('direction', 'desc');
 
-        /*
-    =========================
-    VALIDASI SORT & DIRECTION
-    =========================
-    */
+        // daftar kolom yang boleh di sort
         $allowedSorts = ['type', 'label', 'value', 'created_at'];
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'desc';
         }
 
-        // Tentukan kolom value berdasarkan locale
         $valueColumn = app()->getLocale() == 'id'
             ? 'value_id'
             : 'value_en';
 
         $query = ContactInfo::query();
 
-        /*
-    =========================
-    SEARCH
-    =========================
-    */
+        // SEARCH
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('type', 'like', "%{$search}%")
@@ -54,20 +45,12 @@ class ContactInfoController extends Controller
             });
         }
 
-        /*
-    =========================
-    FILTER TYPE
-    =========================
-    */
+        // FILTER TYPE
         if ($request->filled('type')) {
             $query->whereIn('type', $type);
         }
 
-        /*
-    =========================
-    SORTING
-    =========================
-    */
+        // SORTING
         if ($sort === 'type') {
             $query->orderBy('type', $direction);
         } elseif ($sort === 'label') {
@@ -91,9 +74,6 @@ class ContactInfoController extends Controller
         ));
     }
 
-    /**
-     * Tampilkan form tambah contact info
-     */
     public function create()
     {
         $contactInfo = new ContactInfo();
@@ -102,9 +82,6 @@ class ContactInfoController extends Controller
         return view('admin.contact-info.create', compact('contactInfo', 'types'));
     }
 
-    /**
-     * Simpan contact info baru
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -120,9 +97,6 @@ class ContactInfoController extends Controller
             ->with('success', 'Contact info berhasil ditambahkan.');
     }
 
-    /**
-     * Tampilkan form edit contact info
-     */
     public function edit(ContactInfo $contactInfo)
     {
         $types = ContactInfo::types();
@@ -130,9 +104,6 @@ class ContactInfoController extends Controller
         return view('admin.contact-info.edit', compact('contactInfo', 'types'));
     }
 
-    /**
-     * Update contact info
-     */
     public function update(Request $request, ContactInfo $contactInfo)
     {
         $validated = $request->validate([
@@ -148,9 +119,6 @@ class ContactInfoController extends Controller
             ->with('success', 'Contact info berhasil diupdate.');
     }
 
-    /**
-     * Hapus contact info
-     */
     public function destroy(ContactInfo $contactInfo)
     {
         $contactInfo->delete();
@@ -159,7 +127,7 @@ class ContactInfoController extends Controller
             ->with('success', 'Contact info berhasil dihapus.');
     }
 
-    // USER
+    // HALAMAN USER
     public function contact()
     {
         $phones = ContactInfo::where('type', 'phone')->get();
@@ -170,23 +138,20 @@ class ContactInfoController extends Controller
             'address',
             'map_embed',
         ])
-            ->where('label', '!=', 'footer')
+            ->where('label', '!=', 'footer') // data label footer tidak diambil
             ->get()
-            ->groupBy('label');
+            ->groupBy('label'); // mengelompokkan data berdasarkan label
 
         return view('contact.index', compact('phones', 'emails', 'offices'));
     }
 
-    /**
-     * Ambil contact info sesuai locale terakhir
-     */
-    public function getByType($type)
+    public function getByType($type) // mengambil contact info berdasarkan type
     {
         $infos = ContactInfo::where('type', $type)->get();
 
         $locale = app()->getLocale(); // ambil locale terakhir
 
-        // Map ke value sesuai locale
+        // Map value sesuai locale
         $result = $infos->map(function ($item) use ($locale) {
             return [
                 'id'    => $item->id,

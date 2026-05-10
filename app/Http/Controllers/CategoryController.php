@@ -16,41 +16,37 @@ class CategoryController extends Controller
         $sort = $request->get('sort');
         $direction = $request->get('direction', 'asc');
 
-        // =========================
-        // VALIDASI SORT & DIRECTION
-        // =========================
+        // daftar kolom yang boleh di sort
         $allowedSorts = ['name', 'description'];
+        // daftar direction
         $allowedDirections = ['asc', 'desc'];
 
+        // cek apakah sort ada di daftar yang diizinkan
         if (!in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
+        // cek direction valid atau tidak
         if (!in_array($direction, $allowedDirections)) {
             $direction = 'asc';
         }
 
-        // Tentukan kolom berdasarkan locale
         $nameColumn = app()->getLocale() == 'id' ? 'name_id' : 'name_en';
         $descColumn = app()->getLocale() == 'id' ? 'description_id' : 'description_en';
 
         $query = Category::query();
 
-        // =========================
         // SEARCH
-        // =========================
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name_id', 'like', "%{$search}%")
-                  ->orWhere('name_en', 'like', "%{$search}%")
-                  ->orWhere('description_id', 'like', "%{$search}%")
-                  ->orWhere('description_en', 'like', "%{$search}%");
+                    ->orWhere('name_en', 'like', "%{$search}%")
+                    ->orWhere('description_id', 'like', "%{$search}%")
+                    ->orWhere('description_en', 'like', "%{$search}%");
             });
         }
 
-        // =========================
         // SORTING
-        // =========================
         if ($sort === 'name') {
             $query->orderBy($nameColumn, $direction);
         } elseif ($sort === 'description') {
@@ -66,9 +62,6 @@ class CategoryController extends Controller
         return view('admin.package.category.index', compact('categories', 'sort', 'direction'));
     }
 
-    /**
-     * Tampilkan form tambah kategori
-     */
     public function create()
     {
         $category = new Category();
@@ -76,9 +69,6 @@ class CategoryController extends Controller
         return view('admin.package.category.create', compact('category'));
     }
 
-    /**
-     * Simpan kategori baru
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -95,17 +85,11 @@ class CategoryController extends Controller
             ->with('success', 'Category berhasil ditambahkan.');
     }
 
-    /**
-     * Tampilkan form edit kategori
-     */
     public function edit(Category $category)
     {
         return view('admin.package.category.edit', compact('category'));
     }
 
-    /**
-     * Update kategori
-     */
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
@@ -122,9 +106,6 @@ class CategoryController extends Controller
             ->with('success', 'Category berhasil diupdate.');
     }
 
-    /**
-     * Hapus kategori
-     */
     public function destroy(Category $category)
     {
         $category->delete();
