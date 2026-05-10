@@ -22,12 +22,12 @@ class CategoryController extends Controller
         $allowedDirections = ['asc', 'desc'];
 
         // cek apakah sort ada di daftar yang diizinkan
-        if (!in_array($sort, $allowedSorts)) {
+        if (! in_array($sort, $allowedSorts)) {
             $sort = null;
         }
 
         // cek direction valid atau tidak
-        if (!in_array($direction, $allowedDirections)) {
+        if (! in_array($direction, $allowedDirections)) {
             $direction = 'asc';
         }
 
@@ -64,7 +64,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        $category = new Category();
+        $category = new Category;
 
         return view('admin.package.category.create', compact('category'));
     }

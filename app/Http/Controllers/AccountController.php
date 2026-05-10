@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
+use App\Models\PackageReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Booking;
-use App\Models\PackageReview;
 use Illuminate\Support\Facades\Storage;
 
 class AccountController extends Controller
@@ -30,7 +30,7 @@ class AccountController extends Controller
                 ->map(function ($booking) {
                     $booking->tour_date_formatted =
                         \Carbon\Carbon::parse($booking->tour_date)
-                        ->format('d M Y');
+                            ->format('d M Y');
 
                     return $booking;
                 });
@@ -72,11 +72,11 @@ class AccountController extends Controller
         $user = Auth::user();
 
         $validated = $request->validateWithBag('profile', [
-            'first_name'    => 'required|string|max:100',
-            'last_name'     => 'required|string|max:100',
-            'phone'         => ['required', 'regex:/^\+?[0-9]{8,15}$/'],
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'phone' => ['required', 'regex:/^\+?[0-9]{8,15}$/'],
             'date_of_birth' => 'nullable|date',
-            'country'       => 'nullable|string|max:100',
+            'country' => 'nullable|string|max:100',
         ]);
 
         $user->update($validated);
@@ -87,7 +87,7 @@ class AccountController extends Controller
     public function updateSecurity(Request $request)
     {
         $request->validateWithBag('security', [
-            'email'    => 'required|email|unique:users,email,' . Auth::id(),
+            'email' => 'required|email|unique:users,email,'.Auth::id(),
             'password' => 'nullable|min:8',
         ]);
 
@@ -106,7 +106,7 @@ class AccountController extends Controller
     public function updateProfileImage(Request $request)
     {
         $request->validate([
-            'profile_image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+            'profile_image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $user = Auth::user();
@@ -125,7 +125,7 @@ class AccountController extends Controller
             ->store('profile_images', 'public');
 
         $user->update([
-            'profile_image' => $path
+            'profile_image' => $path,
         ]);
 
         return back()->with('success', 'Profile image updated!');
