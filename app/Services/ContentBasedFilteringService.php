@@ -20,17 +20,13 @@ class ContentBasedFilteringService
             return collect();
         }
 
-        // =========================
         // 1. Build Documents
-        // =========================
         $documents = [];
         foreach ($packages as $package) {
             $documents[$package->id] = $this->buildDocument($package); // Setiap package diubah menjadi teks panjang
         }
 
-        // =========================
         // 2. Tokenize
-        // =========================
         $tokenizedDocs = [];
         foreach ($documents as $id => $doc) {
             $tokens = $this->tokenize($doc); // Memecah teks menjadi kata-kata
@@ -38,31 +34,23 @@ class ContentBasedFilteringService
             $tokenizedDocs[$id] = $tokens; // Menyimpan token per package
         }
 
-        // =========================
         // 3. Build Vocabulary
-        // =========================
         $vocabulary = [];
         foreach ($tokenizedDocs as $tokens) {
             $vocabulary = array_merge($vocabulary, $tokens); // Menggabungkan semua kata dari semua dokumen
         }
         $vocabulary = array_values(array_unique($vocabulary)); // Menghapus kata duplikat
 
-        // =========================
         // 4. Compute TF
-        // =========================
         $tfVectors = [];
         foreach ($tokenizedDocs as $id => $tokens) {
             $tfVectors[$id] = $this->computeTF($tokens, $vocabulary); // Menghitung TF
         }
 
-        // =========================
         // 5. Compute IDF
-        // =========================
         $idf = $this->computeIDF($tokenizedDocs, $vocabulary); // Menghitung IDF
 
-        // =========================
         // 6. Compute TF-IDF
-        // =========================
         $tfidfVectors = [];
         foreach ($tfVectors as $id => $tf) { // Loop semua TF
             $tfidfVectors[$id] = $this->computeTFIDF($tf, $idf); // Menghitung TFIDF
@@ -76,9 +64,7 @@ class ContentBasedFilteringService
         // Mengambil vektor TF-IDF package yang sedang dibuka
         $currentVector = $tfidfVectors[$currentPackage->id];
 
-        // =========================
         // 7. Cosine Similarity
-        // =========================
         $similarities = [];
 
         foreach ($tfidfVectors as $id => $vector) { // Bandingkan vektor dengan semua package
@@ -97,9 +83,7 @@ class ContentBasedFilteringService
 
         $topIds = array_slice(array_keys($similarities), 0, $limit); // Ambil ID package teratas
 
-        // =========================
         // 8. Return sesuai ranking
-        // =========================
         $similarPackages = Package::with([
             'type',
             'category'
