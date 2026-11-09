@@ -20,29 +20,29 @@
     }
 
     /* Transisi halus untuk pergerakan kartu */
-    .testimonial-card{
-    transition: all 0.6s ease;
-}
+    .testimonial-card {
+        transition: all 0.6s ease;
+    }
 
-/* CARD DEPAN */
-.testimonial-card:nth-child(1){
-    transform: translateX(0) scale(1);
-    z-index: 3;
-}
+    /* CARD DEPAN */
+    .testimonial-card:nth-child(1) {
+        transform: translateX(0) scale(1);
+        z-index: 3;
+    }
 
-/* CARD TENGAH */
-.testimonial-card:nth-child(2){
-    transform: translateX(25px) scale(0.95);
-    z-index: 2;
-    opacity: 0.9;
-}
+    /* CARD TENGAH */
+    .testimonial-card:nth-child(2) {
+        transform: translateX(25px) scale(0.95);
+        z-index: 2;
+        opacity: 0.9;
+    }
 
-/* CARD BELAKANG */
-.testimonial-card:nth-child(3){
-    transform: translateX(50px) scale(0.9);
-    z-index: 1;
-    opacity: 0.8;
-}
+    /* CARD BELAKANG */
+    .testimonial-card:nth-child(3) {
+        transform: translateX(50px) scale(0.9);
+        z-index: 1;
+        opacity: 0.8;
+    }
 </style>
 
 @section('content')
@@ -50,8 +50,11 @@
     <section class="relative min-h-screen flex items-center">
 
         <!-- Background Image -->
-        <div class="absolute inset-0">
-            <img src="/images/hero-bg.png" alt="Hero Background" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-darkGreen">
+            @if (!empty($heroSlides->images))
+                <img id="hero-background" src="{{ asset('storage/' . $heroSlides->images[0]) }}" alt="Hero Background"
+                    class="w-full h-full object-cover">
+            @endif
         </div>
 
         <!-- Content -->
@@ -60,16 +63,13 @@
             <!-- Text -->
             <div class="max-w-4xl mx-auto text-white">
                 <div class="max-w-2xl text-left">
-                    <span class="inline-block mb-6">
-                        <img src="/images/icons/ornament-line.svg" alt="" class="h-4 md:h-5 lg:h-6">
-                    </span>
 
                     <h1
                         class="text-3xl md:text-4xl lg:text-5xl font-bold
                    leading-relaxed md:leading-snug lg:leading-normal">
-                        {{ __('home.hero_title_1') }}<br>
-                        {{ __('home.hero_title_2') }}<br>
-                        {{ __('home.hero_title_3') }}
+                        {!! nl2br(
+                            e(app()->getLocale() === 'en' ? $heroSlides->description_en ?? '' : $heroSlides->description_id ?? ''),
+                        ) !!}
                     </h1>
                 </div>
             </div>
@@ -118,7 +118,17 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
+        </div>
 
+        <!-- Hero Slide Indicators -->
+        <div id="hero-indicators" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+            @foreach ($heroSlides->images ?? [] as $index => $image)
+                <button type="button"
+                    class="hero-indicator w-2.5 h-2.5 rounded-full transition-all duration-300
+                {{ $index === 0 ? 'bg-white scale-125' : 'bg-white/50' }}"
+                    aria-label="Slide {{ $index + 1 }}" onclick="changeHeroSlide({{ $index }})">
+                </button>
+            @endforeach
         </div>
     </section>
 
@@ -148,8 +158,9 @@
             [&::-webkit-scrollbar]:hidden">
 
                 @foreach ($categories as $index => $category)
-                    <div class="relative h-[380px] rounded-2xl overflow-hidden group">
-                        <img src="/images/category-{{ $index + 1 }}.png" alt="{{ app()->getLocale() == 'id' ? $category->name_id : $category->name_en }}"
+                    <div class="relative h-[380px] rounded-2xl overflow-hidden group bg-darkGreen">
+                        <img src="{{ asset('storage/' . $category->image) }}"
+                            alt="{{ app()->getLocale() == 'id' ? $category->name_id : $category->name_en }}"
                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-500">
 
                         <div class="relative z-10 p-6 pb-8 h-full flex flex-col justify-end text-white">
@@ -377,82 +388,82 @@
             <!-- RIGHT CONTENT -->
             <div class="relative w-full max-w-xl h-[360px] overflow-visible mt-12 lg:mt-0" id="testimonial-stack">
 
-    <!-- CARD 1 -->
-    <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
-        <!-- Quote Icon -->
-    <span
-        class="absolute top-8 right-8 text-[80px] font-serif font-bold 
+                <!-- CARD 1 -->
+                <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
+                    <!-- Quote Icon -->
+                    <span
+                        class="absolute top-8 right-8 text-[80px] font-serif font-bold 
         text-gray-200 leading-none select-none pointer-events-none">
-        “
-    </span>
+                        “
+                    </span>
 
-        <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.cultural_title') }}</p>
+                    <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.cultural_title') }}</p>
 
-        <p class="text-darkGrey font-medium mb-8">
-            {{ __('home.cultural_text') }}
-        </p>
+                    <p class="text-darkGrey font-medium mb-8">
+                        {{ __('home.cultural_text') }}
+                    </p>
 
-        <!-- Divider -->
-    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
-            <img src="/images/avatar1.png" class="w-14 h-14 rounded-full">
-            <div>
-                <p class="font-medium text-md mb-1">{{ __('home.cultural_name') }}</p>
-                <p class="text-sm text-darkGrey">{{ __('home.cultural_country') }}</p>
-            </div>
-        </div>
-    </div>
+                    <!-- Divider -->
+                    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
+                        <img src="/images/avatar1.png" class="w-14 h-14 rounded-full">
+                        <div>
+                            <p class="font-medium text-md mb-1">{{ __('home.cultural_name') }}</p>
+                            <p class="text-sm text-darkGrey">{{ __('home.cultural_country') }}</p>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- CARD 2 -->
-    <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
-        <!-- Quote Icon -->
-    <span
-        class="absolute top-8 right-8 text-[80px] font-serif font-bold 
+                <!-- CARD 2 -->
+                <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
+                    <!-- Quote Icon -->
+                    <span
+                        class="absolute top-8 right-8 text-[80px] font-serif font-bold 
         text-gray-200 leading-none select-none pointer-events-none">
-        “
-    </span>
+                        “
+                    </span>
 
-        <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.adventure_title') }}</p>
+                    <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.adventure_title') }}</p>
 
-        <p class="text-darkGrey font-medium mb-8">
-            {{ __('home.adventure_text') }}
-        </p>
+                    <p class="text-darkGrey font-medium mb-8">
+                        {{ __('home.adventure_text') }}
+                    </p>
 
-        <!-- Divider -->
-    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
-            <img src="/images/avatar2.png" class="w-14 h-14 rounded-full">
-            <div>
-                <p class="font-medium text-md mb-1">{{ __('home.adventure_name') }}</p>
-                <p class="text-sm text-darkGrey">{{ __('home.adventure_country') }}</p>
-            </div>
-        </div>
-    </div>
+                    <!-- Divider -->
+                    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
+                        <img src="/images/avatar2.png" class="w-14 h-14 rounded-full">
+                        <div>
+                            <p class="font-medium text-md mb-1">{{ __('home.adventure_name') }}</p>
+                            <p class="text-sm text-darkGrey">{{ __('home.adventure_country') }}</p>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- CARD 3 -->
-    <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
-        <!-- Quote Icon -->
-    <span
-        class="absolute top-6 right-8 text-[80px] font-serif font-bold 
+                <!-- CARD 3 -->
+                <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
+                    <!-- Quote Icon -->
+                    <span
+                        class="absolute top-6 right-8 text-[80px] font-serif font-bold 
         text-gray-200 leading-none select-none pointer-events-none">
-        “
-    </span>
+                        “
+                    </span>
 
-        <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.romantic_title') }}</p>
+                    <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.romantic_title') }}</p>
 
-        <p class="text-darkGrey font-medium mb-8">
-            {{ __('home.romantic_text') }}
-        </p>
+                    <p class="text-darkGrey font-medium mb-8">
+                        {{ __('home.romantic_text') }}
+                    </p>
 
-        <!-- Divider -->
-    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
-            <img src="/images/avatar3.png" class="w-14 h-14 rounded-full">
-            <div>
-                <p class="font-medium text-md mb-1">{{ __('home.romantic_name') }}</p>
-                <p class="text-sm text-darkGrey">{{ __('home.romantic_country') }}</p>
+                    <!-- Divider -->
+                    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
+                        <img src="/images/avatar3.png" class="w-14 h-14 rounded-full">
+                        <div>
+                            <p class="font-medium text-md mb-1">{{ __('home.romantic_name') }}</p>
+                            <p class="text-sm text-darkGrey">{{ __('home.romantic_country') }}</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
-    </div>
-
-</div>
         </div>
     </section>
 
@@ -493,7 +504,8 @@
                 @foreach ($galleries as $gallery)
                     <div class="rounded-lg overflow-hidden">
                         <img src="{{ asset('storage/' . $gallery->image_url) }}"
-                            class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="{{ __('home.gallery_title') }}">
+                            class="w-full h-full object-cover hover:scale-110 transition duration-500"
+                            alt="{{ __('home.gallery_title') }}">
                     </div>
                 @endforeach
             </div>
@@ -613,18 +625,46 @@
 
 @push('scripts')
     <script>
-    const stack = document.getElementById("testimonial-stack");
+        // HERO SLIDESHOW
+        const heroImages = @json(collect($heroSlides->images ?? [])->map(fn($image) => asset('storage/' . $image))->values());
 
-stack.addEventListener("click", function () {
+        const heroBackground = document.getElementById('hero-background');
+        const heroIndicators = document.querySelectorAll('.hero-indicator');
 
-    const cards = stack.querySelectorAll(".testimonial-card");
+        let currentIndex = 0;
 
-    // ambil card pertama
-    const firstCard = cards[0];
+        function changeHeroSlide(index) {
+            if (!heroBackground || heroImages.length === 0) return;
 
-    // pindahkan ke belakang
-    stack.appendChild(firstCard);
-});
+            currentIndex = index;
+            heroBackground.src = heroImages[currentIndex];
+
+            heroIndicators.forEach((dot, i) => {
+                dot.classList.toggle('bg-white', i === currentIndex);
+                dot.classList.toggle('bg-white/50', i !== currentIndex);
+                dot.classList.toggle('scale-125', i === currentIndex);
+            });
+        }
+
+        if (heroImages.length > 1) {
+            setInterval(() => {
+                changeHeroSlide((currentIndex + 1) % heroImages.length);
+            }, 5000);
+        }
+
+        //TESTIMONIALS
+        const stack = document.getElementById("testimonial-stack");
+
+        stack.addEventListener("click", function() {
+
+            const cards = stack.querySelectorAll(".testimonial-card");
+
+            // ambil card pertama
+            const firstCard = cards[0];
+
+            // pindahkan ke belakang
+            stack.appendChild(firstCard);
+        });
 
         //FAQ
         document.addEventListener('DOMContentLoaded', () => {

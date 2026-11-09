@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -76,7 +77,13 @@ class CategoryController extends Controller
             'name_en' => 'required|string|max:255',
             'description_id' => 'required|string',
             'description_en' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
+
+        if ($request->hasFile('image')) {
+        $validated['image'] = $request->file('image')
+            ->store('categories', 'public');
+        }
 
         Category::create($validated);
 
@@ -97,7 +104,28 @@ class CategoryController extends Controller
             'name_en' => 'required|string|max:255',
             'description_id' => 'required|string',
             'description_en' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+            'remove_image' => 'nullable|boolean',
         ]);
+
+        // Hapus gambar lama jika diminta
+        if ($request->remove_image && $category->image) {
+            Storage::disk('public')->delete($category->image);
+            $validated['image'] = null;
+        }
+
+        // Jika upload gambar baru
+        if ($request->hasFile('image')) {
+
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+
+            $validated['image'] = $request->file('image')
+                ->store('categories', 'public');
+        }
+
+        unset($validated['remove_image']);
 
         $category->update($validated);
 
@@ -108,6 +136,10 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
+        }
+
         $category->delete();
 
         return redirect()

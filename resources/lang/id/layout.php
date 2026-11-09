@@ -8,6 +8,7 @@ return [
     'about_us' => 'Tentang Kami',
     'testimonials' => 'Testimoni',
     'contact' => 'Kontak',
+    'page' => 'Halaman',
 
     // AUTH
     'login' => 'Masuk',
@@ -43,6 +44,8 @@ return [
     'contact' => 'Kontak',
     'contact_info' => 'Info Kontak',
     'contact_message' => 'Pesan Kontak',
+
+    'page_slide' => 'Tayangan Slide',
 
     'search' => 'Cari',
 

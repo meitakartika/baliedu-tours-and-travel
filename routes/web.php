@@ -20,6 +20,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\TestimonialsController;
 use App\Http\Controllers\AdminSearchController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\HeroSlideController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -99,6 +101,10 @@ Route::middleware(['auth', 'admin'])
         Route::put('account/security', [AdminAccountController::class,'updateSecurity'])->name('admin.account.updateSecurity');
         Route::post('profile-image', [AdminAccountController::class,'updateProfileImage'])->name('admin.account.profile.image');
         Route::get('/admin/search', [AdminSearchController::class, 'index'])->name('admin.search');
+
+        Route::get('page', [PageController::class, 'index'])->name('page.index');
+        Route::get('page/slide', [HeroSlideController::class, 'index'])->name('page.slide.index');
+        Route::put('page/slide', [HeroSlideController::class, 'update'])->name('page.slide.update');
 
     });
 

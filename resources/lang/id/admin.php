@@ -307,4 +307,7 @@ return [
     'no_images' => 'Tidak ada gambar',
 
     'delete_testimonial' => 'Hapus Testimoni',
+
+    // User Page
+    'page_slide' => 'Slide Show',
 ];

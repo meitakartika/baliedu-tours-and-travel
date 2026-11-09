@@ -8,6 +8,7 @@ return [
     'about_us' => 'About Us',
     'testimonials' => 'Testimonials',
     'contact' => 'Contact',
+    'page' => 'Page',
 
     // AUTH
     'login' => 'Login',
@@ -43,6 +44,8 @@ return [
     'contact' => 'Contact',
     'contact_info' => 'Contact Info',
     'contact_message' => 'Contact Message',
+
+    'page_slide' => 'Slide Show',
 
     'search' => 'Search',
 

@@ -5,10 +5,6 @@ return [
     'title' => 'Beranda',
 
     // HERO
-    'hero_title_1' => 'Ke mana pun',
-    'hero_title_2' => 'tujuan perjalananmu,',
-    'hero_title_3' => 'kami akan mengantarmu',
-
     'location' => 'Lokasi',
     'location_placeholder' => 'Cari kata kunci',
 

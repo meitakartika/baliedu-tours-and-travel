@@ -259,6 +259,47 @@
 
                             </div>
                         </div>
+
+                        <!-- User Page -->
+                        @php
+                            $pageActive = request()->routeIs('page.*');
+                        @endphp
+
+                        <div class="relative group">
+
+                            <!-- ACTIVE INDICATOR -->
+                            <span
+                                class="absolute -left-6 top-0 h-full w-2 rounded-r-full
+        {{ $pageActive ? 'bg-darkGreen' : 'bg-transparent' }}">
+                            </span>
+
+                            <!-- MAIN BUTTON -->
+                            <div
+                                class="flex items-center justify-between w-full
+               px-4 py-3 rounded-lg cursor-pointer
+               {{ $pageActive ? 'bg-darkGreen text-white' : 'text-darkGrey hover:text-paleGreen' }}">
+                                <span class="flex items-center gap-4">
+                                    <i class="fa-solid fa-cog"></i>
+                                    {{ __('layout.page') }}
+                                </span>
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+
+                            <!-- SUB MENU -->
+                            <div
+                                class="ml-8 mt-2 space-y-1 {{ $pageActive ? 'block' : 'hidden' }} group-hover:block">
+
+                                <!-- Hero Slide -->
+                                <a href="{{ route('page.index') }}"
+                                    class="block px-4 py-2 rounded-md text-sm
+           {{ request()->routeIs('page.slide.*')
+               ? 'text-darkGreen font-semibold'
+               : 'text-mediumGrey hover:text-darkGreen' }}">
+                                    {{ __('layout.home') }}
+                                </a>
+
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Divider -->

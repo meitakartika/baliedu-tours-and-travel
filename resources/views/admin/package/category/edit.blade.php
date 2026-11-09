@@ -29,7 +29,8 @@
         @endif
 
         <!-- FORM -->
-        <form method="POST" action="{{ route('package.category.update', $category) }}" class="space-y-10">
+        <form method="POST" action="{{ route('package.category.update', $category) }}" enctype="multipart/form-data"
+            class="space-y-10" id="updateCategory">
             @csrf
             @method('PUT')
 
@@ -39,7 +40,7 @@
                 <!-- Name ID -->
                 <div class="relative mt-4">
                     <input type="text" name="name_id" placeholder="{{ __('admin.enter_indonesian_name') }}"
-                    value="{{ old('name_id', $category->name_id) }}"
+                        value="{{ old('name_id', $category->name_id) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         {{ __('admin.name') }} (ID)
@@ -49,7 +50,7 @@
                 <!-- Name EN -->
                 <div class="relative mt-4">
                     <input type="text" name="name_en" placeholder="{{ __('admin.enter_english_name') }}"
-                    value="{{ old('name_en', $category->name_en) }}"
+                        value="{{ old('name_en', $category->name_en) }}"
                         class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                     <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                         {{ __('admin.name') }} (EN)
@@ -59,8 +60,9 @@
                 <!-- Description ID -->
                 <div class="md:col-span-2">
                     <div class="relative mt-2">
-                        <input type="text" name="description_id" placeholder="{{ __('admin.enter_indonesian_description') }}"
-                        value="{{ old('description_id', $category->description_id) }}"
+                        <input type="text" name="description_id"
+                            placeholder="{{ __('admin.enter_indonesian_description') }}"
+                            value="{{ old('description_id', $category->description_id) }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                             {{ __('admin.description') }} (ID)
@@ -71,13 +73,51 @@
                 <!-- Description EN -->
                 <div class="md:col-span-2">
                     <div class="relative mt-2">
-                        <input type="text" name="description_en" placeholder="{{ __('admin.enter_english_description') }}"
-                        value="{{ old('description_en', $category->description_en) }}"
+                        <input type="text" name="description_en"
+                            placeholder="{{ __('admin.enter_english_description') }}"
+                            value="{{ old('description_en', $category->description_en) }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 flex items-center focus:outline-none focus:border-darkGreen" />
                         <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
                             {{ __('admin.description') }} (EN)
                         </label>
                     </div>
+                </div>
+            </div>
+
+            <!-- Category Image -->
+            <div class="md:col-span-2 mt-2">
+                <p class="text-sm text-darkGrey mb-3">
+                    Category Image
+                </p>
+
+                <!-- UPLOAD -->
+                <label
+                    class="flex items-center justify-center w-full border border-dashed border-mediumGrey rounded-xl h-40 cursor-pointer text-sm text-mediumGrey hover:border-darkGreen hover:text-darkGreen gap-2">
+
+                    <input type="file" name="image" id="categoryImage" accept="image/jpeg,image/png,image/webp"
+                        class="hidden">
+
+                    <i class="fa-solid fa-image text-xl"></i>
+                    Click to upload image
+                </label>
+
+                <!-- IMAGE PREVIEW -->
+                <div id="imagePreview" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+
+                    @if ($category->image)
+                        <div class="relative" id="oldImagePreview">
+
+                            <img src="{{ asset('storage/' . $category->image) }}"
+                                class="w-full h-28 object-cover rounded-lg shadow">
+
+                            <button type="button" onclick="removeOldImage(this)"
+                                class="absolute -top-2 -right-2 bg-red text-white w-6 h-6 rounded-full text-xs">
+                                ✕
+                            </button>
+
+                        </div>
+                    @endif
+
                 </div>
             </div>
 
@@ -110,3 +150,84 @@
 
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        const imageInput = document.getElementById('categoryImage');
+        const imagePreview = document.getElementById('imagePreview');
+
+        // Upload new image
+        imageInput.addEventListener('change', function() {
+
+            const file = this.files[0];
+
+            if (file) {
+
+                imagePreview.innerHTML = '';
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'relative';
+
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.className = 'w-full h-28 object-cover rounded-lg shadow';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.innerHTML = '✕';
+                removeBtn.className =
+                    'absolute -top-2 -right-2 bg-mediumGrey text-white w-6 h-6 rounded-full text-xs';
+
+                removeBtn.onclick = function() {
+                    imageInput.value = '';
+                    imagePreview.innerHTML = '';
+
+                    // Kembalikan gambar lama jika belum ditandai hapus
+                    if (!document.getElementById('removeOldImageInput')) {
+                        restoreOldImage();
+                    }
+                };
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(removeBtn);
+
+                imagePreview.appendChild(wrapper);
+            }
+        });
+
+        // Remove old image
+        function removeOldImage(btn) {
+
+            btn.parentElement.remove();
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'remove_image';
+            input.id = 'removeOldImageInput';
+            input.value = '1';
+
+            document.getElementById('updateCategory').appendChild(input);
+        }
+
+        // Restore old image preview
+        function restoreOldImage() {
+
+            @if ($category->image)
+                const wrapper = document.createElement('div');
+                wrapper.className = 'relative';
+
+                wrapper.innerHTML = `
+                    <img src="{{ asset('storage/' . $category->image) }}"
+                        class="w-full h-28 object-cover rounded-lg shadow">
+
+                    <button type="button" onclick="removeOldImage(this)"
+                        class="absolute -top-2 -right-2 bg-red text-white w-6 h-6 rounded-full text-xs">
+                        ✕
+                    </button>
+                `;
+
+                imagePreview.appendChild(wrapper);
+            @endif
+        }
+    </script>
+@endpush

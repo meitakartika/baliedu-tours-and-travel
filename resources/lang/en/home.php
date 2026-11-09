@@ -5,10 +5,6 @@ return [
     'title' => 'Home',
 
     // HERO
-    'hero_title_1' => 'No matter where you’re',
-    'hero_title_2' => 'going to, we’ll take you',
-    'hero_title_3' => 'there',
-
     'location' => 'Location',
     'location_placeholder' => 'Search keywords',
 

@@ -306,4 +306,7 @@ return [
     'no_images' => 'No images uploaded',
 
     'delete_testimonial' => 'Delete Testimonial',
+
+    // User Page
+    'page_slide' => 'Tayangan Slide',
 ];

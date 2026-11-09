@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\PackageGallery;
+use App\Models\HeroSlide;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,8 @@ class HomeController extends Controller
         $galleries = PackageGallery::latest()
             ->take(8)
             ->get();
+        $heroSlides = HeroSlide::first();
 
-        return view('home.index', compact('categories', 'galleries'));
+        return view('home.index', compact('categories', 'galleries', 'heroSlides'));
     }
 }

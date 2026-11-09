@@ -14,6 +14,7 @@ class Category extends Model
         'name_en',
         'description_id',
         'description_en',
+        'image',
     ];
 
     // Relasi ke tipe
