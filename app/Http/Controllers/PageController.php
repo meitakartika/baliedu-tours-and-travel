@@ -26,7 +26,7 @@ class PageController extends Controller
             ],
             [
                 'name' => 'Get to Know Us',
-                'key' => 'about',
+                'key' => 'discover',
             ],
             [
                 'name' => 'Testimonials',

@@ -139,15 +139,21 @@
             <!-- Heading -->
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <p class="text-red font-semibold tracking-widest mb-6">
-                    {{ __('home.category_label') }}
+                    {{ app()->getLocale() === 'id'
+                        ? $categorySection->label_id ?? __('home.category_label')
+                        : $categorySection->label_en ?? __('home.category_label') }}
                 </p>
 
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                    {{ __('home.category_title') }}
+                    {{ app()->getLocale() === 'id'
+                        ? $categorySection->title_id ?? __('home.category_title')
+                        : $categorySection->title_en ?? __('home.category_title') }}
                 </h2>
 
                 <p class="text-darkGrey leading-relaxed">
-                    {{ __('home.category_desc') }}
+                    {{ app()->getLocale() === 'id'
+                        ? $categorySection->description_id ?? __('home.category_desc')
+                        : $categorySection->description_en ?? __('home.category_desc') }}
                 </p>
             </div>
 
@@ -195,15 +201,15 @@
 
                     <!-- TEXT CONTENT -->
                     <p class="text-red font-semibold tracking-widest mb-6">
-                        {{ __('home.statistics_label') }}
+                        {{ app()->getLocale() == 'id' ? $statisticsSection->label_id : $statisticsSection->label_en }}
                     </p>
 
                     <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                        {{ __('home.statistics_title') }}
+                        {{ app()->getLocale() == 'id' ? $statisticsSection->title_id : $statisticsSection->title_en }}
                     </h2>
 
                     <p class="text-darkGrey leading-relaxed max-w-lg">
-                        {{ __('home.statistics_desc') }}
+                        {{ app()->getLocale() == 'id' ? $statisticsSection->description_id : $statisticsSection->description_en }}
                     </p>
 
                     <!-- DECORATIVE ICONS -->
@@ -250,22 +256,28 @@
                     <!-- CARDS -->
                     <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
 
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
-                            <i class="fa-solid fa-chart-line text-darkGreen text-3xl mb-4"></i>
-                            <h3 class="text-3xl font-bold text-darkGreen">{{ __('home.number_1') }}</h3>
-                            <p class="text-sm text-darkGrey mt-2">{{ __('home.years_experience') }}</p>
+                        <div
+                            class="bg-white rounded-2xl shadow-lg p-6 text-center flex flex-col justify-center items-center">
+                            <h3 class="text-3xl font-bold text-darkGreen">{{ $statisticsSection->number_1 ?? '' }}</h3>
+                            <p class="text-sm text-darkGrey mt-2">
+                                {{ app()->getLocale() == 'id' ? $statisticsSection->text_1_id : $statisticsSection->text_1_en }}
+                            </p>
                         </div>
 
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center sm:translate-y-16">
-                            <i class="fa-solid fa-map text-darkGreen text-3xl mb-4"></i>
-                            <h3 class="text-3xl font-bold text-darkGreen">{{ __('home.number_2') }}</h3>
-                            <p class="text-sm text-darkGrey mt-2">{{ __('home.amazing_tours') }}</p>
+                        <div
+                            class="bg-white rounded-2xl shadow-lg p-6 text-center flex flex-col justify-center items-center sm:translate-y-16">
+                            <h3 class="text-3xl font-bold text-darkGreen">{{ $statisticsSection->number_2 ?? '' }}</h3>
+                            <p class="text-sm text-darkGrey mt-2">
+                                {{ app()->getLocale() == 'id' ? $statisticsSection->text_2_id : $statisticsSection->text_2_en }}
+                            </p>
                         </div>
 
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
-                            <i class="fa-solid fa-star text-darkGreen text-3xl mb-4"></i>
-                            <h3 class="text-3xl font-bold text-darkGreen">{{ __('home.number_3') }}</h3>
-                            <p class="text-sm text-darkGrey mt-2">{{ __('home.happy_customer') }}</p>
+                        <div
+                            class="bg-white rounded-2xl shadow-lg p-6 text-center flex flex-col justify-center items-center">
+                            <h3 class="text-3xl font-bold text-darkGreen">{{ $statisticsSection->number_3 ?? '' }}</h3>
+                            <p class="text-sm text-darkGrey mt-2">
+                                {{ app()->getLocale() == 'id' ? $statisticsSection->text_3_id : $statisticsSection->text_3_en }}
+                            </p>
                         </div>
 
                     </div>
@@ -276,72 +288,76 @@
     </section>
 
     <!-- ================= DISCOVER ================= -->
-    <section class="py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
+    
+<section class="py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
 
-                <!-- LEFT IMAGES -->
-                <div class="relative flex justify-start">
+            <!-- LEFT IMAGES -->
+            <div class="relative flex justify-start min-h-[560px]">
 
-                    <!-- BIG OVAL IMAGE -->
-                    <div
-                        class="w-[300px] md:w-[350px] h-[520px] 
-            rounded-full overflow-hidden 
-            border-8 border-white shadow-xl">
-                        <img src="/images/discover-main.png" alt="Bali" class="w-full h-full object-cover">
-                    </div>
-
-                    <!-- SMALL OVAL IMAGE -->
-                    <div
-                        class="absolute -bottom-8
-         right-1/2 translate-x-24
-         md:translate-x-40
-         lg:translate-x-72
-         w-[200px] h-[300px]
-         rounded-full overflow-hidden
-         border-8 border-white shadow-lg">
-                        <img src="/images/discover-small.png" alt="Bali" class="w-full h-full object-cover">
-                    </div>
-
-                    <!-- 3D ILLUSTRATION -->
-                    <img src="/images/illustration-travel.png" alt="Travel"
-                        class="absolute top-32 right-1/2 translate-x-24
-         md:translate-x-40
-          lg:translate-x-72
-            w-36 md:w-44 
-            -translate-y-1/2">
+                <!-- IMAGE 1 -->
+                <div class="w-[300px] md:w-[350px] h-[500px]
+                    rounded-full overflow-hidden
+                    border-8 border-white shadow-xl">
+                    <img src="{{ $discoverSection && $discoverSection->image_1 ? asset('storage/' . $discoverSection->image_1) : '' }}"
+                        alt="Bali" class="w-full h-full object-cover">
                 </div>
 
-                <!-- RIGHT CONTENT -->
-                <div class="max-w-xl">
+                <!-- IMAGE 2 -->
+                <div class="absolute -bottom-8
+                    right-1/2 translate-x-24
+                    md:translate-x-40 lg:translate-x-72
+                    w-[200px] h-[300px]
+                    rounded-full overflow-hidden
+                    border-8 border-white shadow-lg">
+                    <img src="{{ $discoverSection && $discoverSection->image_2 ? asset('storage/' . $discoverSection->image_2) : '' }}"
+                        alt="Bali" class="w-full h-full object-cover">
+                </div>
 
-                    <p class="text-red font-semibold tracking-widest mb-6">
-                        {{ __('home.discover_label') }}
-                    </p>
-
-                    <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                        {{ __('home.discover_title') }}
-                    </h2>
-
-                    <p class="text-darkGrey leading-relaxed mb-10">
-                        {{ __('home.discover_desc') }}
-                    </p>
-
-                    <a href="{{ route('about') }}"
-                        class="inline-flex items-center gap-3 bg-darkGreen
-                          text-white px-8 py-4 rounded-lg font-medium
-                          hover:bg-darkGreen/90 transition">
-                        {{ __('home.learn_more') }}
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
+                <!-- IMAGE 3 -->
+                <div class="absolute top-32
+                    right-1/2 translate-x-24
+                    md:translate-x-40 lg:translate-x-72
+                    w-[200px] h-[300px]
+                    rounded-full overflow-hidden
+                    border-8 border-white shadow-lg
+                    -translate-y-1/2">
+                    <img src="{{ $discoverSection && $discoverSection->image_3 ? asset('storage/' . $discoverSection->image_3) : '' }}"
+                        alt="Bali" class="w-full h-full object-cover">
                 </div>
 
             </div>
 
+            <!-- RIGHT CONTENT -->
+            <div class="max-w-xl">
+
+                <p class="text-red font-semibold tracking-widest mb-6">
+                    {{ app()->getLocale() == 'id' ? $discoverSection->label_id : $discoverSection->label_en }}
+                </p>
+
+                <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
+                    {{ app()->getLocale() == 'id' ? $discoverSection->title_id : $discoverSection->title_en }}
+                </h2>
+
+                <p class="text-darkGrey leading-relaxed mb-10">
+                    {{ app()->getLocale() == 'id' ? $discoverSection->description_id : $discoverSection->description_en }}
+                </p>
+
+                <a href="{{ route('about') }}"
+                    class="inline-flex items-center gap-3 bg-darkGreen
+                    text-white px-8 py-4 rounded-lg font-medium
+                    hover:bg-darkGreen/90 transition">
+                    {{ app()->getLocale() == 'id' ? $discoverSection->button_id : $discoverSection->button_en }}
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- ================= TESTIMONIALS ================= -->
     <section class="relative py-24 overflow-hidden">

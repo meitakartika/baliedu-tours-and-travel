@@ -21,7 +21,10 @@ class AppServiceProvider extends ServiceProvider // menjalankan konfigurasi atau
      */
     public function boot(): void //  // mengirim data ke semua Blade view
     {
-        view()->share('categories', Category::all());
+        view()->share('categories', Category::orderBy('position', 'asc')
+            ->orderBy('id', 'asc')
+            ->get()
+);
 
         $adminPhone = ContactInfo::where('type', 'phone')->first();
         $adminEmail = ContactInfo::where('type', 'email')->first();

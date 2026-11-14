@@ -22,6 +22,9 @@ use App\Http\Controllers\TestimonialsController;
 use App\Http\Controllers\AdminSearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\HeroSlideController;
+use App\Http\Controllers\CategorySectionController;
+use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\DiscoverController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -105,6 +108,12 @@ Route::middleware(['auth', 'admin'])
         Route::get('page', [PageController::class, 'index'])->name('page.index');
         Route::get('page/slide', [HeroSlideController::class, 'index'])->name('page.slide.index');
         Route::put('page/slide', [HeroSlideController::class, 'update'])->name('page.slide.update');
+        Route::get('page/category', [CategorySectionController::class, 'index'])->name('page.category.index');
+        Route::put('page/category', [CategorySectionController::class, 'update'])->name('page.category.update');
+        Route::get('/page/statistics', [StatisticsController::class, 'index'])->name('page.statistics.index');
+        Route::put('/page/statistics', [StatisticsController::class, 'update'])->name('page.statistics.update');
+        Route::get('/page/discover', [DiscoverController::class, 'index'])->name('page.discover.index');
+        Route::put('/page/discover', [DiscoverController::class, 'update'])->name('page.discover.update');
 
     });
 

@@ -53,7 +53,7 @@ class CategoryController extends Controller
         } elseif ($sort === 'description') {
             $query->orderBy($descColumn, $direction);
         } else {
-            $query->latest();
+            $query->orderBy('position', 'asc')->orderBy('id', 'asc');
         }
 
         $categories = $query
@@ -78,6 +78,7 @@ class CategoryController extends Controller
             'description_id' => 'required|string',
             'description_en' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+            'position' => 'required|integer|min:1',
         ]);
 
         if ($request->hasFile('image')) {
@@ -106,6 +107,7 @@ class CategoryController extends Controller
             'description_en' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'remove_image' => 'nullable|boolean',
+            'position' => 'required|integer|min:1',
         ]);
 
         // Hapus gambar lama jika diminta

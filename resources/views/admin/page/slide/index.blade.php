@@ -99,7 +99,7 @@
                 <label
                     class="flex items-center justify-center w-full border border-dashed border-mediumGrey rounded-xl h-40 cursor-pointer text-sm text-mediumGrey hover:border-darkGreen hover:text-darkGreen gap-2">
 
-                    <input type="file" name="new_images[]" id="new_images" accept="image/jpeg,image/png,image/webp"
+                    <input type="file" name="new_images[]" id="new_images" accept="image/jpeg,image/png"
                         multiple class="hidden">
 
                     <i class="fa-solid fa-image text-xl"></i>Click to upload images

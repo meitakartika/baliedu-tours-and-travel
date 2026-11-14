@@ -31,11 +31,31 @@
 
                             <!-- Action -->
                             <td class="px-6 py-4 text-right">
-                                <a href="{{ route('page.slide.index') }}"
-                                    class="inline-flex items-center gap-2 bg-lightGreen/50 text-darkGreen font-medium px-4 py-2 rounded-lg hover:bg-lightGreen/30 transition text-sm">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                    Manage
-                                </a>
+                                @if ($section['key'] === 'slide')
+                                    <a href="{{ route('page.slide.index') }}"
+                                        class="inline-flex items-center gap-2 bg-lightGreen/50 text-darkGreen font-medium px-4 py-2 rounded-lg hover:bg-lightGreen/30 transition text-sm">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        Manage
+                                    </a>
+                                @elseif ($section['key'] === 'category')
+                                    <a href="{{ route('page.category.index') }}"
+                                        class="inline-flex items-center gap-2 bg-lightGreen/50 text-darkGreen font-medium px-4 py-2 rounded-lg hover:bg-lightGreen/30 transition text-sm">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        Manage
+                                    </a>
+                                @elseif ($section['key'] === 'statistics')
+                                    <a href="{{ route('page.statistics.index') }}"
+                                        class="inline-flex items-center gap-2 bg-lightGreen/50 text-darkGreen font-medium px-4 py-2 rounded-lg hover:bg-lightGreen/30 transition text-sm">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        Manage
+                                    </a>
+                                @elseif ($section['key'] === 'discover')
+                                    <a href="{{ route('page.discover.index') }}"
+                                        class="inline-flex items-center gap-2 bg-lightGreen/50 text-darkGreen font-medium px-4 py-2 rounded-lg hover:bg-lightGreen/30 transition text-sm">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        Manage
+                                    </a>
+                                @endif
                             </td>
 
                         </tr>

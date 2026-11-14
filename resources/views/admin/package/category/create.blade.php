@@ -80,36 +80,51 @@
                         </label>
                     </div>
                 </div>
-            </div>
 
-            <!-- Category Image -->
-            <div class="md:col-span-2 mt-2">
-                <p class="text-sm text-darkGrey mb-3">
-                    Category Image
-                </p>
+                <!-- CATEGORY ORDER -->
+                <div class="md:col-span-2">
+                    <div class="relative mt-2">
+                        <input type="number" name="position" min="1"
+                            value="{{ old('position', $category->position ?? 1) }}" placeholder="Enter category order"
+                            class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 py-3 text-sm focus:outline-none focus:border-darkGreen"
+                            required>
 
-                <label
-                    class="flex items-center justify-center w-full
+                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">
+                            Category Order
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Category Image -->
+                <div class="md:col-span-2 mt-2">
+                    <p class="text-sm text-darkGrey mb-3">
+                        Category Image
+                    </p>
+
+                    <label
+                        class="flex items-center justify-center w-full
         border border-dashed border-mediumGrey
         rounded-xl h-40 cursor-pointer
         text-sm text-mediumGrey hover:border-darkGreen
         hover:text-darkGreen gap-2">
 
-                    <input type="file" name="image" id="categoryImage" accept="image/jpeg,image/png" class="hidden">
+                        <input type="file" name="image" id="categoryImage" accept="image/jpeg,image/png"
+                            class="hidden">
 
-                    <i class="fa-solid fa-image text-xl"></i>
-                    Click to upload image
-                </label>
+                        <i class="fa-solid fa-image text-xl"></i>
+                        Click to upload image
+                    </label>
 
-                <!-- IMAGE PREVIEW -->
-                <div id="imagePreview" class="mt-4 hidden">
-                    <div class="relative w-40">
-                        <img id="previewImg" class="w-full h-28 object-cover rounded-lg shadow">
+                    <!-- IMAGE PREVIEW -->
+                    <div id="imagePreview" class="mt-4 hidden">
+                        <div class="relative w-40">
+                            <img id="previewImg" class="w-full h-28 object-cover rounded-lg shadow">
 
-                        <button type="button" id="removeImage"
-                            class="absolute -top-2 -right-2 bg-red text-white w-6 h-6 rounded-full text-xs">
-                            ✕
-                        </button>
+                            <button type="button" id="removeImage"
+                                class="absolute -top-2 -right-2 bg-red text-white w-6 h-6 rounded-full text-xs">
+                                ✕
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
