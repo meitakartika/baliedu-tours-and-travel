@@ -55,6 +55,12 @@
                                         <i class="fa-regular fa-pen-to-square"></i>
                                         Manage
                                     </a>
+                                @elseif ($section['key'] === 'reviews')
+                                    <a href="{{ route('page.reviews.index') }}"
+                                        class="inline-flex items-center gap-2 bg-lightGreen/50 text-darkGreen font-medium px-4 py-2 rounded-lg hover:bg-lightGreen/30 transition text-sm">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        Manage
+                                    </a>
                                 @endif
                             </td>
 

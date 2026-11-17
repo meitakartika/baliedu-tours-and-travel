@@ -288,78 +288,86 @@
     </section>
 
     <!-- ================= DISCOVER ================= -->
-    
-<section class="py-28 bg-white">
-    <div class="max-w-7xl mx-auto px-6">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    <section class="py-28 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
 
-            <!-- LEFT IMAGES -->
-            <div class="relative flex justify-start min-h-[560px]">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
 
-                <!-- IMAGE 1 -->
-                <div class="w-[300px] md:w-[350px] h-[500px]
+                <!-- LEFT IMAGES -->
+                <div class="relative flex justify-start min-h-[560px]">
+
+                    <!-- IMAGE 1 -->
+                    <div
+                        class="w-[300px] md:w-[350px] h-[500px]
                     rounded-full overflow-hidden
                     border-8 border-white shadow-xl">
-                    <img src="{{ $discoverSection && $discoverSection->image_1 ? asset('storage/' . $discoverSection->image_1) : '' }}"
-                        alt="Bali" class="w-full h-full object-cover">
-                </div>
+                        <img src="{{ $discoverSection && $discoverSection->image_1 ? asset('storage/' . $discoverSection->image_1) : '' }}"
+                            alt="Bali" class="w-full h-full object-cover">
+                    </div>
 
-                <!-- IMAGE 2 -->
-                <div class="absolute -bottom-8
+                    <!-- IMAGE 2 -->
+                    <div
+                        class="absolute -bottom-8
                     right-1/2 translate-x-24
                     md:translate-x-40 lg:translate-x-72
                     w-[200px] h-[300px]
                     rounded-full overflow-hidden
                     border-8 border-white shadow-lg">
-                    <img src="{{ $discoverSection && $discoverSection->image_2 ? asset('storage/' . $discoverSection->image_2) : '' }}"
-                        alt="Bali" class="w-full h-full object-cover">
-                </div>
+                        <img src="{{ $discoverSection && $discoverSection->image_2 ? asset('storage/' . $discoverSection->image_2) : '' }}"
+                            alt="Bali" class="w-full h-full object-cover">
+                    </div>
 
-                <!-- IMAGE 3 -->
-                <div class="absolute top-32
+                    <!-- IMAGE 3 -->
+                    <div
+                        class="absolute top-32
                     right-1/2 translate-x-24
                     md:translate-x-40 lg:translate-x-72
                     w-[200px] h-[300px]
                     rounded-full overflow-hidden
                     border-8 border-white shadow-lg
                     -translate-y-1/2">
-                    <img src="{{ $discoverSection && $discoverSection->image_3 ? asset('storage/' . $discoverSection->image_3) : '' }}"
-                        alt="Bali" class="w-full h-full object-cover">
+                        <img src="{{ $discoverSection && $discoverSection->image_3 ? asset('storage/' . $discoverSection->image_3) : '' }}"
+                            alt="Bali" class="w-full h-full object-cover">
+                    </div>
+
+                </div>
+
+                <!-- RIGHT CONTENT -->
+                <div class="max-w-xl">
+
+                    <p class="text-red font-semibold tracking-widest mb-6">
+                        {{ app()->getLocale() == 'id' ? $discoverSection->label_id : $discoverSection->label_en }}
+                    </p>
+
+                    <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
+                        {{ app()->getLocale() == 'id' ? $discoverSection->title_id : $discoverSection->title_en }}
+                    </h2>
+
+                    <p class="text-darkGrey leading-relaxed mb-10">
+                        {{ app()->getLocale() == 'id' ? $discoverSection->description_id : $discoverSection->description_en }}
+                    </p>
+
+                    <a href="{{ route('about') }}"
+                        class="inline-flex items-center gap-3 bg-darkGreen
+                    text-white px-8 py-4 rounded-lg font-medium
+                    hover:bg-darkGreen/90 transition">
+                        {{ app()->getLocale() == 'id' ? $discoverSection->button_id : $discoverSection->button_en }}
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
                 </div>
 
             </div>
-
-            <!-- RIGHT CONTENT -->
-            <div class="max-w-xl">
-
-                <p class="text-red font-semibold tracking-widest mb-6">
-                    {{ app()->getLocale() == 'id' ? $discoverSection->label_id : $discoverSection->label_en }}
-                </p>
-
-                <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                    {{ app()->getLocale() == 'id' ? $discoverSection->title_id : $discoverSection->title_en }}
-                </h2>
-
-                <p class="text-darkGrey leading-relaxed mb-10">
-                    {{ app()->getLocale() == 'id' ? $discoverSection->description_id : $discoverSection->description_en }}
-                </p>
-
-                <a href="{{ route('about') }}"
-                    class="inline-flex items-center gap-3 bg-darkGreen
-                    text-white px-8 py-4 rounded-lg font-medium
-                    hover:bg-darkGreen/90 transition">
-                    {{ app()->getLocale() == 'id' ? $discoverSection->button_id : $discoverSection->button_en }}
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
+
 
     <!-- ================= TESTIMONIALS ================= -->
+    @php
+        $locale = app()->getLocale();
+    @endphp
+
     <section class="relative py-24 overflow-hidden">
         <!-- BACKGROUND GRADIENT -->
         <div class="absolute inset-0">
@@ -371,31 +379,33 @@
             <!-- LEFT CONTENT -->
             <div class="text-white">
                 <p class="text-lightGreen font-semibold tracking-widest mb-6">
-                    {{ __('home.testimonial_label') }}
+                    {{ $reviewsSection?->{'label_' . $locale} ?? '' }}
                 </p>
 
-                <h2 class="text-3xl md:text-4xl font-semibold leading-tight mb-12">
-                    <span class="block">{{ __('home.testimonial_title_1') }}</span>
-                    <span class="block mt-3 md:mt-4">{{ __('home.testimonial_title_2') }}</span>
+                <h2 class="text-3xl md:text-4xl font-semibold mb-12"
+                    style="line-height: 1.5;">
+                    {{ $reviewsSection?->{'title_1_' . $locale} ?? '' }}
                 </h2>
 
                 <div class="flex gap-16">
+                    <!-- RATING -->
                     <div>
                         <p class="text-3xl font-semibold flex items-center gap-2">
-                            {{ __('home.rating_number') }}
+                            {{ $reviewsSection?->rating_number ?? '5.0' }}
                             <span>★</span>
                         </p>
                         <p class="text-sm opacity-90 mt-2">
-                            {{ __('home.reviews_text') }}
+                            {{ $reviewsSection?->{'reviews_text_' . $locale} ?? '' }}
                         </p>
                     </div>
 
+                    <!-- HAPPY TRAVELERS -->
                     <div>
                         <p class="text-3xl font-semibold">
-                            {{ __('home.number_3') }}
+                            {{ number_format($reviewsSection?->travelers_number ?? 0) }}+
                         </p>
                         <p class="text-sm opacity-90 mt-2">
-                            {{ __('home.happy_travelers') }}
+                            {{ $reviewsSection?->{'travelers_text_' . $locale} ?? '' }}
                         </p>
                     </div>
                 </div>
@@ -404,80 +414,55 @@
             <!-- RIGHT CONTENT -->
             <div class="relative w-full max-w-xl h-[360px] overflow-visible mt-12 lg:mt-0" id="testimonial-stack">
 
-                <!-- CARD 1 -->
-                <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
-                    <!-- Quote Icon -->
-                    <span
-                        class="absolute top-8 right-8 text-[80px] font-serif font-bold 
-        text-gray-200 leading-none select-none pointer-events-none">
-                        “
-                    </span>
+                @for ($i = 1; $i <= 3; $i++)
+                    <!-- TESTIMONIAL CARD {{ $i }} -->
+                    <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
 
-                    <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.cultural_title') }}</p>
+                        <!-- Quote Icon -->
+                        <span
+                            class="absolute top-8 right-8 text-[80px] font-serif font-bold
+                        text-gray-200 leading-none select-none pointer-events-none">
+                            “
+                        </span>
 
-                    <p class="text-darkGrey font-medium mb-8">
-                        {{ __('home.cultural_text') }}
-                    </p>
+                        <!-- REVIEW TITLE -->
+                        <p class="text-lg text-darkGreen mb-8 mt-2">
+                            {{ $reviewsSection?->{'card_title_' . $i . '_' . $locale} ?? '' }}
+                        </p>
 
-                    <!-- Divider -->
-                    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
-                        <img src="/images/avatar1.png" class="w-14 h-14 rounded-full">
-                        <div>
-                            <p class="font-medium text-md mb-1">{{ __('home.cultural_name') }}</p>
-                            <p class="text-sm text-darkGrey">{{ __('home.cultural_country') }}</p>
+                        <!-- REVIEW DESCRIPTION -->
+                        <p class="text-darkGrey font-medium mb-8">
+                            {{ $reviewsSection?->{'card_description_' . $i . '_' . $locale} ?? '' }}
+                        </p>
+
+                        <!-- REVIEWER INFORMATION -->
+                        <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
+
+                            <!-- REVIEWER IMAGE -->
+                            @if ($reviewsSection?->{'reviewer_image_' . $i})
+                                <img src="{{ asset('storage/' . $reviewsSection->{'reviewer_image_' . $i}) }}"
+                                    alt="{{ $reviewsSection->{'reviewer_name_' . $i} }}"
+                                    class="w-14 h-14 rounded-full object-cover">
+                            @else
+                                <div class="w-14 h-14 rounded-full bg-mediumGrey/10 flex items-center justify-center">
+                                    <i class="fa-regular fa-user text-xl text-darkGrey"></i>
+                                </div>
+                            @endif
+
+                            <div>
+                                <!-- REVIEWER NAME -->
+                                <p class="font-medium text-md mb-1">
+                                    {{ $reviewsSection?->{'reviewer_name_' . $i} ?? '' }}
+                                </p>
+
+                                <!-- REVIEWER COUNTRY -->
+                                <p class="text-sm text-darkGrey">
+                                    {{ $reviewsSection?->{'reviewer_country_' . $i . '_' . $locale} ?? '' }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- CARD 2 -->
-                <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
-                    <!-- Quote Icon -->
-                    <span
-                        class="absolute top-8 right-8 text-[80px] font-serif font-bold 
-        text-gray-200 leading-none select-none pointer-events-none">
-                        “
-                    </span>
-
-                    <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.adventure_title') }}</p>
-
-                    <p class="text-darkGrey font-medium mb-8">
-                        {{ __('home.adventure_text') }}
-                    </p>
-
-                    <!-- Divider -->
-                    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
-                        <img src="/images/avatar2.png" class="w-14 h-14 rounded-full">
-                        <div>
-                            <p class="font-medium text-md mb-1">{{ __('home.adventure_name') }}</p>
-                            <p class="text-sm text-darkGrey">{{ __('home.adventure_country') }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD 3 -->
-                <div class="testimonial-card absolute w-full bg-white rounded-3xl p-8 shadow-xl cursor-pointer">
-                    <!-- Quote Icon -->
-                    <span
-                        class="absolute top-6 right-8 text-[80px] font-serif font-bold 
-        text-gray-200 leading-none select-none pointer-events-none">
-                        “
-                    </span>
-
-                    <p class="text-lg text-darkGreen mb-8 mt-2">{{ __('home.romantic_title') }}</p>
-
-                    <p class="text-darkGrey font-medium mb-8">
-                        {{ __('home.romantic_text') }}
-                    </p>
-
-                    <!-- Divider -->
-                    <div class="border-t border-lightGrey pt-6 flex items-center gap-3">
-                        <img src="/images/avatar3.png" class="w-14 h-14 rounded-full">
-                        <div>
-                            <p class="font-medium text-md mb-1">{{ __('home.romantic_name') }}</p>
-                            <p class="text-sm text-darkGrey">{{ __('home.romantic_country') }}</p>
-                        </div>
-                    </div>
-                </div>
+                @endfor
 
             </div>
         </div>

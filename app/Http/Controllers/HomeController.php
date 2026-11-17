@@ -8,6 +8,7 @@ use App\Models\HeroSlide;
 use App\Models\CategorySection;
 use App\Models\StatisticsSection;
 use App\Models\DiscoverSection;
+use App\Models\ReviewsSection;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,8 @@ class HomeController extends Controller
         $categorySection = CategorySection::first();
         $statisticsSection = StatisticsSection::first();
         $discoverSection = DiscoverSection::first();
+        $reviewsSection = ReviewsSection::first();
 
-        return view('home.index', compact('categories', 'galleries', 'heroSlides', 'categorySection', 'statisticsSection', 'discoverSection'));
+        return view('home.index', compact('categories', 'galleries', 'heroSlides', 'categorySection', 'statisticsSection', 'discoverSection', 'reviewsSection'));
     }
 }

@@ -25,6 +25,7 @@ use App\Http\Controllers\HeroSlideController;
 use App\Http\Controllers\CategorySectionController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\DiscoverController;
+use App\Http\Controllers\ReviewsController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -114,6 +115,8 @@ Route::middleware(['auth', 'admin'])
         Route::put('/page/statistics', [StatisticsController::class, 'update'])->name('page.statistics.update');
         Route::get('/page/discover', [DiscoverController::class, 'index'])->name('page.discover.index');
         Route::put('/page/discover', [DiscoverController::class, 'update'])->name('page.discover.update');
+        Route::get('/page/reviews', [ReviewsController::class, 'index'])->name('page.reviews.index');
+        Route::put('/page/reviews', [ReviewsController::class, 'update'])->name('page.reviews.update');
 
     });
 

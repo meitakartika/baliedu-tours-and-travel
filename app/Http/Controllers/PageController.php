@@ -30,7 +30,7 @@ class PageController extends Controller
             ],
             [
                 'name' => 'Testimonials',
-                'key' => 'testimonials',
+                'key' => 'reviews',
             ],
             [
                 'name' => 'Gallery',
