@@ -11,7 +11,7 @@ class GallerySectionController extends Controller
     {
         $gallerySection = GallerySection::firstOrCreate([]);
 
-        return view('admin.page.gallery.index', compact('gallerySection'));
+        return view('admin.page.home.gallery.index', compact('gallerySection'));
     }
 
     public function update(Request $request)

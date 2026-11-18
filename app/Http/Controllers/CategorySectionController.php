@@ -11,7 +11,7 @@ class CategorySectionController extends Controller
     {
         $categorySection = CategorySection::first();
 
-        return view('admin.page.category.index', compact('categorySection'));
+        return view('admin.page.home.category.index', compact('categorySection'));
     }
 
     public function update(Request $request)

@@ -35,7 +35,7 @@ class StatisticsController extends Controller
             ]
         );
 
-        return view('admin.page.statistics.index', compact('statisticsSection'));
+        return view('admin.page.home.statistics.index', compact('statisticsSection'));
     }
 
     public function update(Request $request)

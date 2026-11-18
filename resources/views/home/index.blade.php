@@ -524,100 +524,49 @@
         <!-- CONTENT -->
         <div class="relative max-w-4xl mx-auto px-6">
 
+            @php
+                $locale = app()->getLocale();
+            @endphp
+
             <!-- TITLE -->
             <div class="text-center mb-16">
-                <p class="text-red font-semibold tracking-widest mb-6">{{ __('home.faq_label') }}</p>
+                <p class="text-red font-semibold tracking-widest mb-6">
+                    {{ $faqSection?->{'label_' . $locale} ?? '' }}
+                </p>
+
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen">
-                    {{ __('home.faq_title') }}
+                    {{ $faqSection?->{'title_' . $locale} ?? '' }}
                 </h2>
             </div>
 
             <!-- FAQ LIST -->
             <div class="space-y-4">
 
-                <!-- ITEM 1 -->
-                <div class="faq-item border-b border-mediumGrey/20 px-6">
-                    <button class="faq-btn w-full py-5 flex items-center justify-between">
-                        <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            {{ __('home.q1') }}
-                        </span>
-                        <span class="text-xl text-mediumGrey">+</span>
-                    </button>
+                @for ($i = 1; $i <= 6; $i++)
+                    @php
+                        $question = $faqSection?->{'question_' . $i . '_' . $locale};
+                        $answer = $faqSection?->{'answer_' . $i . '_' . $locale};
+                    @endphp
 
-                    <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        {{ __('home.a1') }}
-                    </p>
-                </div>
+                    @if ($question || $answer)
+                        <div class="faq-item border-b border-mediumGrey/20 px-6">
 
-                <!-- ITEM 2 -->
-                <div class="faq-item border-b border-mediumGrey/20 px-6">
-                    <button class="faq-btn w-full py-5 flex items-center justify-between">
-                        <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            {{ __('home.q2') }}
-                        </span>
-                        <span class="text-xl text-mediumGrey">+</span>
-                    </button>
+                            <button type="button" class="faq-btn w-full py-5 flex items-center justify-between">
 
-                    <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        {{ __('home.a2') }}
-                    </p>
-                </div>
+                                <span class="faq-title flex-1 text-left font-medium text-darkGrey">
+                                    {{ $question }}
+                                </span>
 
-                <!-- ITEM 3 -->
-                <div class="faq-item border-b border-mediumGrey/20 px-6">
-                    <button class="faq-btn w-full py-5 flex items-center justify-between">
-                        <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            {{ __('home.q3') }}
-                        </span>
-                        <span class="text-xl text-mediumGrey">+</span>
-                    </button>
+                                <span class="text-xl text-mediumGrey">+</span>
+                            </button>
 
-                    <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        {{ __('home.a3') }}
-                    </p>
-                </div>
+                            <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
+                                {{ $answer }}
+                            </p>
 
-                <!-- ITEM 4 -->
-                <div class="faq-item border-b border-mediumGrey/20 px-6">
-                    <button class="faq-btn w-full py-5 flex items-center justify-between">
-                        <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            {{ __('home.q4') }}
-                        </span>
-                        <span class="text-xl text-mediumGrey">+</span>
-                    </button>
-
-                    <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        {{ __('home.a4') }}
-                    </p>
-                </div>
-
-                <!-- ITEM 5 -->
-                <div class="faq-item border-b border-mediumGrey/20 px-6">
-                    <button class="faq-btn w-full py-5 flex items-center justify-between">
-                        <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            {{ __('home.q5') }}
-                        </span>
-                        <span class="text-xl text-mediumGrey">+</span>
-                    </button>
-
-                    <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        {{ __('home.a5') }}
-                    </p>
-                </div>
-
-                <!-- ITEM 6 -->
-                <div class="faq-item border-b border-mediumGrey/20 px-6">
-                    <button class="faq-btn w-full py-5 flex items-center justify-between">
-                        <span class="faq-title flex-1 text-left font-medium text-darkGrey">
-                            {{ __('home.q6') }}
-                        </span>
-                        <span class="text-xl text-mediumGrey">+</span>
-                    </button>
-
-                    <p class="faq-content hidden px-0 pb-4 text-mediumGrey text-sm leading-relaxed">
-                        {{ __('home.a6') }}
-                    </p>
-                </div>
+                        </div>
+                    @endif
+                @endfor
 
             </div>
         </div>

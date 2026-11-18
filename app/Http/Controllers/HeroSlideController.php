@@ -12,7 +12,7 @@ class HeroSlideController extends Controller
     {
         $heroSlide = HeroSlide::first();
 
-        return view('admin.page.slide.index', compact('heroSlide'));
+        return view('admin.page.home.slide.index', compact('heroSlide'));
     }
 
     // Menyimpan perubahan deskripsi dan gambar

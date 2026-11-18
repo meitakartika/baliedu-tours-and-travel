@@ -286,16 +286,22 @@
                             </div>
 
                             <!-- SUB MENU -->
-                            <div
-                                class="ml-8 mt-2 space-y-1 {{ $pageActive ? 'block' : 'hidden' }} group-hover:block">
+                            <div class="ml-8 mt-2 space-y-1 {{ $pageActive ? 'block' : 'hidden' }} group-hover:block">
 
-                                <!-- Hero Slide -->
+                                <!-- Page Home -->
                                 <a href="{{ route('page.index') }}"
                                     class="block px-4 py-2 rounded-md text-sm
-           {{ request()->routeIs('page.slide.*')
-               ? 'text-darkGreen font-semibold'
-               : 'text-mediumGrey hover:text-darkGreen' }}">
+           {{ request()->routeIs('page.slide.*') ? 'text-darkGreen font-semibold' : 'text-mediumGrey hover:text-darkGreen' }}">
                                     {{ __('layout.home') }}
+                                </a>
+
+                                <!-- Page Contact -->
+                                <a href="{{ route('page.contact.index') }}"
+                                    class="block px-4 py-2 rounded-md text-sm
+        {{ request()->routeIs('page.contact.*')
+            ? 'text-darkGreen font-semibold'
+            : 'text-mediumGrey hover:text-darkGreen' }}">
+                                    Contact
                                 </a>
 
                             </div>
@@ -339,7 +345,8 @@
                     <!-- Search -->
                     <form action="{{ route('admin.search') }}" method="GET"
                         class="w-full max-w-md relative hidden sm:block">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-mediumGrey"></i>
+                        <i
+                            class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-mediumGrey"></i>
                         <input type="text" name="search" placeholder="{{ __('layout.search') }}"
                             class="w-full pl-12 pr-4 py-2 rounded-full bg-lightGrey focus:outline-none">
                     </form>
@@ -361,10 +368,12 @@
                        opacity-0 invisible
                        group-hover:opacity-100 group-hover:visible
                        transition-all duration-200 z-50">
-                            <a href="{{ route('language.switch', ['locale' => 'en']) }}" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
+                            <a href="{{ route('language.switch', ['locale' => 'en']) }}"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
                                 <img src="/images/icons/en.svg" class="w-4 h-4 rounded-sm"> EN
                             </a>
-                            <a href="{{ route('language.switch', ['locale' => 'id']) }}" class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
+                            <a href="{{ route('language.switch', ['locale' => 'id']) }}"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-lightGrey text-sm">
                                 <img src="/images/icons/id.svg" class="w-4 h-4 rounded-sm"> ID
                             </a>
                         </div>
@@ -412,7 +421,8 @@
                 .classList.toggle('-translate-x-full');
         }
 
-        function confirmDelete(formId, title = '{{ __('layout.delete_data') }}', text = '{{ __('layout.delete_warning') }}') {
+        function confirmDelete(formId, title = '{{ __('layout.delete_data') }}', text =
+            '{{ __('layout.delete_warning') }}') {
             Swal.fire({
                 title: title,
                 text: text,

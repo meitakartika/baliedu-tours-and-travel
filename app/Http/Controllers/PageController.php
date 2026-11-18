@@ -42,6 +42,22 @@ class PageController extends Controller
             ],
         ];
 
-        return view('admin.page.index', compact('sections', 'heroSlide'));
+        return view('admin.page.home.index', compact('sections', 'heroSlide'));
+    }
+
+    public function contact()
+    {
+        $sections = [
+            [
+                'name' => 'Hero',
+                'key' => 'hero',
+            ],
+            [
+                'name' => 'Heading',
+                'key' => 'heading',
+            ],
+        ];
+
+        return view('admin.page.contact.index', compact('sections'));
     }
 }

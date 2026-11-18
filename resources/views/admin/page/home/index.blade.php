@@ -67,6 +67,12 @@
                                         <i class="fa-regular fa-pen-to-square"></i>
                                         Manage
                                     </a>
+                                @elseif ($section['key'] === 'faq')
+                                    <a href="{{ route('page.faq.index') }}"
+                                        class="inline-flex items-center gap-2 bg-lightGreen/50 text-darkGreen font-medium px-4 py-2 rounded-lg hover:bg-lightGreen/30 transition text-sm">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                        Manage
+                                    </a>
                                 @endif
                             </td>
 

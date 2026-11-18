@@ -22,7 +22,7 @@ class DiscoverController extends Controller
             'button_en' => 'Learn More',
         ]);
 
-        return view('admin.page.discover.index', compact('discoverSection'));
+        return view('admin.page.home.discover.index', compact('discoverSection'));
     }
 
     

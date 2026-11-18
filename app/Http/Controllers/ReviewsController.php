@@ -12,7 +12,7 @@ class ReviewsController extends Controller
     {
         $reviewsSection = ReviewsSection::firstOrCreate([]);
 
-        return view('admin.page.reviews.index', compact('reviewsSection'));
+        return view('admin.page.home.reviews.index', compact('reviewsSection'));
     }
 
     public function update(Request $request)

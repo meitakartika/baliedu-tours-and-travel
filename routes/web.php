@@ -27,6 +27,7 @@ use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\GallerySectionController;
+use App\Http\Controllers\FaqController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -120,7 +121,12 @@ Route::middleware(['auth', 'admin'])
         Route::put('/page/reviews', [ReviewsController::class, 'update'])->name('page.reviews.update');
         Route::get('/page/gallery', [GallerySectionController::class, 'index'])->name('page.gallery.index');
         Route::put('/page/gallery', [GallerySectionController::class, 'update'])->name('page.gallery.update');
+        Route::get('/page/faq', [FaqController::class, 'index'])->name('page.faq.index');
+        Route::put('/page/faq', [FaqController::class, 'update'])->name('page.faq.update');
 
+        Route::get('/page/contact', [PageController::class, 'contact'])->name('page.contact.index');
+        Route::get('/page/contact/hero', [ContactPageController::class, 'hero'])->name('page.contact.hero.index');
+        Route::get('/page/contact/heading', [ContactPageController::class, 'heading'])->name('page.contact.heading.index');
     });
 
     Route::get('/language/{locale}', function ($locale) {

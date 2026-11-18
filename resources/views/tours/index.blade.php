@@ -6,13 +6,12 @@
 
     <!-- ================= HERO TOURS ================= -->
     <section class="relative h-[380px] md:h-[420px] flex items-center justify-center">
-
         <!-- Background Image -->
-        @php
-            $heroTypeId = $category->id ?? 1;
-        @endphp
-
-        <img src="/images/tours{{ $heroTypeId }}-hero.png" class="absolute inset-0 w-full h-full object-cover">
+        @if ($category->image)
+            <img src="{{ asset('storage/' . $category->image) }}"
+                alt="{{ app()->getLocale() === 'id' ? $category->name_id : $category->name_en }}"
+                class="absolute inset-0 w-full h-full object-cover">
+        @endif
 
         <!-- Title -->
         <h1 class="relative z-10 text-lightGreen text-3xl md:text-4xl font-semibold">
@@ -27,7 +26,8 @@
             <!-- ===== SEARCH BAR ===== -->
             <form method="GET" action="{{ route('tours.category', $category->id) }}" class="mb-8 relative">
 
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('tours.search_placeholder') }}"
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="{{ __('tours.search_placeholder') }}"
                     class="w-full rounded-full border border-mediumGrey/30
                    py-4 pl-6 pr-12 text-sm
                    focus:outline-none focus:ring-1 focus:ring-darkGreen" />
@@ -75,12 +75,16 @@
                         <select name="sort" onchange="this.form.submit()"
                             class="w-full border border-mediumGrey/30 rounded-full px-5 pr-12 py-3 text-sm
                        focus:outline-none focus:ring-1 focus:ring-darkGreen appearance-none h-12">
-                            <option value="newest" {{ request('sort', 'newest') === 'newest' ? 'selected' : '' }}>{{ __('tours.newest') }}
+                            <option value="newest" {{ request('sort', 'newest') === 'newest' ? 'selected' : '' }}>
+                                {{ __('tours.newest') }}
                             </option>
-                            <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>{{ __('tours.oldest') }}</option>
-                            <option value="highest" {{ request('sort') === 'highest' ? 'selected' : '' }}>{{ __('tours.highest') }}
+                            <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>
+                                {{ __('tours.oldest') }}</option>
+                            <option value="highest" {{ request('sort') === 'highest' ? 'selected' : '' }}>
+                                {{ __('tours.highest') }}
                             </option>
-                            <option value="lowest" {{ request('sort') === 'lowest' ? 'selected' : '' }}>{{ __('tours.lowest') }}
+                            <option value="lowest" {{ request('sort') === 'lowest' ? 'selected' : '' }}>
+                                {{ __('tours.lowest') }}
                             </option>
                         </select>
                         <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
@@ -144,7 +148,8 @@
                                 </div>
 
                                 <span class="font-medium ml-1">{{ $rating }}</span>
-                                <span class="text-darkGrey">({{ $package->reviews_count }} {{ __('tours.reviews') }})</span>
+                                <span class="text-darkGrey">({{ $package->reviews_count }}
+                                    {{ __('tours.reviews') }})</span>
                             </div>
 
                             <p class="tour-overview text-sm text-darkGrey mb-4 line-clamp-2">
@@ -156,13 +161,15 @@
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-clock"></i>
                                     <span>
-                                        {{ $package->duration }} {{ $package->duration > 1 ? __('tours.days') : __('tours.day') }}
+                                        {{ $package->duration }}
+                                        {{ $package->duration > 1 ? __('tours.days') : __('tours.day') }}
                                     </span>
                                 </div>
 
                                 <div class="flex items-center gap-2">
                                     <i class="fas fa-user-friends"></i>
-                                    <span>{{ $package->guest_min }}–{{ $package->guest_max }} {{ __('tours.guests') }}</span>
+                                    <span>{{ $package->guest_min }}–{{ $package->guest_max }}
+                                        {{ __('tours.guests') }}</span>
                                 </div>
                             </div>
 
@@ -213,22 +220,22 @@
 @endsection
 
 @push('scripts')
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".tour-title").forEach(function(title) {
-        const overview = title.closest(".p-6").querySelector(".tour-overview");
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".tour-title").forEach(function(title) {
+                const overview = title.closest(".p-6").querySelector(".tour-overview");
 
-        if (!overview) return;
+                if (!overview) return;
 
-        // kalau tinggi judul lebih kecil dari 2 baris
-        const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
-        const isOneLine = title.offsetHeight <= lineHeight * 1.5;
+                // kalau tinggi judul lebih kecil dari 2 baris
+                const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
+                const isOneLine = title.offsetHeight <= lineHeight * 1.5;
 
-        if (isOneLine) {
-            overview.classList.remove("line-clamp-2");
-            overview.classList.add("line-clamp-3");
-        }
-    });
-});
-</script>
+                if (isOneLine) {
+                    overview.classList.remove("line-clamp-2");
+                    overview.classList.add("line-clamp-3");
+                }
+            });
+        });
+    </script>
 @endpush
