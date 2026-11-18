@@ -9,6 +9,7 @@ use App\Models\CategorySection;
 use App\Models\StatisticsSection;
 use App\Models\DiscoverSection;
 use App\Models\ReviewsSection;
+use App\Models\GallerySection;
 
 class HomeController extends Controller
 {
@@ -25,7 +26,8 @@ class HomeController extends Controller
         $statisticsSection = StatisticsSection::first();
         $discoverSection = DiscoverSection::first();
         $reviewsSection = ReviewsSection::first();
+        $gallerySection = GallerySection::first();
 
-        return view('home.index', compact('categories', 'galleries', 'heroSlides', 'categorySection', 'statisticsSection', 'discoverSection', 'reviewsSection'));
+        return view('home.index', compact('categories', 'galleries', 'heroSlides', 'categorySection', 'statisticsSection', 'discoverSection', 'reviewsSection', 'gallerySection'));
     }
 }

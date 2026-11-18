@@ -26,6 +26,7 @@ use App\Http\Controllers\CategorySectionController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\ReviewsController;
+use App\Http\Controllers\GallerySectionController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -117,6 +118,8 @@ Route::middleware(['auth', 'admin'])
         Route::put('/page/discover', [DiscoverController::class, 'update'])->name('page.discover.update');
         Route::get('/page/reviews', [ReviewsController::class, 'index'])->name('page.reviews.index');
         Route::put('/page/reviews', [ReviewsController::class, 'update'])->name('page.reviews.update');
+        Route::get('/page/gallery', [GallerySectionController::class, 'index'])->name('page.gallery.index');
+        Route::put('/page/gallery', [GallerySectionController::class, 'update'])->name('page.gallery.update');
 
     });
 

@@ -382,8 +382,7 @@
                     {{ $reviewsSection?->{'label_' . $locale} ?? '' }}
                 </p>
 
-                <h2 class="text-3xl md:text-4xl font-semibold mb-12"
-                    style="line-height: 1.5;">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-12" style="line-height: 1.5;">
                     {{ $reviewsSection?->{'title_1_' . $locale} ?? '' }}
                 </h2>
 
@@ -472,30 +471,31 @@
     <section class="py-28 bg-white">
         <div class="max-w-7xl mx-auto px-6">
 
+
             <!-- HEADER -->
             <div class="flex flex-col lg:flex-row lg:justify-between gap-8 mb-14">
 
                 <div class="max-w-xl">
                     <p class="text-red font-semibold tracking-widest mb-6">
-                        {{ __('home.gallery_label') }}
+                        {{ $gallerySection?->{'label_' . app()->getLocale()} ?? '' }}
                     </p>
 
                     <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                        {{ __('home.gallery_title') }}
+                        {{ $gallerySection?->{'title_' . app()->getLocale()} ?? '' }}
                     </h2>
 
                     <p class="text-darkGrey leading-relaxed">
-                        {{ __('home.gallery_desc') }}
+                        {{ $gallerySection?->{'description_' . app()->getLocale()} ?? '' }}
                     </p>
                 </div>
 
                 <div class="flex lg:items-end">
                     <a href="{{ route('gallery') }}" type="button"
                         class="inline-flex items-center justify-center
-                   bg-darkGreen text-white
-                   px-8 py-4 rounded-lg font-medium
-                   hover:bg-darkGreen/90 transition">
-                        {{ __('home.view_all') }}
+            bg-darkGreen text-white
+            px-8 py-4 rounded-lg font-medium
+            hover:bg-darkGreen/90 transition">
+                        {{ $gallerySection?->{'button_' . app()->getLocale()} ?? '' }}
                     </a>
                 </div>
             </div>
