@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactInfo;
+use App\Models\ContactHero;
+use App\Models\ContactHeading;
 use Illuminate\Http\Request;
 
 class ContactInfoController extends Controller
@@ -142,7 +144,19 @@ class ContactInfoController extends Controller
             ->get()
             ->groupBy('label'); // mengelompokkan data berdasarkan label
 
-        return view('contact.index', compact('phones', 'emails', 'offices'));
+        // CONTACT HERO
+        $contactHero = ContactHero::first();
+
+        // CONTACT HEADING
+        $contactHeading = ContactHeading::first();
+
+        return view('contact.index', compact(
+            'phones',
+            'emails',
+            'offices',
+            'contactHero',
+            'contactHeading'
+        ));
     }
 
     public function getByType($type) // mengambil contact info berdasarkan type

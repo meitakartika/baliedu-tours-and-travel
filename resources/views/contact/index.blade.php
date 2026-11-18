@@ -11,15 +11,21 @@
 
 @section('content')
 
-    <!-- ================= HERO ABOUT ================= -->
+    <!-- ================= HERO CONTACT ================= -->
     <section class="relative h-[380px] md:h-[420px] flex items-center justify-center">
-
         <!-- Background Image -->
-        <img src="/images/contact-hero.png" alt="Contact Hero" class="absolute inset-0 w-full h-full object-cover">
+        @if ($contactHero?->image)
+            <img src="{{ asset('storage/' . $contactHero->image) }}" alt="Contact Hero"
+                class="absolute inset-0 w-full h-full object-cover">
+        @endif
 
         <!-- Title -->
         <h1 class="relative z-10 text-white text-3xl md:text-4xl font-semibold">
-            {{ __('contact.hero_title_1') }} <span class="text-lightGreen">{{ __('contact.hero_title_2') }}</span>
+            {{ app()->getLocale() === 'id' ? $contactHero?->title_id_1 : $contactHero?->title_en_1 }}
+
+            <span class="text-lightGreen">
+                {{ app()->getLocale() === 'id' ? $contactHero?->title_id_2 : $contactHero?->title_en_2 }}
+            </span>
         </h1>
     </section>
 
@@ -31,13 +37,15 @@
             <!-- LEFT : CONTACT INFO -->
             <div>
                 <p class="text-red font-semibold tracking-widest mb-6">
-                    {{ __('contact.label_contact') }}
+                    {{ app()->getLocale() === 'id' ? $contactHeading?->label_id : $contactHeading?->label_en }}
                 </p>
+
                 <h2 class="text-3xl md:text-4xl font-semibold text-darkGreen mb-4">
-                    {{ __('contact.heading') }}
+                    {{ app()->getLocale() === 'id' ? $contactHeading?->title_id : $contactHeading?->title_en }}
                 </h2>
+
                 <p class="text-darkGrey leading-relaxed mb-10">
-                    {{ __('contact.description') }}
+                    {{ app()->getLocale() === 'id' ? $contactHeading?->description_id : $contactHeading?->description_en }}
                 </p>
 
                 <!-- PHONE -->
@@ -125,7 +133,8 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
         readonly @endauth
                             placeholder="{{ __('contact.placeholder_name') }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.name') }}</label>
+                        <label
+                            class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.name') }}</label>
                     </div>
 
                     <!-- EMAIL -->
@@ -133,7 +142,8 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
                         <input type="email" name="email" value="{{ auth()->user()->email ?? '' }}"
                             @auth readonly @endauth placeholder="{{ __('contact.placeholder_email') }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.email_label') }}</label>
+                        <label
+                            class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.email_label') }}</label>
                     </div>
 
                     <!-- PHONE -->
@@ -141,7 +151,8 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
                         <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}"
                             @auth readonly @endauth placeholder="{{ __('contact.placeholder_phone') }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 text-sm h-12 focus:outline-none focus:border-darkGreen" />
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.phone_number') }}</label>
+                        <label
+                            class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.phone_number') }}</label>
                     </div>
 
                     <!-- MESSAGE -->
@@ -149,7 +160,8 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
                         <textarea name="message" rows="7" placeholder="{{ __('contact.placeholder_message') }}"
                             class="bg-softGrey w-full border border-mediumGrey rounded-md px-3 pt-4 text-sm focus:outline-none focus:border-darkGreen"
                             required></textarea>
-                        <label class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.message') }}</label>
+                        <label
+                            class="absolute left-2 -top-2 px-1 text-darkGrey text-sm bg-softGrey">{{ __('contact.message') }}</label>
                     </div>
 
                     <!-- BUTTON -->
@@ -199,7 +211,8 @@ value="{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}"
                         </div>
 
                         @if ($map)
-                            <iframe class="w-full h-[260px] rounded-sm" src="{{ app()->getLocale() == 'id' ? $map->value_id : $map->value_en }}" loading="lazy"
+                            <iframe class="w-full h-[260px] rounded-sm"
+                                src="{{ app()->getLocale() == 'id' ? $map->value_id : $map->value_en }}" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
                         @endif

@@ -28,6 +28,7 @@ use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\GallerySectionController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ContactPageController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -126,7 +127,9 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/page/contact', [PageController::class, 'contact'])->name('page.contact.index');
         Route::get('/page/contact/hero', [ContactPageController::class, 'hero'])->name('page.contact.hero.index');
+        Route::put('/page/contact/hero', [ContactPageController::class, 'updateHero'])->name('page.contact.hero.update');
         Route::get('/page/contact/heading', [ContactPageController::class, 'heading'])->name('page.contact.heading.index');
+        Route::put('/page/contact/heading', [ContactPageController::class, 'updateHeading'])->name('page.contact.heading.update');
     });
 
     Route::get('/language/{locale}', function ($locale) {
